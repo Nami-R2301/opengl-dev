@@ -1,0 +1,4 @@
+# IDE config and project files.
+.idea/*
+cmake-build-debug/*
+
