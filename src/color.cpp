@@ -16,7 +16,7 @@ Color::Color(float red, float green, float blue, float alpha)
   }
 }
 
-Color::Color(const rgb_color_s & RGB_value)
+[[maybe_unused]] Color::Color(const rgb_color_s & RGB_value)
 {
   color.red = RGB_value.red;
   color.green = RGB_value.green;
@@ -71,4 +71,10 @@ float Color::get_green() const
 float Color::get_alpha() const
 {
   return color.alpha;
+}
+
+[[maybe_unused]] Color::Color(const Color &new_color)
+{
+  if(this == &new_color) return;
+  this->color = new_color.color;
 }

@@ -9,17 +9,6 @@
 #include <cmath>
 #include "../Include/shader.h"
 
-Color vertex_colors(1.0f, 0.84f, 0.00f, 1.0); // Default color for fragments.
-
-// Create our GLfloat vertices to pass on to the buffers.
-Vertex a(-0.25f, -0.5f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Lower left corner.
-Vertex b(0.25f, -0.5f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Lower right corner.
-Vertex c(0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, vertex_colors); // Upper corner.
-Vertex d(-0.25f / 2, 0.25f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Inner left.
-Vertex e(0.25f / 2, 0.25f * float(sqrt(3)) / 3, 0.0f, vertex_colors); //Inner right.
-Vertex f(0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Inner down.
-Vertex vertices[] = {a, b, c, d, e, f};
-
 GLuint indices[] =
     {
         0, 3, 5, // Lower left triangle.

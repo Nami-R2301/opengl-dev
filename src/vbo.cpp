@@ -4,7 +4,7 @@
 
 #include "../Include/vbo.h"
 
-Vbo::Vbo(Vertex* vertices, GLsizeiptr size)
+Vbo::Vbo(const Vertex* vertices, const GLsizeiptr size)
 {
   glGenBuffers(1, &vbo); // Create empty buffer for our vertex data.
   glBindBuffer(GL_ARRAY_BUFFER, vbo);

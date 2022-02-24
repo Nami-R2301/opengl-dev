@@ -10,7 +10,7 @@
 class Vbo
 {
 public:
-  Vbo(Vertex* vertices, GLsizeiptr size);
+  Vbo(const Vertex* vertices, GLsizeiptr size);
   ~Vbo();
   void bind_buffer() const;
   void bind_data(const void* vertices, long data_length);

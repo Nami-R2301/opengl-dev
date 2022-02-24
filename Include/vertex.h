@@ -14,6 +14,7 @@ public:
   Vertex(float x_coord, float y_coord, float z_coord, const Color&);
   Vertex(float x_coord, float y_coord, float z_coord, float red, float green, float blue, float alpha);
   Vertex(Vertex const &);
+  void print_vertex() const;
   bool operator ==(const Vertex&);
   Vertex& operator =(const Vertex&);
 private:
