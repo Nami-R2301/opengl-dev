@@ -1,2 +1,2 @@
-# Game_OpenGL
-A fun little game to do to get the basics for game developement and to improve my c++ skills.
+# OpenGL-dev
+A repository for experimenting on opengl (3.3) and getting a better grasp on how to communicate and manipulate information passed on to the GPU for future game development.
