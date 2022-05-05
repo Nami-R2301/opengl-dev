@@ -19,7 +19,9 @@ class Color
 {
 public:
   explicit Color(float = 0.156862745f, float = 0.156862745f, float = 0.156862745f, float = 0.0f); // Dark gray.
-  [[maybe_unused]] explicit Color(const rgb_color_s&);
+  [[maybe_unused]] explicit Color(const rgb_color_s &);
+
+  ~Color();
 
   [[maybe_unused]] Color(const Color&);
   void clear();

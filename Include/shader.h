@@ -15,14 +15,18 @@
 class Shader
 {
 public:
-  explicit Shader(int shader_type);
+  explicit Shader(int shader_type, const char *);
+
   ~Shader();
-  void source(int count=1, const char* source=nullptr, int* length=nullptr) const;
-  void compile();
+
+  void source(int count = 1, const char *source = nullptr, int *length = nullptr) const;
+
+  void compile() const;
+
   [[nodiscard]] GLuint get_value() const;
 
 private:
-  void compile_errors(unsigned int shader, const char* type);
+  static void compile_errors(unsigned int shader, const char *type);
   GLuint shader = 0;
   int shader_type = 0;
 };

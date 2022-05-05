@@ -1,49 +1,52 @@
 #include "../Include/main.h"
-#include "../Include/constants.h"
-#include <GLFW/glfw3.h>
 
 int main()
 {
   Window gl_window; //Initialize window.
   Color bg_color; //Background color of the window.
   gl_window.show(); // Show window.
-  gl_data_t data = compute_data(); // Get all relevant data for vertices and fragments.
-  debug(data.vertices); // For debugging purposes.
-
-  Shader vertex_shader(GL_VERTEX_SHADER);
-  vertex_shader.source(1, vertex_source.c_str(), nullptr);
-  vertex_shader.compile();
-  Shader fragment_shader(GL_FRAGMENT_SHADER);
-  fragment_shader.source(1, fragment_source.c_str(), nullptr);
-  fragment_shader.compile();
+  std::string vertex_source = get_shaders("../Resources/Shaders/default.vert");
+  std::string fragment_source = get_shaders("../Resources/Shaders/default.frag");
+  gl_data_s data = compute_data(vertex_source.c_str(),
+                                fragment_source.c_str()); // Get all relevant data for vertices and fragments.
+  Vertex *vertices = data.vertices.data();
+  Shader vertex_shader(GL_VERTEX_SHADER, data.vertex_source);
+  Shader fragment_shader(GL_FRAGMENT_SHADER, data.fragment_source);
 
   Program shader_program;
   shader_program.attach(vertex_shader);
   shader_program.attach(fragment_shader);
   shader_program.link();
+  shader_program.validate();
 
   Vao vertex_array_obj;
-  Vbo vertex_buffer_obj(data.vertices, sizeof(Vertex) * 6);
+  Vbo vertex_buffer_obj(vertices, sizeof(Vertex) * 6);
   vertex_array_obj.bind_vertex_array();
   Evo evo(indices, sizeof(indices));
+  evo.bind();
 
-  vertex_array_obj.link_attrib(vertex_buffer_obj, 0,3, 7 * sizeof(float),
-                               (void*) nullptr);
-  vertex_array_obj.link_attrib(vertex_buffer_obj, 1, 4, 7 * sizeof(float),
-                               (void*)(3 * sizeof(float)));
+  Vao::link_attrib(0, 3, 7 * sizeof(float), (void *) nullptr);
+  Vao::link_attrib(1, 4, 7 * sizeof(float), (void *) (4 * sizeof(float)));
 
-  vertex_array_obj.unbind_vertex_array();
-  vertex_buffer_obj.unbind();
-  evo.unbind();
+  Vao::unbind_vertex_array();
+  Vbo::unbind();
+  Evo::unbind();
 
-  int id = glGetUniformLocation(shader_program.get_program(), "scale");
-
-  while(!gl_window.is_closed())
-  {
+  while (!gl_window.is_closed()) {
+    process_input(gl_window.get_window());
     bg_color.clear();
-    gl_window.update_color(bg_color);
+    Window::update_color(bg_color);
     shader_program.activate(); // Specify what program to use.
-    glUniform1f(id, 0.5f);
+
+    // update shader uniform
+    double timeValue = glfwGetTime();
+    auto greenValue = static_cast<float>(sin(timeValue) / 2.0 + 0.5);
+    int vertexColorLocation = glGetUniformLocation(shader_program.get_program(), "fragment_color");
+    if (vertexColorLocation >= 0)
+      glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+    else std::cout << "ERROR WHEN DISPLAYING COLOR!" << std::endl;
+
+    // Render our triangle.
     vertex_array_obj.bind_vertex_array();
     glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr); // Draw from vertex arrays.
 
@@ -54,9 +57,8 @@ int main()
   return 0;
 }
 
-gl_data_t compute_data()
-{
-  const Color vertex_colors(1.0f, 0.84f, 0.00f, 1.0); // Default color for fragments.
+gl_data_t compute_data(const char *vertex_source, const char *fragment_source) {
+  const Color vertex_colors(0.25f, 0.84f, 0.5f, 1.0f); // Default color for fragments.
 
   // Coordinates (x,y,z)                                          // Colors (RGB).
   Vertex a(-0.25f, -0.5f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Lower left corner.
@@ -67,19 +69,24 @@ gl_data_t compute_data()
   Vertex f(0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Inner down.
 
   // Create our GLfloat vertices to pass on to the buffers.
-  Vertex vertices[6] = {a, b, c, d, e, f};
-  Vertex (*new_vertices)[6] = &vertices;
-  debug(vertices);
+  std::array<Vertex, 6> vertices;
+  vertices[0] = a, vertices[1] = b, vertices[2] = c, vertices[3] = d, vertices[4] = e, vertices[5] = f;
+  debug(vertices.data()); // For debugging purposes.
 
-  gl_data_t data = {vertex_source.c_str(), fragment_source.c_str(),
-                    (Vertex*) new_vertices};
+  gl_data_t data = {vertex_source, fragment_source, vertices};
   return data;
 }
 
-void debug(Vertex* vertices)
-{
-  printf("size of rgb_color_s : %lu\n\n",sizeof(*vertices));
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// ---------------------------------------------------------------------------------------------------------
+void process_input(GLFWwindow *window) {
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    glfwSetWindowShouldClose(window, true);
+}
+
+void debug(Vertex *vertices) {
+  printf("size of rgb_color_s : %lu\n\n", sizeof(*vertices));
   fflush(stdout);
-  for(int i = 0; i < 6; ++i) vertices[i].print_vertex();
+  for (int i = 0; i < 6; ++i) vertices[i].print_vertex();
 }
 

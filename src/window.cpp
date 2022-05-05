@@ -6,6 +6,7 @@
 
 Window::Window()
 {
+  printf("CREATING WINDOW...");
   glfwInit(); //Initialize glfw
 
   monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
@@ -18,19 +19,22 @@ Window::Window()
 
   // Hint at glfw our opengl version -> 3.3 -> [MAJOR].[MINOR] + that we have the core profile.
   // So that we will only use the modern functions in it.
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   // Generate a pointer to a window using our monitor info, so that we later show it.
   window = glfwCreateWindow(mode->width, mode->height, "Main window",
-                                        nullptr, nullptr);
+                            nullptr, nullptr);
+  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  printf("Done.\n");
 }
 
 // Free resources and close the window.
 Window::~Window()
 {
   glfwDestroyWindow(window);
+  printf("DESTROYING WINDOW...\n");
 }
 
 // Show the window created.
@@ -53,15 +57,21 @@ GLFWwindow *Window::get_window() const
 }
 
 // Let the window open as long as the close flag (gathered by glfwPollEvents) is not set to true.
-bool Window::is_closed() const
-{
+bool Window::is_closed() const {
   return glfwWindowShouldClose(window);
 }
 
-void Window::update_color(Color& new_color)
-{
+void Window::update_color(Color &new_color) {
   rgb_color_s new_rgb_color = new_color.get_rgb_values();
   glClearColor(new_rgb_color.red, new_rgb_color.green, new_rgb_color.blue, new_rgb_color.alpha);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear and change the back buffer color bit with our color.
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback([[maybe_unused]] GLFWwindow *window, int width, int height) {
+  // make sure the viewport matches the new window dimensions; note that width and
+  // height will be significantly larger than specified on retina displays.
+  glViewport(0, 0, width, height);
 }
 

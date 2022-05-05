@@ -2,16 +2,20 @@
 // Created by nami on 2022-02-23.
 //
 
+#include <iostream>
 #include "../Include/vao.h"
 
 Vao::Vao()
 {
+  printf("CREATING VAO...");
   glGenVertexArrays(1, &vao);
+  printf("Done.\n");
 }
 
 Vao::~Vao()
 {
   glDeleteVertexArrays(1, &vao);
+  printf("DESTROYING VBO...\n");
 }
 
 // Make the VAO the current Vertex Array Object by binding it
@@ -27,10 +31,7 @@ void Vao::unbind_vertex_array()
 }
 
 // Arguments serve to specify the number, type and stride (number of bytes to 'hop' between data).
-void Vao::link_attrib(Vbo& vbo, const GLuint type, int size, const GLsizei stride, void* offset)
-{
-  vbo.bind_buffer();
-  glVertexAttribPointer(type, size, GL_FLOAT, GL_FALSE, stride, nullptr);
+void Vao::link_attrib(const GLuint type, int size, const GLsizei stride, void *offset) {
+  glVertexAttribPointer(type, size, GL_FLOAT, GL_FALSE, stride, offset);
   glEnableVertexAttribArray(type);
-  vbo.unbind();
 }

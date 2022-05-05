@@ -8,14 +8,17 @@
 #include "vbo.h"
 
 // Create vertex array to contain vertex objects to process.
-class Vao
-{
+class Vao {
 public:
   Vao();
+
   ~Vao();
+
   void bind_vertex_array() const;
-  void link_attrib(Vbo& vbo, GLuint index, int size, GLsizei stride, void* offset);
-  void unbind_vertex_array();
+
+  static void link_attrib(GLuint index, int size, GLsizei stride, void *offset);
+
+  static void unbind_vertex_array();
 
 private:
   GLuint vao = 0;

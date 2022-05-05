@@ -68,13 +68,13 @@ float Color::get_green() const
   return color.green;
 }
 
-float Color::get_alpha() const
-{
+float Color::get_alpha() const {
   return color.alpha;
 }
 
-[[maybe_unused]] Color::Color(const Color &new_color)
-{
-  if(this == &new_color) return;
+[[maybe_unused]] Color::Color(const Color &new_color) {
+  if (this == &new_color) return;
   this->color = new_color.color;
 }
+
+Color::~Color() = default;

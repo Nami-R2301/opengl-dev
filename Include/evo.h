@@ -12,7 +12,8 @@ public:
   Evo(GLuint* indices, GLsizeiptr size);
   ~Evo();
   void bind() const;
-  void unbind();
+
+  static void unbind();
 
 private:
   GLuint evo = 0;

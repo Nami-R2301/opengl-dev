@@ -7,15 +7,19 @@
 #include <GLES3/gl3.h>
 #include "../Include/vertex.h"
 
-class Vbo
-{
+class Vbo {
 public:
-  Vbo(const Vertex* vertices, GLsizeiptr size);
+  Vbo(const Vertex *vertices, GLsizeiptr size);
+
   ~Vbo();
+
   void bind_buffer() const;
-  void bind_data(const void* vertices, long data_length);
-  void unbind();
-  [[nodiscard]] GLuint get_value() const;
+
+  void bind_data(const void *vertices, long data_length);
+
+  static void unbind();
+
+  [[maybe_unused]] [[nodiscard]] GLuint get_value() const;
 
 private:
   GLuint vbo = 0;

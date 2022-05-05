@@ -14,15 +14,20 @@ public:
   Window();
   ~Window();
   void show();
-  [[nodiscard]] GLFWwindow* get_window() const;
+
+  [[nodiscard]] GLFWwindow *get_window() const;
+
   [[nodiscard]] bool is_closed() const;
-  void update_color(Color&) ;
+
+  static void update_color(Color &);
 
 private:
-  GLFWwindow* window;
-  GLFWmonitor* monitor;
-  const GLFWvidmode* mode;
+  GLFWwindow *window;
+  GLFWmonitor *monitor;
+  const GLFWvidmode *mode;
 };
+
+void framebuffer_size_callback([[maybe_unused]] GLFWwindow *, int, int);
 
 
 #endif //GAME_OPENGL_WINDOW_H

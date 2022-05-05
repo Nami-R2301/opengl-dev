@@ -15,6 +15,9 @@ public:
   ~Program();
   void attach(const Shader&) const;
   void link() const;
+
+  void validate() const;
+
   void activate() const;
   [[nodiscard]] GLuint get_program() const;
 
