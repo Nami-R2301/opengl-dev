@@ -7,7 +7,6 @@
 Window::Window()
 {
   printf("CREATING WINDOW...");
-  glfwInit(); //Initialize glfw
 
   monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
   mode = glfwGetVideoMode(monitor); // Get video specs of monitor.

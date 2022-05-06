@@ -32,7 +32,7 @@ GLuint indices[] =
 typedef struct gl_data_s {
   const char *vertex_source = nullptr;
   const char *fragment_source = nullptr;
-  std::array<Vertex, 6> vertices;
+  std::vector<Vertex> vertices;
 } gl_data_t;
 
 void process_input(GLFWwindow *);

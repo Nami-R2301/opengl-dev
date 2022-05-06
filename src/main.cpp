@@ -2,6 +2,7 @@
 
 int main()
 {
+  glfwInit(); //Initialize glfw
   Window gl_window; //Initialize window.
   Color bg_color; //Background color of the window.
   gl_window.show(); // Show window.
@@ -20,7 +21,7 @@ int main()
   shader_program.validate();
 
   Vao vertex_array_obj;
-  Vbo vertex_buffer_obj(vertices, sizeof(Vertex) * 6);
+  Vbo vertex_buffer_obj(vertices, (long) (sizeof(Vertex) * data.vertices.size()));
   vertex_array_obj.bind_vertex_array();
   Evo evo(indices, sizeof(indices));
   evo.bind();
@@ -40,10 +41,10 @@ int main()
 
     // update shader uniform
     double timeValue = glfwGetTime();
-    auto greenValue = static_cast<float>(sin(timeValue) / 2.0 + 0.5);
+    auto color = static_cast<float>(cos(timeValue) / 2.0 + 0.6);
     int vertexColorLocation = glGetUniformLocation(shader_program.get_program(), "fragment_color");
     if (vertexColorLocation >= 0)
-      glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+      glUniform4f(vertexColorLocation, color, color, color, 1.0f);
     else std::cout << "ERROR WHEN DISPLAYING COLOR!" << std::endl;
 
     // Render our triangle.
@@ -69,8 +70,9 @@ gl_data_t compute_data(const char *vertex_source, const char *fragment_source) {
   Vertex f(0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f, vertex_colors); // Inner down.
 
   // Create our GLfloat vertices to pass on to the buffers.
-  std::array<Vertex, 6> vertices;
-  vertices[0] = a, vertices[1] = b, vertices[2] = c, vertices[3] = d, vertices[4] = e, vertices[5] = f;
+  std::vector<Vertex> vertices;
+  vertices.push_back(a), vertices.push_back(b), vertices.push_back(c),
+      vertices.push_back(d), vertices.push_back(e), vertices.push_back(f);
   debug(vertices.data()); // For debugging purposes.
 
   gl_data_t data = {vertex_source, fragment_source, vertices};

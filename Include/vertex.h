@@ -5,6 +5,7 @@
 #ifndef GAME_OPENGL_VERTEX_H
 #define GAME_OPENGL_VERTEX_H
 #include <GLES3/gl3.h>
+#include <vector>
 #include "color.h"
 
 // Vertex to pass on to our opengl vertex shaders.
@@ -16,7 +17,7 @@ public:
 
   Vertex(float x_coord, float y_coord, float z_coord, float red, float green, float blue, float alpha);
 
-  Vertex(Vertex const &);
+  Vertex(const Vertex &);
 
   void print_vertex() const;
 

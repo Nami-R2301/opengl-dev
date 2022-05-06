@@ -15,9 +15,10 @@ Vertex::Vertex(float x_coord, float y_coord, float z_coord, const Color &color)
 
 Vertex::Vertex(const Vertex& _vertex_)
 {
-  x_pos = _vertex_.x_pos;
-  y_pos = _vertex_.y_pos;
-  z_pos = _vertex_.z_pos;
+  this->x_pos = _vertex_.x_pos;
+  this->y_pos = _vertex_.y_pos;
+  this->z_pos = _vertex_.z_pos;
+  this->color = _vertex_.color;
 }
 
 bool Vertex::operator==(const Vertex& _vertex_)
