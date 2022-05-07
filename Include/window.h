@@ -14,10 +14,11 @@ public:
   Window();
   ~Window();
   void show();
-
   [[nodiscard]] GLFWwindow *get_window() const;
 
   [[nodiscard]] bool is_closed() const;
+
+  void process_input();
 
   static void update_color(Color &);
 
@@ -27,7 +28,15 @@ private:
   const GLFWvidmode *mode;
 };
 
-void framebuffer_size_callback([[maybe_unused]] GLFWwindow *, int, int);
+void window_viewport_callback([[maybe_unused]] GLFWwindow *, int, int);
+
+void cursor_position_callback(GLFWwindow *window, double, double);
+
+void cursor_enter_callback([[maybe_unused]] GLFWwindow *, int);
+
+void mouse_button_callback([[maybe_unused]] GLFWwindow *, int, int, int);
+
+void scroll_callback([[maybe_unused]] GLFWwindow *, double, double);
 
 
 #endif //GAME_OPENGL_WINDOW_H

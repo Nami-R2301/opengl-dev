@@ -41,10 +41,32 @@ void Program::validate() const {
   glValidateProgram(program);
 }
 
-GLuint Program::get_program() const {
+GLuint Program::get_program() const
+{
   return program;
 }
 
-void Program::activate() const {
+void Program::activate() const
+{
   glUseProgram(program);
 }
+
+void Program::update_scale(const float scale) const
+{
+  // Update vertex uniform
+  int vertex_scale_location = glGetUniformLocation(program, "scale");
+  if (vertex_scale_location >= 0)
+    glUniform1f(vertex_scale_location, scale);
+  else std::cout << "ERROR WHEN UPDATING SCALE!" << std::endl;
+}
+
+void Program::update_color(const Color &new_color) const
+{
+  int vertex_color_location = glGetUniformLocation(program, "fragment_color");
+  if (vertex_color_location >= 0)
+    glUniform4f(vertex_color_location, new_color.get_red(), new_color.get_green(),
+                new_color.get_blue(), new_color.get_alpha());
+  else std::cout << "ERROR WHEN UPDATING COLOR!" << std::endl;
+}
+
+

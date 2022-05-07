@@ -34,18 +34,19 @@ int main()
   Evo::unbind();
 
   while (!gl_window.is_closed()) {
-    process_input(gl_window.get_window());
+    gl_window.process_input();
     bg_color.clear();
     Window::update_color(bg_color);
     shader_program.activate(); // Specify what program to use.
 
-    // update shader uniform
+    // Update fragment uniform
     double timeValue = glfwGetTime();
-    auto color = static_cast<float>(cos(timeValue) / 2.0 + 0.6);
-    int vertexColorLocation = glGetUniformLocation(shader_program.get_program(), "fragment_color");
-    if (vertexColorLocation >= 0)
-      glUniform4f(vertexColorLocation, color, color, color, 1.0f);
-    else std::cout << "ERROR WHEN DISPLAYING COLOR!" << std::endl;
+    Color color((float) (cos(timeValue) / 2.0 + 0.6),
+                (float) (cos(timeValue) / 2.0 + 0.6),
+                (float) (cos(timeValue) / 2.0 + 0.6), 1.0f);
+    float scale = 0.25;
+    shader_program.update_color(color);
+    shader_program.update_scale(scale);
 
     // Render our triangle.
     vertex_array_obj.bind_vertex_array();
@@ -79,16 +80,10 @@ gl_data_t compute_data(const char *vertex_source, const char *fragment_source) {
   return data;
 }
 
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void process_input(GLFWwindow *window) {
-  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, true);
-}
-
-void debug(Vertex *vertices) {
-  printf("size of rgb_color_s : %lu\n\n", sizeof(*vertices));
+void debug(Vertex *vertices)
+{
   fflush(stdout);
+  printf("size of rgb_color_s : %lu\n\n", sizeof(*vertices));
   for (int i = 0; i < 6; ++i) vertices[i].print_vertex();
 }
 

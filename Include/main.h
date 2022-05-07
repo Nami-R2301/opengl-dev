@@ -35,8 +35,6 @@ typedef struct gl_data_s {
   std::vector<Vertex> vertices;
 } gl_data_t;
 
-void process_input(GLFWwindow *);
-
 gl_data_t compute_data(const char *, const char *);
 
 void debug(Vertex *data);
