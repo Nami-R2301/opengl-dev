@@ -9,8 +9,20 @@ Window::Window()
   printf("CREATING WINDOW...");
 
   monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
+  if (!monitor) {
+    fprintf(stderr, "ERROR : FAILED TO FETCH PRIMARY MONITOR\n");
+    glfwTerminate();
+    exit(-2);
+  }
   mode = glfwGetVideoMode(monitor); // Get video specs of monitor.
+  if (!mode) {
+    fprintf(stderr, "ERROR : FAILED TO FETCH VIDEO MODE\n");
+    glfwTerminate();
+    exit(-3);
+  }
 
+  glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+  glfwWindowHint(GLFW_SAMPLES, 4);
   glfwWindowHint(GLFW_RED_BITS, mode->redBits);
   glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
   glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
@@ -27,7 +39,8 @@ Window::Window()
                             nullptr, nullptr);
   if (!window) {
     printf("ERROR : WHEN CREATING WINDOW!\n");
-    exit(-1);
+    glfwTerminate();
+    exit(-4);
   }
   glViewport(0, 0, mode->width / 2, mode->height / 2);
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Set our mouse cursor to default.
@@ -50,13 +63,16 @@ Window::~Window()
   printf("DESTROYING WINDOW...\n");
 }
 
+Window &Window::operator=(const Window &other_window)
+{
+  if (this == &other_window) return *this;
+  this->window = other_window.window;
+  return *this;
+}
+
 // Show the window created.
 void Window::show()
 {
-  if (!window) {
-    printf("\n\nError showing window !\n\n");
-    exit(-2);
-  }
   glfwMakeContextCurrent(window); // Show our window.
   // Specify which coordinates to draw for our window -> from (0,0) to (monitor_width, monitor_height).
   glViewport(0, 0, mode->width, mode->height);

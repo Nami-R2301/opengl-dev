@@ -13,6 +13,9 @@ class Window
 public:
   Window();
   ~Window();
+
+  Window &operator=(const Window &);
+
   void show();
   [[nodiscard]] GLFWwindow *get_window() const;
 

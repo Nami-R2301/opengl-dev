@@ -6,6 +6,7 @@
 #define OPENGL_DEV_MAIN_H
 
 #include "../Include/window.h"
+#include "../Include/draw.h"
 #include "../Include/program.h"
 #include "../Include/vao.h"
 #include "../Include/vbo.h"
@@ -29,14 +30,9 @@ GLuint indices[] =
 //    GLuint shader_program = 0;
 //} gl_object_drawn_t;
 
-typedef struct gl_data_s {
-  const char *vertex_source = nullptr;
-  const char *fragment_source = nullptr;
-  std::vector<Vertex> vertices;
-} gl_data_t;
+void draw(const std::vector<Vertex> &, const Color &);
 
 gl_data_t compute_data(const char *, const char *);
-
 void debug(Vertex *data);
 
 //gl_object_drawn_t draw(Vertex vertices[]);

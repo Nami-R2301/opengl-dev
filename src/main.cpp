@@ -2,10 +2,14 @@
 
 int main()
 {
-  glfwInit(); //Initialize glfw
+  if (!glfwInit()) {
+    fprintf(stderr, "ERROR : FAILED TO INITIALIZE GLFW"); //Initialize glfw
+    exit(-1);
+  }
   Window gl_window; //Initialize window.
   Color bg_color; //Background color of the window.
   gl_window.show(); // Show window.
+
   std::string vertex_source = get_shaders("../Resources/Shaders/default.vert");
   std::string fragment_source = get_shaders("../Resources/Shaders/default.frag");
   gl_data_s data = compute_data(vertex_source.c_str(),
