@@ -9,18 +9,23 @@ Window::Window()
   printf("CREATING WINDOW...");
 
   monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
-  if (!monitor) {
+  if (!monitor)
+  {
     fprintf(stderr, "ERROR : FAILED TO FETCH PRIMARY MONITOR\n");
     glfwTerminate();
     exit(-2);
   }
-  mode = glfwGetVideoMode(monitor); // Get video specs of monitor.
-  if (!mode) {
+  const GLFWvidmode *mode = glfwGetVideoMode(monitor); // Get video specs of monitor.
+  if (!mode)
+  {
     fprintf(stderr, "ERROR : FAILED TO FETCH VIDEO MODE\n");
     glfwTerminate();
     exit(-3);
   }
-
+  width = (int) (mode->width / 2);
+  height = (int) (mode->height / 2);
+  refresh_rate = mode->refreshRate;
+  fullscreen = false;
   glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
   glfwWindowHint(GLFW_SAMPLES, 4);
   glfwWindowHint(GLFW_RED_BITS, mode->redBits);
@@ -35,25 +40,31 @@ Window::Window()
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   // Generate a pointer to a window using our monitor info, so that we later show it.
-  window = glfwCreateWindow(mode->width / 2, mode->height / 2, "Main window",
+  window = glfwCreateWindow(width, height, "Main window",
                             nullptr, nullptr);
-  if (!window) {
+  if (!window)
+  {
     printf("ERROR : WHEN CREATING WINDOW!\n");
     glfwTerminate();
     exit(-4);
   }
-  glViewport(0, 0, mode->width / 2, mode->height / 2);
+  init();
+  printf("Done.\n");
+}
+
+void Window::init()
+{
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Set our mouse cursor to default.
 
   /* Set our different callbacks for handling events. */
   // Make sure we finish events before treating the next ones.
   glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
-  glfwSetFramebufferSizeCallback(window, window_viewport_callback);  // Change screen size event.
+  glfwSetWindowSizeCallback(window, window_viewport_callback);  // Change screen size event.
   glfwSetCursorPosCallback(window, cursor_position_callback);  // Change cursor position event.
   glfwSetCursorEnterCallback(window, cursor_enter_callback);  // Cursor in/out screen event.
   glfwSetMouseButtonCallback(window, mouse_button_callback);  // Mouse button input event.
   glfwSetScrollCallback(window, scroll_callback);  // Mouse scroll event.
-  printf("Done.\n");
+  glfwSetKeyCallback(window, key_callback); // Key input events.
 }
 
 // Free resources and close the window.
@@ -75,7 +86,7 @@ void Window::show()
 {
   glfwMakeContextCurrent(window); // Show our window.
   // Specify which coordinates to draw for our window -> from (0,0) to (monitor_width, monitor_height).
-  glViewport(0, 0, mode->width, mode->height);
+  glViewport(0, 0, width, height);
 }
 
 // Return a glfwWindow instance in case there's a need to manipulate the window directly.
@@ -106,6 +117,63 @@ void Window::process_input()
   else if (this->is_closed()) printf("ERROR : WINDOW ALREADY CLOSED\n");
 }
 
+[[maybe_unused]] int Window::get_width() const
+{
+  return width;
+}
+
+[[maybe_unused]] int Window::get_height() const
+{
+  return height;
+}
+
+[[maybe_unused]] void Window::set_width(int width_)
+{
+  this->width = width_;
+}
+
+[[maybe_unused]] void Window::set_height(int height_)
+{
+  this->height = height_;
+}
+
+[[maybe_unused]] bool Window::is_fullscreen() const
+{
+  return fullscreen;
+}
+
+[[maybe_unused]] int Window::get_refresh_rate() const
+{
+  return refresh_rate;
+}
+
+[[maybe_unused]] void Window::set_refresh_rate(int refresh_rate_)
+{
+  this->refresh_rate = refresh_rate_;
+}
+
+[[maybe_unused]] void Window::set_fullscreen(bool fullscreen_state)
+{
+  this->fullscreen = fullscreen_state;
+}
+
+void toggle_fullscreen(GLFWwindow *window)
+{
+  GLFWmonitor *monitor = glfwGetWindowMonitor(window);
+  if (!monitor)
+  {
+    monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+  } else
+  {
+    int width, height, refresh_rate;
+    glfwGetWindowSize(window, &width, &height);
+    refresh_rate = glfwGetWindowAttrib(window, GLFW_REFRESH_RATE);
+    glfwSetWindowMonitor(window, nullptr, 0, 0, width, height, refresh_rate);
+  }
+}
+
 /******************************CALLBACKS****************************/
 
 // Whenever the window size changed (by OS or user resize) this callback function executes
@@ -115,6 +183,7 @@ void window_viewport_callback([[maybe_unused]] GLFWwindow *window, int width, in
    * height will be significantly larger than specified on retina displays.
    */
   glViewport(0, 0, width, height);
+
 }
 
 // Whenever the cursor changes position within the window, this callback function executes.
@@ -156,4 +225,13 @@ void mouse_button_callback([[maybe_unused]] GLFWwindow *window, int button, int 
 void scroll_callback([[maybe_unused]] GLFWwindow *window, double, double)
 {
 
+}
+
+void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
+                  int action, int combination)
+{
+  if (key == GLFW_KEY_F && action == GLFW_PRESS && !combination)
+  {
+    toggle_fullscreen(window);
+  }
 }

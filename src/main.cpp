@@ -2,12 +2,13 @@
 
 int main()
 {
-  if (!glfwInit()) {
+  if (!glfwInit())
+  {
     fprintf(stderr, "ERROR : FAILED TO INITIALIZE GLFW"); //Initialize glfw
     exit(-1);
   }
   Window gl_window; //Initialize window.
-  Color bg_color; //Background color of the window.
+  Color bg_color; //Default background color of the window.
   gl_window.show(); // Show window.
 
   std::string vertex_source = get_shaders("../Resources/Shaders/default.vert");
@@ -37,7 +38,8 @@ int main()
   Vbo::unbind();
   Evo::unbind();
 
-  while (!gl_window.is_closed()) {
+  while (!gl_window.is_closed())
+  {
     gl_window.process_input();
     bg_color.clear();
     Window::update_color(bg_color);
@@ -45,10 +47,11 @@ int main()
 
     // Update fragment uniform
     double timeValue = glfwGetTime();
-    Color color((float) (cos(timeValue) / 2.0 + 0.6),
-                (float) (cos(timeValue) / 2.0 + 0.6),
-                (float) (cos(timeValue) / 2.0 + 0.6), 1.0f);
-    float scale = 0.25;
+    Color color((float) (sin(timeValue / 2.0f)),
+                (float) (sin(timeValue / 2.0f)),
+                (float) (sin(timeValue / 2.0f)), 1.0f);
+    if (color == Color(0.0f, 0.0f, 0.0f, 1.0f)) color = Color(1.0f, 1.0f, 1.0f, 1.0f);
+    float scale = 0.15;
     shader_program.update_color(color);
     shader_program.update_scale(scale);
 
