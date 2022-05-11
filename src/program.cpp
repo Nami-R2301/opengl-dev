@@ -57,7 +57,7 @@ void Program::update_scale(const float scale) const
   int vertex_scale_location = glGetUniformLocation(program, "scale");
   if (vertex_scale_location >= 0)
     glUniform1f(vertex_scale_location, scale);
-  else std::cout << "ERROR WHEN UPDATING SCALE!" << std::endl;
+  else fprintf(stderr, "ERROR WHEN UPDATING SCALE");
 }
 
 void Program::update_color(const Color &new_color) const
@@ -66,7 +66,7 @@ void Program::update_color(const Color &new_color) const
   if (vertex_color_location >= 0)
     glUniform4f(vertex_color_location, new_color.get_red(), new_color.get_green(),
                 new_color.get_blue(), new_color.get_alpha());
-  else std::cout << "ERROR WHEN UPDATING COLOR!" << std::endl;
+  else fprintf(stderr, "ERROR WHEN UPDATING COLOR");
 }
 
 

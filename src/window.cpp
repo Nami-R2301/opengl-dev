@@ -26,6 +26,8 @@ Window::Window()
   height = (int) (mode->height / 2);
   refresh_rate = mode->refreshRate;
   fullscreen = false;
+  int major, minor, rev;
+  glfwGetVersion(&major, &minor, &rev);  // Get glfw version.
   glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
   glfwWindowHint(GLFW_SAMPLES, 4);
   glfwWindowHint(GLFW_RED_BITS, mode->redBits);
@@ -35,13 +37,13 @@ Window::Window()
 
   // Hint at glfw our opengl version -> 3.3 -> [MAJOR].[MINOR] + that we have the core profile.
   // So that we will only use the modern functions in it.
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   // Generate a pointer to a window using our monitor info, so that we later show it.
   window = glfwCreateWindow(width, height, "Main window",
-                            nullptr, nullptr);
+                            nullptr, nullptr);  // Windowed mode.
   if (!window)
   {
     printf("ERROR : WHEN CREATING WINDOW!\n");
@@ -78,6 +80,11 @@ Window &Window::operator=(const Window &other_window)
 {
   if (this == &other_window) return *this;
   this->window = other_window.window;
+  this->monitor = other_window.monitor;
+  this->width = other_window.width;
+  this->height = other_window.height;
+  this->refresh_rate = other_window.refresh_rate;
+  this->fullscreen = other_window.fullscreen;
   return *this;
 }
 
