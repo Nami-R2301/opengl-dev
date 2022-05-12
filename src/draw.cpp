@@ -22,7 +22,7 @@ Draw::Draw(const Window &gl_window, const Program &program, const Vao &vertex_ar
 
 }
 
-[[maybe_unused]] void Draw::draw_colored_vertices(gl_data_t &data, const Color &color, float scale)
+[[maybe_unused]] void Draw::draw_colored_vertices(gl_vertex_data_s &data, const Color &color, float scale)
 {
 }
 

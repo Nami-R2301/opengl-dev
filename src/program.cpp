@@ -35,6 +35,7 @@ void Program::link() const {
     glGetProgramInfoLog(program, 512, nullptr, infoLog);
     std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
   }
+  validate();
 }
 
 void Program::validate() const {
@@ -57,7 +58,7 @@ void Program::update_scale(const float scale) const
   int vertex_scale_location = glGetUniformLocation(program, "scale");
   if (vertex_scale_location >= 0)
     glUniform1f(vertex_scale_location, scale);
-  else fprintf(stderr, "ERROR WHEN UPDATING SCALE");
+  else fprintf(stderr, "ERROR WHEN UPDATING SCALE\n");
 }
 
 void Program::update_color(const Color &new_color) const
@@ -66,7 +67,7 @@ void Program::update_color(const Color &new_color) const
   if (vertex_color_location >= 0)
     glUniform4f(vertex_color_location, new_color.get_red(), new_color.get_green(),
                 new_color.get_blue(), new_color.get_alpha());
-  else fprintf(stderr, "ERROR WHEN UPDATING COLOR");
+  else fprintf(stderr, "ERROR WHEN UPDATING COLOR\n");
 }
 
 

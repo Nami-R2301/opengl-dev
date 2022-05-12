@@ -15,7 +15,7 @@ Vao::Vao()
 Vao::~Vao()
 {
   glDeleteVertexArrays(1, &vao);
-  printf("DESTROYING VBO...\n");
+  printf("DESTROYING VAO...\n");
 }
 
 // Make the VAO the current Vertex Array Object by binding it

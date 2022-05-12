@@ -5,7 +5,9 @@
 #include <iostream>
 #include "../Include/vbo.h"
 
-Vbo::Vbo(const Vertex* vertices, const GLsizeiptr size)
+Vbo::Vbo() = default;
+
+Vbo::Vbo(const Vertex *vertices, const GLsizeiptr size)
 {
   printf("CREATING VBO...");
   glGenBuffers(1, &vbo); // Create empty buffer for our vertex data.

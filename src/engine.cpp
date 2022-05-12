@@ -3,6 +3,8 @@
 
 Engine::Engine()
 {
+  this->frame_counter = 0;
+  this->frames = 0;
   this->running_state = false;
 }
 
@@ -20,12 +22,12 @@ void Engine::start()
   for (int i = 0; i < 6; ++i) vertices[i].print_vertex();
 }
 
-gl_data_t Engine::get_data()
+gl_vertex_data_s Engine::get_data()
 {
   return data;
 }
 
-void Engine::set_data(const gl_data_t &data_)
+void Engine::set_data(const gl_vertex_data_s &data_)
 {
   this->data.vertex_source = data_.vertex_source;
   this->data.fragment_source = data_.fragment_source;
@@ -44,7 +46,6 @@ void Engine::run()
   shader_program.attach(vertex_shader);
   shader_program.attach(fragment_shader);
   shader_program.link();
-  shader_program.validate();
 
   Vao vertex_array_obj;
   Vbo vertex_buffer_obj(vertices, (long) (sizeof(Vertex) * get_data().vertices.size()));
@@ -60,12 +61,31 @@ void Engine::run()
   Evo::unbind();
 
   debug(vertices);
+  long current_time = Time::get_time_nanoseconds();
+  double unprocessed_time = 0.0f;
   while (!window.is_closed())
   {
-    clock_t begin_frame = clock();
+    long start_time = Time::get_time_nanoseconds();
+    long passed_time = start_time - current_time;
+    current_time = start_time;
+    unprocessed_time += ((double) passed_time / (double) Time::second);
+    frame_counter += (long) passed_time;
+
+    while (unprocessed_time > frame_time)
+    {
+      unprocessed_time -= frame_time;
+      if (window.is_closed()) stop();
+      if (frame_counter >= Time::second)
+      {
+        char title[sizeof(long) + 5];
+        sprintf(title, "%d FPS", frames);
+        glfwSetWindowTitle(window.get_window(), title);
+        frames = 0;
+        frame_counter = 0;
+      }
+    }
     render(bg_color, shader_program, vertex_array_obj);
-    clock_t end_frame = clock();
-    printf("Delta_time : %.2ld\n", end_frame - begin_frame);
+    frames++;
   }
   stop();
 }
@@ -117,7 +137,7 @@ int main()
   std::string vertex_source = get_shaders("../Resources/Shaders/default.vert");
   std::string fragment_source = get_shaders("../Resources/Shaders/default.frag");
   std::vector<Vertex> vertices = set_vertices_data();
-  gl_data_t data = {vertex_source.c_str(), fragment_source.c_str(), vertices};
+  gl_vertex_data_s data = {vertex_source.c_str(), fragment_source.c_str(), vertices};
 
   Engine game_engine;  // Initialize our game engine.
   // Get all relevant data for vertices and fragments.

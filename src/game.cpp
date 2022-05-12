@@ -3,3 +3,25 @@
 //
 
 #include "../Include/game.h"
+
+Game::Game() = default;
+
+void Game::input()
+{
+
+}
+
+void Game::run()
+{
+
+}
+
+void Game::update()
+{
+
+}
+
+void Game::save()
+{
+
+}

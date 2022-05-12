@@ -4,8 +4,11 @@
 #include <cstring>
 #include "../Include/shader.h"
 
+Shader::Shader() = default;
+
 // Create shader based on type.
-Shader::Shader(int type, const char *source) {
+Shader::Shader(int type, const char *source)
+{
   assert(type == GL_VERTEX_SHADER || type == GL_FRAGMENT_SHADER);
   printf("CREATING VERTEX : %d\n", type);
   shader_type = type;

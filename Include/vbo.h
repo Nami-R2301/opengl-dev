@@ -9,18 +9,11 @@
 
 class Vbo {
 public:
+  Vbo();
   Vbo(const Vertex *vertices, GLsizeiptr size);
-
   ~Vbo();
-
-  void bind_buffer() const;
-
-  void bind_data(const void *vertices, long data_length);
-
   static void unbind();
-
   [[maybe_unused]] [[nodiscard]] GLuint get_value() const;
-
 private:
   GLuint vbo = 0;
 };
