@@ -69,7 +69,7 @@ void Engine::run()
     long passed_time = start_time - current_time;
     current_time = start_time;
     unprocessed_time += ((double) passed_time / (double) Time::second);
-    frame_counter += (long) passed_time;
+    frame_counter += passed_time;
 
     while (unprocessed_time > frame_time)
     {
