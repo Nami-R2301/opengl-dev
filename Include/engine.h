@@ -47,7 +47,6 @@ private:
   Window window;
   gl_vertex_data_s data;
   bool running_state;
-  unsigned int frames;
   long frame_counter;
   void run();
   void render(Color bg_color, const Program &program, const Vao &vao);

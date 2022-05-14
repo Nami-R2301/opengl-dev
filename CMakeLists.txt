@@ -8,6 +8,6 @@ find_package(OpenGL REQUIRED)
 find_package(X11 REQUIRED)
 
 add_executable(opengl-dev src/engine.cpp src/window.cpp src/vertex.cpp src/shader.cpp src/program.cpp
-        src/vao.cpp src/color.cpp src/vbo.cpp src/evo.cpp src/constants.cpp Include/draw.h src/draw.cpp src/game.cpp Include/game.h src/vertex_test.cpp Include/vertex_test.h src/game_time.cpp Include/game_time.h)
+        src/vao.cpp src/color.cpp src/vbo.cpp src/evo.cpp src/constants.cpp Include/draw.h src/draw.cpp src/game.cpp Include/game.h src/vertex_test.cpp Include/vertex_test.h src/game_time.cpp Include/game_time.h src/vector_2f.cpp Include/vector_2f.h src/vector_3f.cpp Include/vector_3f.h)
 
 target_link_libraries(opengl-dev PUBLIC glfw cunit OpenGL::GL ${CMAKE_DL_LIBS})

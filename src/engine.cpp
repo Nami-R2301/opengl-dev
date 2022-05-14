@@ -4,7 +4,6 @@
 Engine::Engine()
 {
   this->frame_counter = 0;
-  this->frames = 0;
   this->running_state = false;
 }
 
@@ -61,31 +60,22 @@ void Engine::run()
   Evo::unbind();
 
   debug(vertices);
-  long current_time = Time::get_time_nanoseconds();
-  double unprocessed_time = 0.0f;
-  while (!window.is_closed())
+  double previous_time = Time::get_time();
+  while (running_state)
   {
-    long start_time = Time::get_time_nanoseconds();
-    long passed_time = start_time - current_time;
-    current_time = start_time;
-    unprocessed_time += ((double) passed_time / (double) Time::second);
-    frame_counter += passed_time;
+    double current_time = Time::get_time();
+    frame_counter++;
+    if (window.is_closed()) break;
 
-    while (unprocessed_time > frame_time)
+    while ((current_time - previous_time) >= 1.0f && frame_counter <= (long) FRAME_CAP)
     {
-      unprocessed_time -= frame_time;
-      if (window.is_closed()) stop();
-      if (frame_counter >= Time::second)
-      {
-        char title[sizeof(long) + 5];
-        sprintf(title, "%d FPS", frames);
-        glfwSetWindowTitle(window.get_window(), title);
-        frames = 0;
-        frame_counter = 0;
-      }
+      char title[sizeof(long) + 5];
+      sprintf(title, "%ld FPS", frame_counter);
+      glfwSetWindowTitle(window.get_window(), title);
+      frame_counter = 0;
+      previous_time = current_time;
     }
     render(bg_color, shader_program, vertex_array_obj);
-    frames++;
   }
   stop();
 }
@@ -112,6 +102,7 @@ void Engine::render(Color bg_color, const Program &shader_program, const Vao &ve
   glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr); // Draw from vertex arrays.
 
   glfwSwapBuffers(window.get_window()); // Update window buffer (refresh window).
+  glfwSwapInterval(0);  // Disable Vertical synchronisation (Vsync).
   glfwPollEvents(); // Take care of our events.
 }
 

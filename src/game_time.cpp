@@ -4,10 +4,7 @@
 
 #include "../Include/game_time.h"
 
-long Time::get_time_nanoseconds()
+double Time::get_time()
 {
-  auto nanoseconds =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(
-          std::chrono::high_resolution_clock::now().time_since_epoch());
-  return nanoseconds.count();
+  return glfwGetTime();
 }

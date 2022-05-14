@@ -2,7 +2,6 @@
 // Created by nami on 2022-02-23.
 //
 
-#include <cstdio>
 #include "../Include/vertex.h"
 
 Vertex::Vertex(float x_coord, float y_coord, float z_coord, const Color &color)
@@ -44,10 +43,21 @@ Vertex::Vertex(float x_coord, float y_coord, float z_coord, float _red_, float _
   this->color = Color(_red_, _green_, _blue_, _alpha_);
 }
 
-void Vertex::print_vertex() const {
+void Vertex::print_vertex() const
+{
   printf("\nCoordinates :\nx = %.2f;\ny = %.2f;\nz = %.2f\n\nColor :\nRed = %.2f;\n"
          "Green = %.2f;\nBlue =  %.2f;\nAlpha = %.2f\n", this->x_pos, this->y_pos, this->z_pos, this->color.get_red(),
          this->color.get_green(), this->color.get_blue(), this->color.get_alpha());
+}
+
+float Vertex::length() const
+{
+  return (float) std::sqrt(x_pos + y_pos);
+}
+
+float Vertex::dot(const Vertex &vertex_) const
+{
+  return (this->x_pos * vertex_.x_pos) + (this->y_pos * vertex_.y_pos);
 }
 
 Vertex::Vertex() = default;

@@ -7,22 +7,17 @@
 #include <GLES3/gl3.h>
 #include <vector>
 #include "color.h"
+#include <cmath>
 
 // Vertex to pass on to our opengl vertex shaders.
 class Vertex {
 public:
   Vertex();
-
   Vertex(float x_coord, float y_coord, float z_coord, const Color &);
-
   Vertex(float x_coord, float y_coord, float z_coord, float red, float green, float blue, float alpha);
-
   Vertex(const Vertex &);
-
   void print_vertex() const;
-
   bool operator==(const Vertex &);
-
   Vertex &operator=(const Vertex &);
 
 private:
