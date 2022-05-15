@@ -16,6 +16,7 @@ void Render::init_graphics()
     fprintf(stderr, "ERROR : FAILED TO INITIALIZE GLFW"); //Initialize glfw
     exit(-1);
   }
+
   Color background_color;  // Default dark-mode-like color for background.
   glClearColor(background_color.get_red(), background_color.get_green(),
                background_color.get_blue(), background_color.get_alpha());
@@ -31,4 +32,12 @@ void Render::init_graphics()
 
   // Let OpenGL do the exponential gamma correction for us so textures and colors don't appear as dark.
   glEnable(GL_FRAMEBUFFER_SRGB);
+}
+
+gl_version_t Render::get_GL_version()
+{
+  int major, minor, rev;
+  glfwGetVersion(&major, &minor, &rev);
+  gl_version_t gl_version = {major, minor, rev};
+  return gl_version;
 }

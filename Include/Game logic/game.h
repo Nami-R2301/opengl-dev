@@ -5,7 +5,6 @@
 #ifndef OPENGL_DEV_GAME_H
 #define OPENGL_DEV_GAME_H
 
-#include "../OpenGL Graphics/program.h"
 #include "../OpenGL Graphics/vao.h"
 #include "../OpenGL Graphics/mesh.h"
 #include "../../Include/OpenGL Graphics/vertex_test.h"
@@ -14,6 +13,7 @@ class Game
 {
 public:
   Game();
+  void init();
   void input();
   void update();
   void render();

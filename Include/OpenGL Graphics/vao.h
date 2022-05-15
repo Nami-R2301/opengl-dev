@@ -11,13 +11,9 @@
 class Vao {
 public:
   Vao();
-
   ~Vao();
-
   void bind_vertex_array() const;
-
   static void link_attrib(GLuint index, int size, GLsizei stride, void *offset);
-
   static void unbind_vertex_array();
 
 private:
