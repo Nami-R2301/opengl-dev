@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "../Include/vao.h"
+#include "../../Include/OpenGL Graphics/vao.h"
 
 Vao::Vao()
 {

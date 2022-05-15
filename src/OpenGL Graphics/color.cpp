@@ -4,7 +4,7 @@
 
 #define MAX 255.0f
 
-#include "../Include/color.h"
+#include "../../Include/OpenGL Graphics//color.h"
 
 Color::Color(float red, float green, float blue, float alpha)
 {

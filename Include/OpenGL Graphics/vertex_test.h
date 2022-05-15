@@ -5,7 +5,7 @@
 #ifndef OPENGL_DEV_VERTEX_TEST_H
 #define OPENGL_DEV_VERTEX_TEST_H
 
-#include "../Include/engine.h"
+#include "vertex.h"
 
 std::vector<Vertex> set_vertices_data();
 

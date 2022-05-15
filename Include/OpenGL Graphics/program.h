@@ -8,8 +8,8 @@
 #include "GLFW/glfw3.h"
 #include <cmath>
 #include <vector>
-#include "../Include/shader.h"
-#include "../Include/color.h"
+#include "shader.h"
+#include "color.h"
 
 class Program
 {

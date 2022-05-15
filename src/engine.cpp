@@ -1,5 +1,4 @@
 #include "../Include/engine.h"
-#include "../Include/vertex_test.h"
 
 Engine::Engine()
 {
@@ -35,7 +34,6 @@ void Engine::set_data(const gl_vertex_data_s &data_)
 
 void Engine::run()
 {
-  Color bg_color;  // Default background color of the window.
   window.show();  // Show window content.
   Vertex *vertices = data.vertices.data();
   Shader vertex_shader(GL_VERTEX_SHADER, data.vertex_source);
@@ -69,21 +67,21 @@ void Engine::run()
 
     while ((current_time - previous_time) >= 1.0f && frame_counter <= (long) FRAME_CAP)
     {
-      char title[sizeof(long) + 5];
+      char title[sizeof(long) + 4];
       sprintf(title, "%ld FPS", frame_counter);
       glfwSetWindowTitle(window.get_window(), title);
       frame_counter = 0;
       previous_time = current_time;
     }
-    render(bg_color, shader_program, vertex_array_obj);
+    render(shader_program, vertex_array_obj);
   }
   stop();
 }
 
-void Engine::render(Color bg_color, const Program &shader_program, const Vao &vertex_array_obj)
+void Engine::render(const Program &shader_program, const Vao &vao)
 {
   window.process_input();
-  bg_color.clear();
+  Color bg_color;
   Window::update_color(bg_color);
   shader_program.activate(); // Specify what program to use.
 
@@ -98,9 +96,8 @@ void Engine::render(Color bg_color, const Program &shader_program, const Vao &ve
   shader_program.update_scale(scale);  //Update object scale.
 
   // Render our triangle.
-  vertex_array_obj.bind_vertex_array();
+  vao.bind_vertex_array();
   glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr); // Draw from vertex arrays.
-
   glfwSwapBuffers(window.get_window()); // Update window buffer (refresh window).
   glfwSwapInterval(0);  // Disable Vertical synchronisation (Vsync).
   glfwPollEvents(); // Take care of our events.
@@ -120,11 +117,7 @@ void Engine::cleanup()
 
 int main()
 {
-  if (!glfwInit())
-  {
-    fprintf(stderr, "ERROR : FAILED TO INITIALIZE GLFW"); //Initialize glfw
-    exit(-1);
-  }
+  Render::init_graphics();
   std::string vertex_source = get_shaders("../Resources/Shaders/default.vert");
   std::string fragment_source = get_shaders("../Resources/Shaders/default.frag");
   std::vector<Vertex> vertices = set_vertices_data();

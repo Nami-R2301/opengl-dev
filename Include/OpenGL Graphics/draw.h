@@ -7,7 +7,7 @@
 
 #include "vertex.h"
 #include "vao.h"
-#include "window.h"
+#include "../window.h"
 #include "program.h"
 
 typedef struct gl_data_s

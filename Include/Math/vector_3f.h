@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+#define VECTOR3F_SIZE 3
+
 class Vector_3f
 {
 public:
@@ -14,13 +16,13 @@ public:
   [[nodiscard]] float get_x() const;
   [[nodiscard]] float get_y() const;
   [[nodiscard]] float get_z() const;
-  void setX(float x);
-  void setY(float y);
-  void setZ(float z_);
+  void set_x(float x);
+  void set_y(float y);
+  void set_z(float z_);
   [[nodiscard]] float length() const;
   [[nodiscard]] float dot(const Vector_3f &other_vector) const;
   Vector_3f normalize();
-  Vector_3f cross(const Vector_3f &other_vector) const;
+  [[nodiscard]] Vector_3f cross(const Vector_3f &other_vector) const;
   [[nodiscard]] Vector_3f rotate(float angle) const;
   Vector_3f operator+(const Vector_3f &other_vector) const;
   Vector_3f operator+(float coord) const;
@@ -30,6 +32,7 @@ public:
   Vector_3f operator*(float coord) const;
   Vector_3f operator/(const Vector_3f &other_vector) const;
   Vector_3f operator/(float coord) const;
+  bool operator==(const Vector_3f &other_vector) const;
 private:
   float x;
   float y;

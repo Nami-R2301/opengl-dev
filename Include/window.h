@@ -5,8 +5,8 @@
 #ifndef GAME_OPENGL_WINDOW_H
 #define GAME_OPENGL_WINDOW_H
 
-#include <GLFW/glfw3.h>
-#include "../Include/color.h"
+#include "OpenGL Graphics/color.h"
+#include "OpenGL Graphics/render.h"
 #include <iostream>
 
 class Window

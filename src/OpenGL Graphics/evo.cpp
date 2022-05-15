@@ -2,7 +2,7 @@
 // Created by nami on 2022-02-23.
 //
 
-#include "../Include/evo.h"
+#include "../../Include/OpenGL Graphics//evo.h"
 
 Evo::Evo(GLuint* indices, GLsizeiptr size)
 {

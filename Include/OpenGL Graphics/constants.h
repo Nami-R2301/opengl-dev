@@ -4,9 +4,9 @@
 
 #ifndef OPENGL_DEV_CONSTANTS_H
 #define OPENGL_DEV_CONSTANTS_H
-#include "../Include/vertex.h"
+#include "vertex.h"
 #include <cmath>
-#include "../Include/shader.h"
+#include "shader.h"
 
 std::string get_shaders(const char *);
 

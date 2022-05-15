@@ -5,13 +5,14 @@
 #ifndef OPENGL_DEV_VBO_H
 #define OPENGL_DEV_VBO_H
 #include <GLES3/gl3.h>
-#include "../Include/vertex.h"
+#include "vertex.h"
 
 class Vbo {
 public:
   Vbo();
   Vbo(const Vertex *vertices, GLsizeiptr size);
   ~Vbo();
+  void bind() const;
   static void unbind();
   [[maybe_unused]] [[nodiscard]] GLuint get_value() const;
 private:

@@ -6,7 +6,7 @@
 
 Window::Window()
 {
-  printf("CREATING WINDOW...");
+  printf("CREATING WINDOW...\t");
 
   monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
   if (!monitor)
@@ -112,7 +112,7 @@ void Window::update_color(Color &new_color)
 {
   rgb_color_s new_rgb_color = new_color.get_rgb_values();
   glClearColor(new_rgb_color.red, new_rgb_color.green, new_rgb_color.blue, new_rgb_color.alpha);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear and change the back buffer color bit with our color.
+  Render::clearScreen();
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly

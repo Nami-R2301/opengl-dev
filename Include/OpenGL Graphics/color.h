@@ -8,6 +8,8 @@
 #include <GLES3/gl3.h>
 #include <iostream>
 
+#define COLOR_SIZE 4
+
 // Setup our RGB structure.
 struct rgb_color_s
 {
@@ -21,7 +23,7 @@ struct rgb_color_s
 class Color
 {
 public:
-  explicit Color(float = 0.156862745f, float = 0.156862745f, float = 0.156862745f, float = 0.0f); // Dark gray.
+  explicit Color(float = 0.156862745f, float = 0.156862745f, float = 0.156862745f, float = 1.0f); // Dark gray.
   [[maybe_unused]] explicit Color(const rgb_color_s &);
   ~Color();
   [[maybe_unused]] Color(const Color &);

@@ -2,7 +2,7 @@
 // Created by nami on 5/7/22.
 //
 
-#include "../Include/draw.h"
+#include "../../Include/OpenGL Graphics/draw.h"
 
 Draw::Draw(const Window &gl_window, const Program &program, const Vao &vertex_array_obj)
 {

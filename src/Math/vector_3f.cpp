@@ -2,7 +2,7 @@
 // Created by nami on 5/13/22.
 //
 
-#include "../Include/vector_3f.h"
+#include "../../Include/Math/vector_3f.h"
 
 Vector_3f::Vector_3f(float x, float y, float z)
 {
@@ -26,17 +26,17 @@ float Vector_3f::get_z() const
   return this->z;
 }
 
-void Vector_3f::setX(float x_)
+void Vector_3f::set_x(float x_)
 {
   this->x = x_;
 }
 
-void Vector_3f::setY(float y_)
+void Vector_3f::set_y(float y_)
 {
   this->y = y_;
 }
 
-void Vector_3f::setZ(float z_)
+void Vector_3f::set_z(float z_)
 {
   this->z = z_;
 }
@@ -128,5 +128,14 @@ Vector_3f Vector_3f::operator/(float coord) const
   return Vector_3f(this->x / coord,
                    this->y / coord,
                    this->z / coord);
+}
+
+bool Vector_3f::operator==(const Vector_3f &other_vector) const
+{
+  if (this == &other_vector) return true;
+  if (this->length() != other_vector.length()) return false;
+  return (this->x == other_vector.get_x() &&
+          this->y == other_vector.get_y() &&
+          this->z == other_vector.get_z());
 }
 

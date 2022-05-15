@@ -2,7 +2,7 @@
 // Created by nami on 2022-02-23.
 //
 #include <cstring>
-#include "../Include/shader.h"
+#include "../../Include/OpenGL Graphics//shader.h"
 
 Shader::Shader() = default;
 

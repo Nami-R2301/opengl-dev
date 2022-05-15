@@ -2,7 +2,7 @@
 // Created by nami on 2022-02-23.
 //
 
-#include "../Include/program.h"
+#include "../../Include/OpenGL Graphics//program.h"
 
 // Create a program for opengl to execute on screen.
 Program::Program()

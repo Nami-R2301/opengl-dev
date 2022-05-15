@@ -5,14 +5,15 @@
 #ifndef OPENGL_DEV_ENGINE_H
 #define OPENGL_DEV_ENGINE_H
 
-#include "../Include/window.h"
-#include "../Include/program.h"
-#include "../Include/vao.h"
-#include "../Include/vbo.h"
-#include "../Include/evo.h"
-#include "../Include/constants.h"
-#include "../Include/game_time.h"
-#include "../Include/game.h"
+#include "window.h"
+#include "OpenGL Graphics/vertex_test.h"
+#include "OpenGL Graphics/program.h"
+#include "OpenGL Graphics/vao.h"
+#include "OpenGL Graphics/vbo.h"
+#include "OpenGL Graphics/evo.h"
+#include "OpenGL Graphics/constants.h"
+#include "Game logic/game_time.h"
+#include "OpenGL Graphics/mesh.h"
 #include <cmath>
 
 #define FRAME_CAP 5000.0
@@ -36,30 +37,21 @@ typedef struct gl_shader_data_s
 class Engine
 {
 public:
-  const double frame_time = 1.0 / FRAME_CAP;
   explicit Engine();
   gl_vertex_data_s get_data();
   void set_data(const gl_vertex_data_s &data);
   void start();
   void stop();
+  [[maybe_unused]] static void debug(Vertex *data);
 private:
-  Game game;
   Window window;
   gl_vertex_data_s data;
   bool running_state;
   long frame_counter;
   void run();
-  void render(Color bg_color, const Program &program, const Vao &vao);
-  [[maybe_unused]] static void debug(Vertex *data);
+  void render(const Program &shader_program, const Vao &vao);
   static void cleanup();
 };
-
-static GLuint indices[] =
-    {
-        0, 3, 5, // Lower left triangle.
-        5, 4, 1, // Lower right triangle.
-        3, 2, 4 // Upper triangle.
-    };
 
 #endif //OPENGL_DEV_ENGINE_H
 
