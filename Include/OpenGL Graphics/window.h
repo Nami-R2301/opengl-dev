@@ -5,17 +5,16 @@
 #ifndef GAME_OPENGL_WINDOW_H
 #define GAME_OPENGL_WINDOW_H
 
-#include "OpenGL Graphics/color.h"
-#include "OpenGL Graphics/render.h"
+#include "color.h"
+#include "render.h"
 #include <iostream>
 
 class Window
 {
 public:
   Window();
-  ~Window();
   Window &operator=(const Window &);
-  void init();
+  void create_window();
   void show();
   [[maybe_unused]] [[nodiscard]] int get_width() const;
   [[maybe_unused]] [[nodiscard]] int get_height() const;
@@ -29,14 +28,15 @@ public:
   [[nodiscard]] bool is_closed() const;
   void process_input();
   static void update_color(Color &);
-
+  void cleanup();
 private:
-  GLFWwindow *window;
+  GLFWwindow *window = nullptr;
   GLFWmonitor *monitor;
   int width;
   int height;
   int refresh_rate;
   bool fullscreen;
+  void init();
 };
 
 void toggle_fullscreen(GLFWwindow *window);

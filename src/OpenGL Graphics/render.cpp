@@ -4,7 +4,7 @@
 
 #include "../../Include/OpenGL Graphics/render.h"
 
-void Render::clearScreen()
+void Render::render_screen()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear and change the back buffer color bit with our color.
 }
@@ -16,6 +16,10 @@ void Render::init_graphics()
     fprintf(stderr, "ERROR : FAILED TO INITIALIZE GLFW"); //Initialize glfw
     exit(-1);
   }
+  printf("\nOpenGL Version : %d.%d.%d\n",
+         get_GL_version().major,
+         get_GL_version().minor,
+         get_GL_version().rev);
 
   Color background_color;  // Default dark-mode-like color for background.
   glClearColor(background_color.get_red(), background_color.get_green(),

@@ -2,12 +2,10 @@
 // Created by nami on 2022-02-23.
 //
 
-#include "../Include/window.h"
+#include "../../Include/OpenGL Graphics/window.h"
 
 Window::Window()
 {
-  printf("CREATING WINDOW...\t");
-
   monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
   if (!monitor)
   {
@@ -40,18 +38,6 @@ Window::Window()
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, major);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-  // Generate a pointer to a window using our monitor info, so that we later show it.
-  window = glfwCreateWindow(width, height, "Main window",
-                            nullptr, nullptr);  // Windowed mode.
-  if (!window)
-  {
-    printf("ERROR : WHEN CREATING WINDOW!\n");
-    glfwTerminate();
-    exit(-4);
-  }
-  init();
-  printf("Done.\n");
 }
 
 void Window::init()
@@ -69,13 +55,6 @@ void Window::init()
   glfwSetKeyCallback(window, key_callback); // Key input events.
 }
 
-// Free resources and close the window.
-Window::~Window()
-{
-  glfwDestroyWindow(window);
-  printf("DESTROYING WINDOW...\n");
-}
-
 Window &Window::operator=(const Window &other_window)
 {
   if (this == &other_window) return *this;
@@ -86,6 +65,22 @@ Window &Window::operator=(const Window &other_window)
   this->refresh_rate = other_window.refresh_rate;
   this->fullscreen = other_window.fullscreen;
   return *this;
+}
+
+void Window::create_window()
+{
+  printf("CREATING WINDOW...\t");
+  // Generate a pointer to a window using our monitor info, so that we later show it.
+  window = glfwCreateWindow(width, height, "Main window",
+                            nullptr, nullptr);  // Windowed mode.
+  if (!window)
+  {
+    printf("ERROR : WHEN CREATING WINDOW!\n");
+    glfwTerminate();
+    exit(-4);
+  }
+  init();
+  printf("Done.\n");
 }
 
 // Show the window created.
@@ -112,7 +107,7 @@ void Window::update_color(Color &new_color)
 {
   rgb_color_s new_rgb_color = new_color.get_rgb_values();
   glClearColor(new_rgb_color.red, new_rgb_color.green, new_rgb_color.blue, new_rgb_color.alpha);
-  Render::clearScreen();
+  Render::render_screen();
 }
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
@@ -241,4 +236,12 @@ void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]]
   {
     toggle_fullscreen(window);
   }
+}
+
+// Free resources and close the window.
+void Window::cleanup()
+{
+  printf("DESTROYING WINDOW...\t");
+  glfwDestroyWindow(window);
+  printf("Done.\n");
 }

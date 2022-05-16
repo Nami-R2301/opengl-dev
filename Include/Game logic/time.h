@@ -2,8 +2,8 @@
 // Created by nami on 5/11/22.
 //
 
-#ifndef OPENGL_DEV_GAME_TIME_H
-#define OPENGL_DEV_GAME_TIME_H
+#ifndef OPENGL_DEV_TIME_H
+#define OPENGL_DEV_TIME_H
 
 #include <GLFW/glfw3.h>
 
@@ -18,4 +18,4 @@ private:
   static double delta;
 };
 
-#endif //OPENGL_DEV_GAME_TIME_H
+#endif //OPENGL_DEV_TIME_H

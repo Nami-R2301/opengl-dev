@@ -8,28 +8,30 @@ Mesh::Mesh() = default;
 
 void Mesh::add_vbo()
 {
-  printf("CREATING EMPTY VBO...\t");
+  printf("CREATING VBO...\t");
   glGenBuffers(1, &vbo); // Create empty buffer for our vertex data.
   printf("Done.\n");
 }
 
 void Mesh::add_vao()
 {
-  printf("CREATING EMPTY VAO...\t");
+  printf("CREATING VAO...\t");
   glGenVertexArrays(1, &vao);
   printf("Done.\n");
 }
 
 void Mesh::add_evo()
 {
-  printf("CREATING EMPTY EVO...\t");
+  printf("CREATING EVO...\t");
   glGenBuffers(1, &evo);
   printf("Done.\n");
 }
 
 void Mesh::bind_vbo() const
 {
+  printf("BINDING VBO...\t");
   glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+  printf("Done.\n");
 }
 
 void Mesh::bind_vao() const
@@ -39,17 +41,17 @@ void Mesh::bind_vao() const
 
 void Mesh::bind_evo() const
 {
+  printf("BINDING EVO...\t");
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, evo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // For evo.
+  printf("Done.\n");
 }
 
-void Mesh::add_vertices(const std::vector <Vertex> &vertices)
+void Mesh::add_vertices(const Vertex *vertices, unsigned long size_)
 {
-  auto *vertices_c = const_cast<Vertex *>(vertices.data());
-  this->size = int(vertices.size());
-
+  this->size = (int) size_;
   bind_vbo();
-  glBufferData(GL_ARRAY_BUFFER, this->size, vertices_c, GL_STATIC_DRAW); // For vbo.
+  glBufferData(GL_ARRAY_BUFFER, this->size, vertices, GL_STATIC_DRAW); // For vbo.
 }
 
 void Mesh::draw() const
@@ -58,10 +60,10 @@ void Mesh::draw() const
   glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr); // Draw from vertex arrays.
 }
 
-void Mesh::setup_graphics(const std::vector <Vertex> &vertices)
+void Mesh::setup_graphics(const Vertex *vertices, unsigned long size_)
 {
   add_vbo();
-  add_vertices(vertices);
+  add_vertices(vertices, size_);
   add_vao();
   bind_vao();
   add_evo();
@@ -90,4 +92,20 @@ void Mesh::unbind_vao()
 void Mesh::unbind_evo()
 {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Mesh::cleanup()
+{
+  //Delete vbo.
+  printf("DESTROYING VBO...\t");
+  glDeleteBuffers(1, &vbo);
+  printf("Done.\n");
+  // Delete vao.
+  printf("DESTROYING VAO...\t");
+  glDeleteVertexArrays(1, &vao);
+  printf("Done.\n");
+  //Delete evo.
+  printf("DESTROYING EVO...\t");
+  glDeleteBuffers(1, &evo);
+  printf("Done.\n");
 }

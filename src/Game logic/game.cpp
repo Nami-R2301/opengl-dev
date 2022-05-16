@@ -6,15 +6,15 @@
 
 Game::Game() = default;
 
-void Game::init()
+void Game::init(const Vertex *vertices, unsigned long size)
 {
-  std::vector<Vertex> data = {Vertex(Vector_3f(0, 3, 5), Color(1, 1, 1)),
-                              Vertex(Vector_3f(5, 4, 1), Color(1, 1, 1)),
-                              Vertex(Vector_3f(3, 2, 4), Color(1, 1, 1))};
-  this->mesh.setup_graphics(data);
+//  std::vector<Vertex> data = {Vertex(Vector_3f(0, 3, 5), Color(1, 1, 1)),
+//                              Vertex(Vector_3f(5, 4, 1), Color(1, 1, 1)),
+//                              Vertex(Vector_3f(3, 2, 4), Color(1, 1, 1))};
+  this->mesh.setup_graphics(vertices, size);
 }
 
-const Mesh &Game::get_mesh() const
+Mesh Game::get_mesh() const
 {
   return mesh;
 }
@@ -42,4 +42,8 @@ void Game::update()
 void Game::save()
 {
 
+}
+
+void Game::cleanup()
+{
 }

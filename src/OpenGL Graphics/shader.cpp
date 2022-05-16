@@ -137,14 +137,33 @@ void Shader::update_color(const Color &new_color) const
   else fprintf(stderr, "ERROR WHEN UPDATING COLOR\n");
 }
 
+std::vector<GLuint> Shader::get_shaders() const
+{
+  return this->shaders;
+}
+
+std::string Shader::get_shader_source(const char *shader_path)
+{
+  std::string source = get_file_contents(shader_path);
+  return source;
+}
+
 void Shader::add_shader(int type, const char *source) const
 {
-  printf("CREATING SHADER : %d\n", type);
+  printf("CREATING, SOURCING AND COMPILING SHADER : %d...\t", type);
   GLuint shader = glCreateShader(type);
+  get_shaders().push_back(shader);
   Shader::source(shader, source, nullptr);
   Shader::compile(shader, type);
   attach(shader);
-  printf("DONE, SHADER SOURCED, ATTACHED AND COMPILED.\n");
+  printf("Done.\n");
+}
+
+void Shader::delete_shaders() const
+{
+  printf("DESTROYING SHADERS ...\t");
+  for (unsigned int shader: get_shaders()) glDeleteShader(shader);
+  printf("Done.\n");
 }
 
 

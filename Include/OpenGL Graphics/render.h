@@ -18,7 +18,7 @@ typedef struct gl_version_s
 class Render
 {
 public:
-  static void clearScreen();
+  static void render_screen();
   static void init_graphics();
   static gl_version_t get_GL_version();
 };

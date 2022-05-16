@@ -6,9 +6,6 @@
 #define OPENGL_DEV_MESH_H
 
 #include "vertex.h"
-#include "vbo.h"
-#include "vao.h"
-#include "evo.h"
 
 static GLuint indices[] =
     {
@@ -27,9 +24,10 @@ public:
   void bind_vbo() const;
   void bind_vao() const;
   void bind_evo() const;
-  void add_vertices(const std::vector<Vertex> &data);
-  void setup_graphics(const std::vector<Vertex> &data);
+  void add_vertices(const Vertex *vertices, unsigned long size);
+  void setup_graphics(const Vertex *vertices, unsigned long size);
   void draw() const;
+  void cleanup();
 private:
   GLuint vbo = 0;
   GLuint vao = 0;

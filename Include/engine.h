@@ -5,15 +5,12 @@
 #ifndef OPENGL_DEV_ENGINE_H
 #define OPENGL_DEV_ENGINE_H
 
-#include "window.h"
+#include "OpenGL Graphics/window.h"
 #include "OpenGL Graphics/vertex_test.h"
-#include "OpenGL Graphics/vao.h"
-#include "OpenGL Graphics/vbo.h"
-#include "OpenGL Graphics/evo.h"
-#include "OpenGL Graphics/constants.h"
-#include "Game logic/game_time.h"
+#include "Game logic/time.h"
 #include "OpenGL Graphics/mesh.h"
 #include "Game logic/game.h"
+#include "OpenGL Graphics/shader.h"
 #include <cmath>
 
 #define FRAME_CAP 10000.0
@@ -29,10 +26,12 @@ class Engine
 {
 public:
   explicit Engine();
+  ~Engine();
+  [[nodiscard]] bool get_running_state() const;
   gl_vertex_data_s get_data();
-  void set_data(const gl_vertex_data_s &data);
+  void set_shader_data(const gl_vertex_data_s &data);
   void start();
-  void stop();
+  void stop(const Shader &shader_program);
   [[maybe_unused]] static void debug(Vertex *data);
 private:
   Game game;
@@ -41,8 +40,8 @@ private:
   bool running_state;
   long frame_counter;
   void run();
-  void render(Shader program);
-  static void cleanup();
+  void render(const Shader &program);
+  void cleanup(const Shader &shader_program = Shader());
 };
 
 #endif //OPENGL_DEV_ENGINE_H

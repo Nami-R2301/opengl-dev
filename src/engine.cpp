@@ -8,8 +8,9 @@ Engine::Engine()
 
 void Engine::start()
 {
-  if (running_state) return;
-  running_state = true;
+  if (this->running_state) return;
+  this->running_state = true;
+  printf("\n------------STARTING UP ENGINE--------------\n");
   run();
 }
 
@@ -22,10 +23,15 @@ void Engine::start()
 
 gl_vertex_data_s Engine::get_data()
 {
-  return data;
+  return this->data;
 }
 
-void Engine::set_data(const gl_vertex_data_s &data_)
+bool Engine::get_running_state() const
+{
+  return this->running_state;
+}
+
+void Engine::set_shader_data(const gl_vertex_data_s &data_)
 {
   this->data.vertex_source = data_.vertex_source;
   this->data.fragment_source = data_.fragment_source;
@@ -34,54 +40,42 @@ void Engine::set_data(const gl_vertex_data_s &data_)
 
 void Engine::run()
 {
-  window.show();  // Show window content.
-  Vertex *vertices = data.vertices.data();
+  this->window.create_window();  // Create the window.
+  this->window.show();  // Show window content.
+  Color bg_color;
+  Window::update_color(bg_color);  // Set default background to dark-mode-like gray.
   Shader program;
-  program.add_shader(GL_VERTEX_SHADER, data.vertex_source);
-  program.add_shader(GL_FRAGMENT_SHADER, data.fragment_source);
+  program.add_shader(GL_VERTEX_SHADER, this->data.vertex_source);
+  program.add_shader(GL_FRAGMENT_SHADER, this->data.fragment_source);
   program.link();
 
-  this->game.init();
-
-//  Vbo vertex_buffer_obj(vertices, (long) (sizeof(Vertex) * get_data().vertices.size()));
-//  Vao vertex_array_obj;
-//  vertex_array_obj.bind_vertex_array();
-//  Evo evo(indices, sizeof(indices));
-//  evo.bind();
-//
-//  Vao::link_attrib(0, 3, 7 * sizeof(float), (void *) nullptr);
-//  Vao::link_attrib(1, 4, 7 * sizeof(float), (void *) (4 * sizeof(float)));
-//
-//  Vao::unbind_vertex_array();
-//  Vbo::unbind();
-//  Evo::unbind();
-
+  this->game.init(this->data.vertices.data(), sizeof(Vertex) * get_data().vertices.size());
+  printf("--------------------------------------------\n");
 //  debug(vertices);
   double previous_time = Time::get_time();
-  while (running_state)
+  while (this->running_state)
   {
     double current_time = Time::get_time();
-    frame_counter++;
-    if (window.is_closed()) break;
+    this->frame_counter++;
+    if (this->window.is_closed()) break;
 
-    while ((current_time - previous_time) >= 1.0f && frame_counter <= (long) FRAME_CAP)
+    while ((current_time - previous_time) >= 1.0f && this->frame_counter <= (long) FRAME_CAP)
     {
       char title[sizeof(long) + 4];
-      sprintf(title, "%ld FPS", frame_counter);
-      glfwSetWindowTitle(window.get_window(), title);
-      frame_counter = 0;
+      sprintf(title, "%ld FPS", this->frame_counter);
+      glfwSetWindowTitle(this->window.get_window(), title);
+      this->frame_counter = 0;
       previous_time = current_time;
     }
     render(program);
   }
-  stop();
+  stop(program);
 }
 
-void Engine::render(Shader program)
+void Engine::render(const Shader &program)
 {
-  window.process_input();
-  Color bg_color;
-  Window::update_color(bg_color);
+  Render::render_screen();  // Reset the screen.
+  this->window.process_input();
   program.activate(); // Specify what program to use.
 
   // Update fragment uniform
@@ -89,49 +83,57 @@ void Engine::render(Shader program)
   Color color((float) (sin(timeValue / 2.0f)),
               (float) (sin(timeValue / 2.0f)),
               (float) (sin(timeValue / 2.0f)), 1.0f);
-  if (color == Color(0.0f, 0.0f, 0.0f, 1.0f)) color = Color(1.0f, 1.0f, 1.0f, 1.0f);
   float scale = 0.10;
   program.update_color(color);  // Update object color.
   program.update_scale(scale);  //Update object scale.
 
-  this->game.render();
-  // Render our triangles.
-//  vao.bind_vertex_array();
-//  glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr); // Draw from vertex arrays.
-  glfwSwapBuffers(window.get_window()); // Update window buffer (refresh window).
+  this->game.render();  // Render our graphics on screen.
+  glfwSwapBuffers(this->window.get_window()); // Update window buffer (refresh window).
   glfwSwapInterval(1);  // Disable/enable Vertical synchronisation (Vsync).
   glfwPollEvents(); // Take care of our events.
 }
 
-void Engine::stop()
+void Engine::stop(const Shader &shader_program)
 {
-  if (!running_state) return;
-  running_state = false;
-  cleanup();
+  if (!this->running_state) return;
+  this->running_state = false;
+  cleanup(shader_program);
 }
 
-void Engine::cleanup()
+void Engine::cleanup(const Shader &shader_program)
 {
-  glfwTerminate(); // Free resources and close all glfw widows and cursors.
+  printf("------------SHUTTING DOWN ENGINE------------\n");
+  this->game.get_mesh().cleanup();
+  shader_program.delete_shaders(); // Delete all shaders.
+  printf("TERMINATING GLFW...\t");
+  glfwTerminate(); // Free resources and close all glfw windows and cursors.
+  printf("Done.\n");
+  this->window.cleanup();
+  printf("--------------------------------------------\n");
+}
+
+Engine::~Engine()
+{
+  if (this->running_state) cleanup();
 }
 
 int main()
 {
-  printf("\nOpenGL Version : %d.%d.%d\n\n", Render::get_GL_version().major,
-         Render::get_GL_version().minor,
-         Render::get_GL_version().rev);
-  Render::init_graphics();
+  Render::init_graphics();  // Setup openGL graphic settings.
 
   // Get shader sources and data.
-  std::string vertex_source = get_shaders("../Resources/Shaders/default.vert");
-  std::string fragment_source = get_shaders("../Resources/Shaders/default.frag");
+  std::string vertex_source = Shader::get_shader_source("../Resources/Shaders/default.vert");
+  std::string fragment_source = Shader::get_shader_source("../Resources/Shaders/default.frag");
   std::vector<Vertex> vertices = set_vertices_data();
+  // Prepare data for shaders.
   gl_vertex_data_s data = {vertex_source.c_str(), fragment_source.c_str(), vertices};
 
-  // Run the engine.
+  // Setup and start the engine.
   Engine game_engine;  // Initialize our game engine.
-  // Get all relevant data for vertices and fragments.
-  game_engine.set_data(data);
+  game_engine.set_shader_data(data);  // Get all relevant data for vertices and fragments.
   game_engine.start();
+
+  // In case of an unexpected crash.
+  if (game_engine.get_running_state()) return -10;
   return 0;
 }

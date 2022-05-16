@@ -5,7 +5,6 @@
 #ifndef OPENGL_DEV_GAME_H
 #define OPENGL_DEV_GAME_H
 
-#include "../OpenGL Graphics/vao.h"
 #include "../OpenGL Graphics/mesh.h"
 #include "../../Include/OpenGL Graphics/vertex_test.h"
 
@@ -13,12 +12,13 @@ class Game
 {
 public:
   Game();
-  void init();
+  void init(const Vertex *vertices, unsigned long size);
   void input();
   void update();
   void render();
   void save();
-  const Mesh &get_mesh() const;
+  void cleanup();
+  [[nodiscard]] Mesh get_mesh() const;
   void set_mesh(const Mesh &mesh);
 private:
   Mesh mesh;
