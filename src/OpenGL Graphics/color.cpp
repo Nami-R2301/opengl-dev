@@ -107,4 +107,15 @@ float Color::get_alpha() const
          color.red, color.green, color.blue, color.alpha);
 }
 
-Color::~Color() = default;
+void Color::set_color(const Color &new_color)
+{
+  *this = new_color;
+}
+
+void Color::set_color(float red, float green, float blue, float alpha)
+{
+  this->color.red = red;
+  this->color.green = green;
+  this->color.blue = blue;
+  this->color.alpha = alpha;
+}

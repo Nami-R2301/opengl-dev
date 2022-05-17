@@ -25,9 +25,10 @@ class Color
 public:
   explicit Color(float = 0.156862745f, float = 0.156862745f, float = 0.156862745f, float = 1.0f); // Dark gray.
   [[maybe_unused]] explicit Color(const rgb_color_s &);
-  ~Color();
   [[maybe_unused]] Color(const Color &);
   void clear();
+  void set_color(const Color &new_color);
+  void set_color(float red, float blue, float green, float alpha);
   void print() const;
   rgb_color_s &get_rgb_values();
   [[nodiscard]] float get_red() const;

@@ -5,12 +5,12 @@
 #ifndef GAME_OPENGL_SHADER_H
 #define GAME_OPENGL_SHADER_H
 
-#include <GLES3/gl3.h>
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <cstring>
 #include "color.h"
+#include "render.h"
+#include "../Logs/logger.h"
 
 class Shader
 {
@@ -27,7 +27,8 @@ public:
   void link() const;
   void validate() const;
   void activate() const;
-  void update_scale(float scale) const;
+  static void scroll_callback([[maybe_unused]] GLFWwindow *window, double x_offset, double y_offset);
+  [[maybe_unused]] void update_scale(float scale) const;
   void update_color(const Color &color) const;
 
 private:

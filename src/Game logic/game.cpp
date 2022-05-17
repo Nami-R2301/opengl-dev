@@ -8,9 +8,6 @@ Game::Game() = default;
 
 void Game::init(const Vertex *vertices, unsigned long size)
 {
-//  std::vector<Vertex> data = {Vertex(Vector_3f(0, 3, 5), Color(1, 1, 1)),
-//                              Vertex(Vector_3f(5, 4, 1), Color(1, 1, 1)),
-//                              Vertex(Vector_3f(3, 2, 4), Color(1, 1, 1))};
   this->mesh.setup_graphics(vertices, size);
 }
 

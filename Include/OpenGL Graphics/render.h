@@ -7,20 +7,18 @@
 
 #include "GLFW/glfw3.h"
 #include "color.h"
-
-typedef struct gl_version_s
-{
-  int major;
-  int minor;
-  int rev;
-} gl_version_t;
+#include <cmath>
+#include "../../Include/Logs/logger.h"
 
 class Render
 {
 public:
-  static void render_screen();
   static void init_graphics();
-  static gl_version_t get_GL_version();
+  static const char *get_GL_version();
+  static void show_gl_info();
+  static void reset();
+  static void glfw_error_callback(int error_code, const char *err_str);
+  static void gl_error_callback(GLenum source);
 };
 
 #endif //OPENGL_DEV_RENDER_H

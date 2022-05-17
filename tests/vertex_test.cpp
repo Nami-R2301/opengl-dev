@@ -8,12 +8,12 @@ std::vector<Vertex> set_vertices_data()
   const Color vertex_colors(0.25f, 0.84f, 0.5f, 1.0f); // Default color for fragments.
 
   // Vectors
-  const Vector_3f vector_1(-0.25f, -0.5f * float(sqrt(3)) / 3, 0.0f);  // Lower left corner.
-  const Vector_3f vector_2(0.25f, -0.5f * float(sqrt(3)) / 3, 0.0f);  // Lower right corner.
-  const Vector_3f vector_3(0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f); // Upper corner.
-  const Vector_3f vector_4(-0.25f / 2, 0.25f * float(sqrt(3)) / 3, 0.0f); // Inner left.
-  const Vector_3f vector_5(0.25f / 2, 0.25f * float(sqrt(3)) / 3, 0.0f); //Inner right.
-  const Vector_3f vector_6(0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f); // Inner down.
+  const Vector_2f vector_1(-0.25f, -0.5f * float(sqrt(3)) / 3);  // Lower left corner.
+  const Vector_2f vector_2(0.25f, -0.5f * float(sqrt(3)) / 3);  // Lower right corner.
+  const Vector_2f vector_3(0.0f, 0.5f * float(sqrt(3)) * 2 / 3); // Upper corner.
+  const Vector_2f vector_4(-0.25f / 2, 0.25f * float(sqrt(3)) / 3); // Inner left.
+  const Vector_2f vector_5(0.25f / 2, 0.25f * float(sqrt(3)) / 3); //Inner right.
+  const Vector_2f vector_6(0.0f, -0.5f * float(sqrt(3)) / 3); // Inner down.
 
   // Positions (x,y,z)     // Colors (RGB).
   Vertex a(vector_1, vertex_colors);

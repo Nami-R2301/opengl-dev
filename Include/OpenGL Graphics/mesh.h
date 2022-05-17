@@ -6,6 +6,8 @@
 #define OPENGL_DEV_MESH_H
 
 #include "vertex.h"
+#include "render.h"
+#include "../Logs/logger.h"
 
 static GLuint indices[] =
     {

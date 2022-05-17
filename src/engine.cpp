@@ -1,5 +1,7 @@
 #include "../Include/engine.h"
 
+#define UNEXPECTED_ERROR 222
+
 Engine::Engine()
 {
   this->frame_counter = 0;
@@ -10,7 +12,10 @@ void Engine::start()
 {
   if (this->running_state) return;
   this->running_state = true;
-  printf("\n------------STARTING UP ENGINE--------------\n");
+  output_on_screen("------------STARTING UP ENGINE--------------\n");
+  Render::init_graphics();  // Setup openGL graphic settings.
+  this->window.create_window();
+  Render::show_gl_info();  // Show info about opengl and glfw versions.
   run();
 }
 
@@ -40,8 +45,6 @@ void Engine::set_shader_data(const gl_vertex_data_s &data_)
 
 void Engine::run()
 {
-  this->window.create_window();  // Create the window.
-  this->window.show();  // Show window content.
   Color bg_color;
   Window::update_color(bg_color);  // Set default background to dark-mode-like gray.
   Shader program;
@@ -50,47 +53,43 @@ void Engine::run()
   program.link();
 
   this->game.init(this->data.vertices.data(), sizeof(Vertex) * get_data().vertices.size());
-  printf("--------------------------------------------\n");
+  output_on_screen("--------------------------------------------\n");
 //  debug(vertices);
-  double previous_time = Time::get_time();
-  while (this->running_state)
+  double previous_time = Time::get_game_time();
+  bool is_rendering = true;
+  while (is_rendering)
   {
-    double current_time = Time::get_time();
+    double current_time = Time::get_game_time();
     this->frame_counter++;
-    if (this->window.is_closed()) break;
+    if (this->window.is_closed()) is_rendering = false;
 
     while ((current_time - previous_time) >= 1.0f && this->frame_counter <= (long) FRAME_CAP)
     {
-      char title[sizeof(long) + 4];
-      sprintf(title, "%ld FPS", this->frame_counter);
+      char title[sizeof(long) + 5];
+      snprintf(title, sizeof(long) + 5, "%ld FPS", this->frame_counter);
       glfwSetWindowTitle(this->window.get_window(), title);
       this->frame_counter = 0;
       previous_time = current_time;
     }
-    render(program);
+    if (is_rendering) render(program, bg_color);
+    else stop(program);
   }
-  stop(program);
 }
 
-void Engine::render(const Shader &program)
+void Engine::render(const Shader &program, Color &color)
 {
-  Render::render_screen();  // Reset the screen.
-  this->window.process_input();
+  Render::reset();  // Reset the color on screen.
   program.activate(); // Specify what program to use.
 
   // Update fragment uniform
-  double timeValue = glfwGetTime();
-  Color color((float) (sin(timeValue / 2.0f)),
-              (float) (sin(timeValue / 2.0f)),
-              (float) (sin(timeValue / 2.0f)), 1.0f);
-  float scale = 0.10;
+  color.set_color((float) (sin(glfwGetTime()) + .6),
+                  (float) (sin(glfwGetTime()) + .1),
+                  (float) (sin(glfwGetTime()) + .3), 1.0f);
   program.update_color(color);  // Update object color.
-  program.update_scale(scale);  //Update object scale.
-
-  this->game.render();  // Render our graphics on screen.
-  glfwSwapBuffers(this->window.get_window()); // Update window buffer (refresh window).
-  glfwSwapInterval(1);  // Disable/enable Vertical synchronisation (Vsync).
-  glfwPollEvents(); // Take care of our events.
+  program.update_scale(0.20f);
+  this->game.render();  // Render our graphics.
+  this->window.refresh(); // Refresh the window screen.
+  glfwPollEvents(); // Listen and call the appropriate keyboard and mouse callbacks.
 }
 
 void Engine::stop(const Shader &shader_program)
@@ -102,14 +101,14 @@ void Engine::stop(const Shader &shader_program)
 
 void Engine::cleanup(const Shader &shader_program)
 {
-  printf("------------SHUTTING DOWN ENGINE------------\n");
+  output_on_screen("------------SHUTTING DOWN ENGINE------------\n");
   this->game.get_mesh().cleanup();
   shader_program.delete_shaders(); // Delete all shaders.
-  printf("TERMINATING GLFW...\t");
-  glfwTerminate(); // Free resources and close all glfw windows and cursors.
-  printf("Done.\n");
   this->window.cleanup();
-  printf("--------------------------------------------\n");
+  output_on_screen("TERMINATING GLFW...\t");
+  glfwTerminate(); // Free resources and close all glfw windows and cursors.
+  output_on_screen("Done.\n", INFO, true);
+  output_on_screen("--------------------------------------------\n");
 }
 
 Engine::~Engine()
@@ -117,10 +116,18 @@ Engine::~Engine()
   if (this->running_state) cleanup();
 }
 
+[[maybe_unused]] const Window &Engine::get_window() const
+{
+  return window;
+}
+
+[[maybe_unused]] void Engine::set_window(const Window &window_)
+{
+  this->window = window_;
+}
+
 int main()
 {
-  Render::init_graphics();  // Setup openGL graphic settings.
-
   // Get shader sources and data.
   std::string vertex_source = Shader::get_shader_source("../Resources/Shaders/default.vert");
   std::string fragment_source = Shader::get_shader_source("../Resources/Shaders/default.frag");
@@ -134,6 +141,6 @@ int main()
   game_engine.start();
 
   // In case of an unexpected crash.
-  if (game_engine.get_running_state()) return -10;
+  if (game_engine.get_running_state()) return UNEXPECTED_ERROR;
   return 0;
 }

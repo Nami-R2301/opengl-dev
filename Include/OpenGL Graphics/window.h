@@ -7,15 +7,19 @@
 
 #include "color.h"
 #include "render.h"
-#include <iostream>
+#include "shader.h"
+#include "../Logs/logger.h"
 
 class Window
 {
 public:
-  Window();
+  explicit Window();
   Window &operator=(const Window &);
+  void setup_monitor();
+  void set_callbacks(const Shader &program) const;
   void create_window();
-  void show();
+  [[maybe_unused]] static void hide();
+  void refresh();
   [[maybe_unused]] [[nodiscard]] int get_width() const;
   [[maybe_unused]] [[nodiscard]] int get_height() const;
   [[maybe_unused]] [[maybe_unused]] [[nodiscard]] int get_refresh_rate() const;
@@ -26,8 +30,8 @@ public:
   [[maybe_unused]] [[maybe_unused]] void set_refresh_rate(int refresh_rate);
   [[nodiscard]] GLFWwindow *get_window() const;
   [[nodiscard]] bool is_closed() const;
-  void process_input();
   static void update_color(Color &);
+  [[maybe_unused]] static void update_color(float red, float green, float blue, float alpha);
   void cleanup();
 private:
   GLFWwindow *window = nullptr;

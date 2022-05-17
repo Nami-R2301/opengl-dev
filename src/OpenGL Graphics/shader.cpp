@@ -9,18 +9,15 @@
 
 Shader::Shader()
 {
-  printf("CREATING PROGRAM...");
+  output_on_screen("CREATING PROGRAM...\t");
   program = glCreateProgram();
   if (!program)
   {
-    fprintf(stderr, "\nERROR : COULD NOT CREATE PROGRAM!\nEXITING...\n");
+    output_on_screen("\nERROR : COULD NOT CREATE PROGRAM!\nEXITING...\n", ERROR);
     exit(PROGRAM_ERROR);
   }
-  printf("Done.\n");
+  output_on_screen("Done.\n", INFO, true);
 }
-
-// Delete the shaders since they have been compiled and linked in the program.
-//Shader::~Shader() = default;
 
 //Set the source code in shader to the source code in the array of strings specified by string.
 void Shader::source(GLuint shader_, const char *source, int *length)
@@ -77,8 +74,10 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
     if (hasCompiled == GL_FALSE)
     {
       glGetShaderInfoLog(_shader_, 1024, nullptr, infoLog);
-      fprintf(stderr, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
-                      "DETAILS :\n%s\n", type, infoLog);
+      char print_buffer[1300];
+      snprintf(print_buffer, 1300, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
+                                   "DETAILS :\n%s\n", type, infoLog);
+      output_on_screen(print_buffer, ERROR);
       exit(COMPILE_ERROR);
     }
   }
@@ -88,6 +87,7 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
 void Shader::attach(GLuint shader) const
 {
   glAttachShader(Shader::get_program(), shader);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
 // Links all source codes (shaders) in the program given as argument, creating the executable.
@@ -102,8 +102,10 @@ void Shader::link() const
   if (has_linked == GL_FALSE)
   {
     glGetProgramInfoLog(get_program(), 1024, nullptr, infoLog);
-    fprintf(stderr, "\nERROR : SHADER LINKING ERROR\n"
-                    "DETAILS :\n%s\n", infoLog);
+    char print_buffer[1300];
+    snprintf(print_buffer, 1300, "\nERROR : SHADER LINKING ERROR\n"
+                                 "DETAILS :\n%s\n", infoLog);
+    output_on_screen(print_buffer, ERROR);
     exit(LINK_ERROR);
   }
   validate();
@@ -112,20 +114,22 @@ void Shader::link() const
 void Shader::validate() const
 {
   glValidateProgram(get_program());
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
 void Shader::activate() const
 {
   glUseProgram(program);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
-void Shader::update_scale(const float scale) const
+[[maybe_unused]] void Shader::update_scale(const float scale) const
 {
   // Update vertex uniform
   int vertex_scale_location = glGetUniformLocation(program, "scale");
   if (vertex_scale_location >= 0)
     glUniform1f(vertex_scale_location, scale);
-  else fprintf(stderr, "ERROR WHEN UPDATING SCALE\n");
+  else output_on_screen("ERROR WHEN UPDATING SCALE\n", ERROR);
 }
 
 void Shader::update_color(const Color &new_color) const
@@ -134,7 +138,7 @@ void Shader::update_color(const Color &new_color) const
   if (vertex_color_location >= 0)
     glUniform4f(vertex_color_location, new_color.get_red(), new_color.get_green(),
                 new_color.get_blue(), new_color.get_alpha());
-  else fprintf(stderr, "ERROR WHEN UPDATING COLOR\n");
+  else output_on_screen("ERROR WHEN UPDATING COLOR\n", ERROR);
 }
 
 std::vector<GLuint> Shader::get_shaders() const
@@ -150,20 +154,27 @@ std::string Shader::get_shader_source(const char *shader_path)
 
 void Shader::add_shader(int type, const char *source) const
 {
-  printf("CREATING, SOURCING AND COMPILING SHADER : %d...\t", type);
+  char print_buffer[75];
+  snprintf(print_buffer, 75, "CREATING, SOURCING AND COMPILING SHADER : %d...\t", type);
+  output_on_screen(print_buffer);
+
   GLuint shader = glCreateShader(type);
   get_shaders().push_back(shader);
   Shader::source(shader, source, nullptr);
   Shader::compile(shader, type);
   attach(shader);
-  printf("Done.\n");
+  output_on_screen("Done.\n", INFO, true);
 }
 
 void Shader::delete_shaders() const
 {
-  printf("DESTROYING SHADERS ...\t");
-  for (unsigned int shader: get_shaders()) glDeleteShader(shader);
-  printf("Done.\n");
+  output_on_screen("DESTROYING SHADERS...\t");
+  for (unsigned int shader: get_shaders())
+  {
+    glDeleteShader(shader);
+    if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  }
+  output_on_screen("Done.\n", INFO, true);
 }
 
 

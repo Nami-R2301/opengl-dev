@@ -4,6 +4,14 @@
 
 #include "../../Include/OpenGL Graphics/vertex.h"
 
+Vertex::Vertex() = default;
+
+Vertex::Vertex(const Vector_2f &vector_2f, const Color &color)
+{
+  this->position = Vector_3f(vector_2f.get_x(), vector_2f.get_y(), 0.0f);
+  this->color = color;
+}
+
 Vertex::Vertex(const Vector_3f &vector_3f, const Color &color)
 {
   this->position = vector_3f;
@@ -71,5 +79,3 @@ float Vertex::length() const
 {
   return this->position.length();
 }
-
-Vertex::Vertex() = default;

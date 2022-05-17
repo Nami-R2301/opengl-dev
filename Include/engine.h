@@ -5,13 +5,12 @@
 #ifndef OPENGL_DEV_ENGINE_H
 #define OPENGL_DEV_ENGINE_H
 
-#include "OpenGL Graphics/window.h"
 #include "OpenGL Graphics/vertex_test.h"
-#include "Game logic/time.h"
 #include "OpenGL Graphics/mesh.h"
 #include "Game logic/game.h"
 #include "OpenGL Graphics/shader.h"
-#include <cmath>
+#include "OpenGL Graphics/window.h"
+#include "Logs/logger.h"
 
 #define FRAME_CAP 10000.0
 
@@ -33,6 +32,8 @@ public:
   void start();
   void stop(const Shader &shader_program);
   [[maybe_unused]] static void debug(Vertex *data);
+  [[maybe_unused]] [[nodiscard]] const Window &get_window() const;
+  [[maybe_unused]] void set_window(const Window &window);
 private:
   Game game;
   Window window;
@@ -40,7 +41,7 @@ private:
   bool running_state;
   long frame_counter;
   void run();
-  void render(const Shader &program);
+  void render(const Shader &program, Color &color);
   void cleanup(const Shader &shader_program = Shader());
 };
 
