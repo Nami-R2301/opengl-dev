@@ -38,9 +38,9 @@ bool Engine::get_running_state() const
 void Engine::run()
 {
   start();  // Start and setup engine.
-  Logger::alert("------------LOADING SHADERS--------------\n");
+  Logger::alert("------------PREPARING GRAPHICS--------------\n");
   this->game.prepare_mesh();
-  Logger::alert("------------SUCCESSFULLY LOADED SHADERS--------------\n");
+  Logger::alert("------------SUCCESSFULLY LOADED GRAPHICS--------------\n");
 //  debug(vertices);
 
   Logger::alert("------------RUNNING--------------\n");
@@ -100,11 +100,6 @@ void Engine::cleanup()
   Logger::alert("------------SUCCESSFULLY SHUT DOWN ENGINE------------\n");
 }
 
-Engine::~Engine()
-{
-  if (this->running_state) cleanup();
-}
-
 void *Engine::operator new(unsigned long size)
 {
   auto engine = (Engine *) malloc(size);
@@ -121,6 +116,12 @@ void Engine::operator delete(void *engine)
   if (engine != nullptr) free(engine);
 }
 
+int Engine::force_stop()
+{
+  cleanup();
+  return UNEXPECTED_ERROR;
+}
+
 int main()
 {
   int exit_code = 0;  // Document the program exit code for maintenance.
@@ -130,7 +131,7 @@ int main()
   auto *game_engine = new Engine();
   game_engine->run();  // Execute everything.
 
-  if (game_engine->get_running_state()) exit_code = UNEXPECTED_ERROR;  // In case of an unexpected crash.
+  if (game_engine->get_running_state()) exit_code = game_engine->force_stop();  // In case of an unexpected crash.
   delete game_engine;
   Logger::close_file();  // Close the stream for alerts.
   return exit_code;

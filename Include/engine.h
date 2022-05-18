@@ -20,9 +20,9 @@ class Engine
 {
 public:
   Engine();
-  ~Engine();
   [[nodiscard]] bool get_running_state() const;
   void run();
+  int force_stop();
   [[maybe_unused]] static void debug(Vertex *data);
   void *operator new(unsigned long size);
   void operator delete(void *color);
