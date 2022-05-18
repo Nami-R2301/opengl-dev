@@ -12,15 +12,9 @@
 #include "OpenGL Graphics/window.h"
 #include "Logs/logger.h"
 
-#define MAX_FPS 144.0
+//TODO: Change max fps to reasonable amount when in production.
+#define MAX_FPS 10000L
 #define UNEXPECTED_ERROR 222
-
-typedef struct gl_data_s
-{
-  const char *vertex_source = nullptr;
-  const char *fragment_source = nullptr;
-  std::vector<Vertex> vertices;
-} gl_vertex_data_s;
 
 class Engine
 {
@@ -28,19 +22,15 @@ public:
   Engine();
   ~Engine();
   [[nodiscard]] bool get_running_state() const;
-  gl_vertex_data_s get_data();
-  void set_shader_data(const gl_vertex_data_s &data);
   void run();
   [[maybe_unused]] static void debug(Vertex *data);
   void *operator new(unsigned long size);
   void operator delete(void *color);
 private:
   Game game;
-  Shader shader_program;
   gl_vertex_data_s data;
   bool running_state;
   long frame_counter;
-  const double max_period = 1 / MAX_FPS;
   void start();
   void render();
   void stop();

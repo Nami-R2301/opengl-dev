@@ -13,8 +13,8 @@
 class Time
 {
 public:
-  static long get_game_time();
-  static const char *get_real_time();
+  static const char *get_game_time();
+  static const std::time_t get_real_time();
 };
 
 #endif //OPENGL_DEV_TIME_H

@@ -11,7 +11,7 @@
 
 #define VERTEX_SIZE 7  // Position (3) + color (4).
 
-// Vertex to pass on to our opengl vertex shaders.
+// Manipulation of vertices to pass on to our opengl vertex_source shaders.
 class Vertex
 {
 public:
@@ -24,10 +24,10 @@ public:
   void print_vertex() const;
   bool operator==(const Vertex &);
   Vertex &operator=(const Vertex &);
-  [[nodiscard]] const Vector_3f &get_position() const;
-  void set_position(const Vector_3f &position_);
-  [[nodiscard]] const Color &get_color() const;
-  void set_color(const Color &color);
+  [[maybe_unused]] [[nodiscard]] const Vector_3f &get_position() const;
+  [[maybe_unused]] void set_position(const Vector_3f &position_);
+  [[maybe_unused]] [[nodiscard]] const Color &get_color() const;
+  [[maybe_unused]] void set_color(const Color &color);
 private:
   Vector_3f position;
   Color color;

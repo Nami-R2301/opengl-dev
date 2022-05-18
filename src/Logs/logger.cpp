@@ -4,26 +4,54 @@
 
 #include "../../Include/Logs/logger.h"
 
-[[maybe_unused]] void save_to_file(const char *info)
+static FILE *file_ptr = nullptr;
+
+void Logger::open_file()
 {
-  const char *current_time = Time::get_real_time();
-  FILE *file_ptr = fopen("log.txt", "a");
+  file_ptr = fopen("../src/Logs/log.txt", "a");
   if (file_ptr == nullptr)
   {
-    printf("Error!");
-    exit(1);
+    fprintf(stderr, "ERROR OPENING FILE! NO SUCH PARENT DIRECTORY!\n");
+    exit(ERROR_OPENING_FILE);
   }
-  fprintf(file_ptr, "[%s] : %s", current_time, info);
 }
 
-void output_on_screen(const char *info, int info_type, bool inline_)
+void Logger::save_to_file(const char *info)
 {
-  const char *current_time = Time::get_real_time();
-  char buffer[20];
-  snprintf(buffer, 20, "%s", current_time);
+  if (file_ptr != nullptr)
+  {
+    fprintf(file_ptr, "%s", info);
+  }
+}
+
+void Logger::alert(const char *info, int info_type, bool inline_)
+{
+  auto time = Time::get_real_time();  // Get std::time_t struct.
+  char *current_time = ctime(&time);  // Transform to const char*.
+  current_time[strlen(current_time) - 1] = '\0';  // Remove newline.
+
   char type[6];
   if (info_type == INFO) snprintf(type, 5, "INFO");
   else if (info_type == ERROR) snprintf(type, 6, "ERROR");
-  if (!inline_) printf("[%s] [%s] : %s", type, buffer, info);
-  else printf("%s", info);
+
+  char buffer[256];
+  if (snprintf(buffer, 256, "[%s] [%s] : %s", type, current_time, info) < 0)
+  {
+    fprintf(stderr, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n");
+    exit(ERROR_SNPRINTF);
+  }
+  if (!inline_)
+  {
+    fprintf(stdout, "%s", buffer);
+    save_to_file(buffer);
+  } else
+  {
+    fprintf(stdout, "%s", info);
+    save_to_file(info);
+  }
+}
+
+void Logger::close_file()
+{
+  fclose(file_ptr);
 }

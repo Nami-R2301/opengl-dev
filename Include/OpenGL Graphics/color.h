@@ -8,6 +8,7 @@
 #include <GLES3/gl3.h>
 #include "../../Include/Logs/logger.h"
 
+#define MAX 255.0f
 
 // Setup our RGB structure.
 struct rgb_color_s
@@ -29,11 +30,11 @@ public:
   [[nodiscard]] float get_blue() const;
   [[nodiscard]] float get_green() const;
   [[nodiscard]] float get_alpha() const;
-  rgb_color_s &get_rgb_values();
-  void set_color(const Color &new_color);
-  void set_color(float red, float blue, float green, float alpha);
+  [[maybe_unused]] rgb_color_s &get_rgb_values();
+  [[maybe_unused]] void set_color(const Color &new_color);
+  [[maybe_unused]] void set_color(float red, float blue, float green, float alpha);
   void clear();
-  void print() const;
+  [[maybe_unused]] void print() const;
   void *operator new(unsigned long size);
   void operator delete(void *color);
   Color &operator=(const Color &other_color);

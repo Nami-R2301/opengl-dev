@@ -1,9 +1,6 @@
 //
 // Created by nami on 2022-02-23.
 //
-
-#define MAX 255.0f
-
 #include "../../Include/OpenGL Graphics/color.h"
 
 Color::Color(float red, float green, float blue, float alpha)
@@ -53,7 +50,7 @@ void Color::clear()
   *this = new_color;
 }
 
-rgb_color_s &Color::get_rgb_values()
+[[maybe_unused]] rgb_color_s &Color::get_rgb_values()
 {
   return color;
 }
@@ -86,16 +83,24 @@ float Color::get_alpha() const
 
 [[maybe_unused]] void Color::print() const
 {
-  printf("Red value : %.2f\nGreen value : %.2f\nBlue value : %.2f\nAlpha value : %.2f\n",
-         color.red, color.green, color.blue, color.alpha);
+  char buffer[256];
+  if (snprintf(buffer, 256,
+               "Red value : %.2f\nGreen value : %.2f\nBlue value : %.2f\nAlpha value : %.2f\n",
+               color.red, color.green, color.blue, color.alpha) < 0)
+  {
+    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+    exit(ERROR_SNPRINTF);
+  }
+
+  Logger::alert(buffer);
 }
 
-void Color::set_color(const Color &new_color)
+[[maybe_unused]] void Color::set_color(const Color &new_color)
 {
   *this = new_color;
 }
 
-void Color::set_color(float red, float green, float blue, float alpha)
+[[maybe_unused]] void Color::set_color(float red, float green, float blue, float alpha)
 {
   this->color.red = red;
   this->color.green = green;
@@ -108,7 +113,7 @@ void *Color::operator new(unsigned long size)
   auto *new_color = (Color *) malloc(size);
   if (new_color == nullptr)
   {
-    output_on_screen("NOT ENOUGH MEMORY ON THE HEAP\n", ERROR);
+    Logger::alert("NOT ENOUGH MEMORY ON THE HEAP\n", ERROR);
     exit(-11);
   }
   new_color->color.red = 0.0f;
