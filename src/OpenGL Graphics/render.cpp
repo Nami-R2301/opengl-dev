@@ -6,7 +6,7 @@
 
 static bool glfw_init = false;  // Flag to check glfw init status.
 
-void Render::reset()
+void Render::reset_bg()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear and change the back buffer color bit with our color.
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.

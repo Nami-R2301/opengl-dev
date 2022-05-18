@@ -6,9 +6,8 @@
 #define OPENGL_DEV_COLOR_H
 
 #include <GLES3/gl3.h>
-#include <iostream>
+#include "../../Include/Logs/logger.h"
 
-#define COLOR_SIZE 4
 
 // Setup our RGB structure.
 struct rgb_color_s
@@ -26,17 +25,19 @@ public:
   explicit Color(float = 0.156862745f, float = 0.156862745f, float = 0.156862745f, float = 1.0f); // Dark gray.
   [[maybe_unused]] explicit Color(const rgb_color_s &);
   [[maybe_unused]] Color(const Color &);
-  void clear();
-  void set_color(const Color &new_color);
-  void set_color(float red, float blue, float green, float alpha);
-  void print() const;
-  rgb_color_s &get_rgb_values();
   [[nodiscard]] float get_red() const;
   [[nodiscard]] float get_blue() const;
   [[nodiscard]] float get_green() const;
   [[nodiscard]] float get_alpha() const;
-  Color &operator=(const Color &);
-  bool operator==(const Color &);
+  rgb_color_s &get_rgb_values();
+  void set_color(const Color &new_color);
+  void set_color(float red, float blue, float green, float alpha);
+  void clear();
+  void print() const;
+  void *operator new(unsigned long size);
+  void operator delete(void *color);
+  Color &operator=(const Color &other_color);
+  bool operator==(const Color &other_color);
 
 private:
   rgb_color_s color;

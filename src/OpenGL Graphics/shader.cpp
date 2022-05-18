@@ -7,14 +7,41 @@
 #define COMPILE_ERROR -6
 #define LINK_ERROR -7
 
-Shader::Shader()
+Shader::Shader() = default;
+
+void Shader::create_program()
 {
   output_on_screen("CREATING PROGRAM...\t");
   program = glCreateProgram();
   if (!program)
   {
-    output_on_screen("\nERROR : COULD NOT CREATE PROGRAM!\nEXITING...\n", ERROR);
+    output_on_screen("ERROR : COULD NOT CREATE PROGRAM!\tEXITING...\n", ERROR, true);
     exit(PROGRAM_ERROR);
+  }
+  output_on_screen("Done.\n", INFO, true);
+}
+
+void Shader::add_shader(int type, const char *source) const
+{
+  char print_buffer[75];
+  snprintf(print_buffer, 75, "CREATING, SOURCING AND COMPILING SHADER : %d...\t", type);
+  output_on_screen(print_buffer);
+
+  GLuint shader = glCreateShader(type);
+  get_shaders().push_back(shader);
+  Shader::source(shader, source, nullptr);
+  Shader::compile(shader, type);
+  attach(shader);
+  output_on_screen("Done.\n", INFO, true);
+}
+
+void Shader::delete_shaders() const
+{
+  output_on_screen("DESTROYING SHADERS...\t");
+  for (unsigned int shader: get_shaders())
+  {
+    glDeleteShader(shader);
+    if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
   }
   output_on_screen("Done.\n", INFO, true);
 }
@@ -43,6 +70,17 @@ void Shader::compile(GLuint shader, GLuint shader_type)
 GLuint Shader::get_program() const
 {
   return program;
+}
+
+std::vector<GLuint> Shader::get_shaders() const
+{
+  return this->shaders;
+}
+
+std::string Shader::get_shader_source(const char *shader_path)
+{
+  std::string source = get_file_contents(shader_path);
+  return source;
 }
 
 std::string get_file_contents(const char *filename)
@@ -132,7 +170,7 @@ void Shader::activate() const
   else output_on_screen("ERROR WHEN UPDATING SCALE\n", ERROR);
 }
 
-void Shader::update_color(const Color &new_color) const
+[[maybe_unused]] void Shader::update_color(const Color &new_color) const
 {
   int vertex_color_location = glGetUniformLocation(program, "fragment_color");
   if (vertex_color_location >= 0)
@@ -141,40 +179,13 @@ void Shader::update_color(const Color &new_color) const
   else output_on_screen("ERROR WHEN UPDATING COLOR\n", ERROR);
 }
 
-std::vector<GLuint> Shader::get_shaders() const
+void Shader::update_color(float red, float green, float blue, float alpha) const
 {
-  return this->shaders;
-}
-
-std::string Shader::get_shader_source(const char *shader_path)
-{
-  std::string source = get_file_contents(shader_path);
-  return source;
-}
-
-void Shader::add_shader(int type, const char *source) const
-{
-  char print_buffer[75];
-  snprintf(print_buffer, 75, "CREATING, SOURCING AND COMPILING SHADER : %d...\t", type);
-  output_on_screen(print_buffer);
-
-  GLuint shader = glCreateShader(type);
-  get_shaders().push_back(shader);
-  Shader::source(shader, source, nullptr);
-  Shader::compile(shader, type);
-  attach(shader);
-  output_on_screen("Done.\n", INFO, true);
-}
-
-void Shader::delete_shaders() const
-{
-  output_on_screen("DESTROYING SHADERS...\t");
-  for (unsigned int shader: get_shaders())
-  {
-    glDeleteShader(shader);
-    if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  }
-  output_on_screen("Done.\n", INFO, true);
+  int vertex_color_location = glGetUniformLocation(program, "fragment_color");
+  if (vertex_color_location >= 0)
+    glUniform4f(vertex_color_location, red, green,
+                blue, alpha);
+  else output_on_screen("ERROR WHEN UPDATING COLOR\n", ERROR);
 }
 
 

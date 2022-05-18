@@ -5,7 +5,6 @@
 #ifndef GAME_OPENGL_WINDOW_H
 #define GAME_OPENGL_WINDOW_H
 
-#include "color.h"
 #include "render.h"
 #include "shader.h"
 #include "../Logs/logger.h"
@@ -13,34 +12,37 @@
 class Window
 {
 public:
-  explicit Window();
-  Window &operator=(const Window &);
-  void setup_monitor();
-  void set_callbacks(const Shader &program) const;
-  void create_window();
+  static void setup_monitor();;
+  static void create_window();
+  static void clear_bg();
+  static void refresh();
   [[maybe_unused]] static void hide();
-  void refresh();
-  [[maybe_unused]] [[nodiscard]] int get_width() const;
-  [[maybe_unused]] [[nodiscard]] int get_height() const;
-  [[maybe_unused]] [[maybe_unused]] [[nodiscard]] int get_refresh_rate() const;
-  [[maybe_unused]] [[nodiscard]] bool is_fullscreen() const;
-  [[maybe_unused]] void set_width(int width);
-  [[maybe_unused]] void set_height(int height);
-  [[maybe_unused]] void set_fullscreen(bool fullscreen_state);
-  [[maybe_unused]] [[maybe_unused]] void set_refresh_rate(int refresh_rate);
-  [[nodiscard]] GLFWwindow *get_window() const;
-  [[nodiscard]] bool is_closed() const;
-  static void update_color(Color &);
-  [[maybe_unused]] static void update_color(float red, float green, float blue, float alpha);
-  void cleanup();
+
+  static GLFWwindow *get_window();
+  [[maybe_unused]] static int get_width();
+  [[maybe_unused]] static int get_height();
+  [[maybe_unused]] static int get_refresh_rate();
+  [[maybe_unused]] static Color *get_bg_color();
+
+  [[maybe_unused]] static void set_width(int width);
+  [[maybe_unused]] static void set_height(int height);
+  [[maybe_unused]] static void set_fullscreen(bool fullscreen_state);
+  [[maybe_unused]] static void set_refresh_rate(int refresh_rate);
+
+  [[maybe_unused]] static bool is_fullscreen();
+  static bool is_closed();
+  static void cleanup();
+  [[maybe_unused]] static void set_callbacks(const Shader &program);
 private:
-  GLFWwindow *window = nullptr;
-  GLFWmonitor *monitor;
-  int width;
-  int height;
-  int refresh_rate;
-  bool fullscreen;
-  void init();
+  static GLFWwindow *window;
+  static GLFWmonitor *monitor;
+  static int width;
+  static int height;
+  static int refresh_rate;
+  static Color *bg_color;
+  static bool fullscreen;
+
+  static void init();
 };
 
 void toggle_fullscreen(GLFWwindow *window);

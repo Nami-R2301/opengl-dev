@@ -3,10 +3,11 @@
 //
 
 #include "../../Include/Game logic/time.h"
+using namespace std::chrono;
 
-double Time::get_game_time()
+long Time::get_game_time()
 {
-  return glfwGetTime();
+  return (long) glfwGetTime();
 }
 
 const char *Time::get_real_time()

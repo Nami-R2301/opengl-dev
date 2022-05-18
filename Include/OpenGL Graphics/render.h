@@ -16,7 +16,7 @@ public:
   static void init_graphics();
   static const char *get_GL_version();
   static void show_gl_info();
-  static void reset();
+  static void reset_bg();
   static void glfw_error_callback(int error_code, const char *err_str);
   static void gl_error_callback(GLenum source);
 };

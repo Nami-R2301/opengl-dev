@@ -4,7 +4,7 @@
 
 #define MAX 255.0f
 
-#include "../../Include/OpenGL Graphics//color.h"
+#include "../../Include/OpenGL Graphics/color.h"
 
 Color::Color(float red, float green, float blue, float alpha)
 {
@@ -46,24 +46,7 @@ Color::Color(float red, float green, float blue, float alpha)
   }
 }
 
-Color &Color::operator=(const Color &new_color)
-{
-  if (this == &new_color) return *this;
-  color.red = new_color.color.red;
-  color.green = new_color.color.green;
-  color.blue = new_color.color.blue;
-  color.alpha = new_color.color.alpha;
-  return *this;
-}
-
-bool Color::operator==(const Color &new_color)
-{
-  if (this == &new_color) return true;
-  return (color.red == new_color.get_red() && color.green == new_color.get_green()
-          && color.blue == new_color.get_blue() && color.alpha == new_color.get_alpha());
-}
-
-// Reset the color of the background.
+// Reset the color.
 void Color::clear()
 {
   const Color new_color; // Default color (Dark gray).
@@ -118,4 +101,40 @@ void Color::set_color(float red, float green, float blue, float alpha)
   this->color.green = green;
   this->color.blue = blue;
   this->color.alpha = alpha;
+}
+
+void *Color::operator new(unsigned long size)
+{
+  auto *new_color = (Color *) malloc(size);
+  if (new_color == nullptr)
+  {
+    output_on_screen("NOT ENOUGH MEMORY ON THE HEAP\n", ERROR);
+    exit(-11);
+  }
+  new_color->color.red = 0.0f;
+  new_color->color.green = 0.0f;
+  new_color->color.blue = 0.0f;
+  new_color->color.alpha = 0.0f;
+  return new_color;
+}
+
+Color &Color::operator=(const Color &other_color)
+{
+  if (this == &other_color) return *this;
+  this->color = other_color.color;
+  return *this;
+}
+
+bool Color::operator==(const Color &other_color)
+{
+  if (this == &other_color) return true;
+  return (this->color.red == other_color.get_red() &&
+          this->color.green == other_color.get_green() &&
+          this->color.blue == other_color.get_blue() &&
+          this->color.alpha == other_color.get_alpha());
+}
+
+void Color::operator delete(void *color)
+{
+  if (color != nullptr) free(color);
 }

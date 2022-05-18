@@ -4,34 +4,35 @@
 
 #include "../../Include/OpenGL Graphics/window.h"
 
-Window::Window()
-{
-  // Default video settings for window.
-  this->monitor = nullptr;
-  this->height = 600.0f;
-  this->width = 800.0f;
-  this->refresh_rate = 30.0;
-  this->fullscreen = true;
-}
+GLFWwindow *Window::window = nullptr;
+GLFWmonitor *Window::monitor = nullptr;  // Defaults to windowed mode.
+
+// Default video attributes.
+int Window::width = 800.0f;
+int Window::height = 600.0f;
+int Window::refresh_rate = 30.0f;
+bool Window::fullscreen = false;
+
+Color *Window::bg_color;  // Default background color (gray);
 
 void Window::init()
 {
-  glfwSetWindowAspectRatio(window, 16, 9);
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Set our mouse cursor to default.
+  glfwSetWindowAspectRatio(Window::window, 16, 9);
+  glfwSetInputMode(Window::window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Set our mouse cursor to default.
 
   /* Set our different callbacks for handling events. */
   // Make sure we finish events before treating the next ones.
-  glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
+  glfwSetInputMode(Window::window, GLFW_STICKY_KEYS, GLFW_TRUE);
 }
 
 void Window::setup_monitor()
 {
-  monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
+  Window::monitor = glfwGetPrimaryMonitor(); // Get main monitor specs.
   const GLFWvidmode *mode = glfwGetVideoMode(monitor); // Get video specs of monitor.
-  width = (int) (mode->width / 2);
-  height = (int) (mode->height / 2);
-  refresh_rate = mode->refreshRate;
-  fullscreen = false;
+  Window::width = (int) (mode->width / 2);
+  Window::height = (int) (mode->height / 2);
+  Window::refresh_rate = mode->refreshRate;
+  Window::fullscreen = false;
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
   glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
   glfwWindowHint(GLFW_SAMPLES, 4);
@@ -48,30 +49,18 @@ void Window::setup_monitor()
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-Window &Window::operator=(const Window &other_window)
-{
-  if (this == &other_window) return *this;
-  this->window = other_window.window;
-  this->monitor = other_window.monitor;
-  this->width = other_window.width;
-  this->height = other_window.height;
-  this->refresh_rate = other_window.refresh_rate;
-  this->fullscreen = other_window.fullscreen;
-  return *this;
-}
-
 void Window::create_window()
 {
   output_on_screen("CREATING WINDOW...\t");
   setup_monitor();
   // Generate a pointer to a window using our monitor info, so that we later hide it.
-  this->window = glfwCreateWindow(this->width, this->height, "Game",
-                                  nullptr, nullptr);  // Windowed mode.
+  Window::window = glfwCreateWindow(Window::width, Window::height, "Game",
+                                    nullptr, nullptr);  // Windowed mode.
   init();
   output_on_screen("Done.\n", INFO, true);
-  glfwMakeContextCurrent(this->window); // Show our window.
+  glfwMakeContextCurrent(Window::window); // Show our window.
   // Specify which coordinates to draw for our window -> from (0,0) to (monitor_width, monitor_height).
-  glViewport(0, 0, this->width, this->height);
+  glViewport(0, 0, Window::width, Window::height);
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
@@ -84,73 +73,75 @@ void Window::create_window()
 void Window::refresh()
 {
   if (is_closed()) return;
-  glfwSwapBuffers(this->window); // Update window buffer (refresh window).
+  glfwSwapBuffers(Window::window); // Update window buffer (refresh window).
   glfwSwapInterval(1);  // Disable/enable Vertical synchronisation (Vsync).
 }
 
-// Return a glfwWindow instance in case there's a need to manipulate the window directly.
-GLFWwindow *Window::get_window() const
-{
-  return this->window;
-}
-
 // Let the window open as long as the close flag (gathered by glfwPollEvents) is not set to true.
-bool Window::is_closed() const
+bool Window::is_closed()
 {
-  return glfwWindowShouldClose(this->window);
+  return glfwWindowShouldClose(Window::window);
 }
 
-void Window::update_color(Color &new_color)
+// Return a glfwWindow instance in case there's a need to manipulate the window directly.
+GLFWwindow *Window::get_window()
 {
-  rgb_color_s new_rgb_color = new_color.get_rgb_values();
-  glClearColor(new_rgb_color.red, new_rgb_color.green, new_rgb_color.blue, new_rgb_color.alpha);
-  Render::reset();
+  return Window::window;
 }
 
-[[maybe_unused]] void Window::update_color(float red, float green, float blue, float alpha)
+[[maybe_unused]] int Window::get_width()
 {
-  glClearColor(red, green, blue, alpha);
-  Render::reset();
+  return Window::width;
 }
 
-[[maybe_unused]] int Window::get_width() const
+[[maybe_unused]] int Window::get_height()
 {
-  return this->width;
-}
-
-[[maybe_unused]] int Window::get_height() const
-{
-  return this->height;
+  return Window::height;
 }
 
 [[maybe_unused]] void Window::set_width(int width_)
 {
-  this->width = width_;
+  Window::width = width_;
 }
 
 [[maybe_unused]] void Window::set_height(int height_)
 {
-  this->height = height_;
+  Window::height = height_;
 }
 
-[[maybe_unused]] bool Window::is_fullscreen() const
+[[maybe_unused]] bool Window::is_fullscreen()
 {
-  return this->fullscreen;
+  return Window::fullscreen;
 }
 
-[[maybe_unused]] int Window::get_refresh_rate() const
+[[maybe_unused]] int Window::get_refresh_rate()
 {
-  return this->refresh_rate;
+  return Window::refresh_rate;
 }
 
 [[maybe_unused]] void Window::set_refresh_rate(int refresh_rate_)
 {
-  this->refresh_rate = refresh_rate_;
+  Window::refresh_rate = refresh_rate_;
 }
 
 [[maybe_unused]] void Window::set_fullscreen(bool fullscreen_state)
 {
-  this->fullscreen = fullscreen_state;
+  Window::fullscreen = fullscreen_state;
+}
+
+Color *Window::get_bg_color()
+{
+  return Window::bg_color;
+}
+
+void Window::clear_bg()
+{
+  delete bg_color;
+  bg_color = new Color();
+  get_bg_color()->clear();
+  glClearColor(bg_color->get_red(), bg_color->get_green(),
+               bg_color->get_blue(), bg_color->get_alpha());
+  Render::reset_bg();
 }
 
 void toggle_fullscreen(GLFWwindow *window)
@@ -168,7 +159,7 @@ void toggle_fullscreen(GLFWwindow *window)
     glfwGetWindowSize(window, &width, &height);
     glfwSetWindowMonitor(window, nullptr, (int) (width / 1.02), height / 4,
                          (int) (width / 2), (int) (height / 2),
-                         GLFW_DONT_CARE);
+                         GLFW_DONT_CARE);  // Set maximum refresh rate possible.
   }
 }
 
@@ -235,17 +226,17 @@ void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]]
 void Window::cleanup()
 {
   output_on_screen("DESTROYING WINDOW...\t");
-  glfwDestroyWindow(window);
+  glfwDestroyWindow(Window::window);
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
   output_on_screen("Done.\n", INFO, true);
 }
 
-void Window::set_callbacks(const Shader &program) const
+void Window::set_callbacks(const Shader &program)
 {
-  glfwSetWindowSizeCallback(window, window_viewport_callback);  // Change screen size event.
-  glfwSetCursorPosCallback(window, cursor_position_callback);  // Change cursor position event.
-  glfwSetCursorEnterCallback(window, cursor_enter_callback);  // Cursor in/out screen event.
-  glfwSetMouseButtonCallback(window, mouse_button_callback);  // Mouse button input event.
-  glfwSetScrollCallback(window, scroll_callback);  // Mouse scroll event.
-  glfwSetKeyCallback(window, key_callback); // Key input events.
+  glfwSetWindowSizeCallback(Window::window, window_viewport_callback);  // Change screen size event.
+  glfwSetCursorPosCallback(Window::window, cursor_position_callback);  // Change cursor position event.
+  glfwSetCursorEnterCallback(Window::window, cursor_enter_callback);  // Cursor in/out screen event.
+  glfwSetMouseButtonCallback(Window::window, mouse_button_callback);  // Mouse button input event.
+//  glfwSetScrollCallback(window, scroll_callback);  // Mouse scroll event.
+  glfwSetKeyCallback(Window::window, key_callback); // Key input events.
 }

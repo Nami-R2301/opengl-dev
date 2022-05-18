@@ -6,12 +6,14 @@
 #define OPENGL_DEV_TIME_H
 
 #include <GLFW/glfw3.h>
+#include <iostream>
+#include <thread>
 #include <ctime>
 
 class Time
 {
 public:
-  static double get_game_time();
+  static long get_game_time();
   static const char *get_real_time();
 };
 

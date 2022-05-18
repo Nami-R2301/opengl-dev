@@ -1,7 +1,5 @@
 #include "../Include/engine.h"
 
-#define UNEXPECTED_ERROR 222
-
 Engine::Engine()
 {
   this->frame_counter = 0;
@@ -14,9 +12,9 @@ void Engine::start()
   this->running_state = true;
   output_on_screen("------------STARTING UP ENGINE--------------\n");
   Render::init_graphics();  // Setup openGL graphic settings.
-  this->window.create_window();
+  Window::create_window();
+  Window::set_callbacks(this->shader_program);  // Set our mouse and keyboard callbacks.
   Render::show_gl_info();  // Show info about opengl and glfw versions.
-  run();
 }
 
 [[maybe_unused]] void Engine::debug(Vertex *vertices)
@@ -45,66 +43,67 @@ void Engine::set_shader_data(const gl_vertex_data_s &data_)
 
 void Engine::run()
 {
-  Color bg_color;
-  Window::update_color(bg_color);  // Set default background to dark-mode-like gray.
-  Shader program;
-  program.add_shader(GL_VERTEX_SHADER, this->data.vertex_source);
-  program.add_shader(GL_FRAGMENT_SHADER, this->data.fragment_source);
-  program.link();
-
+  start();  // Start and setup engine.
+  this->shader_program.create_program();
+  this->shader_program.add_shader(GL_VERTEX_SHADER, this->data.vertex_source);
+  this->shader_program.add_shader(GL_FRAGMENT_SHADER, this->data.fragment_source);
+  this->shader_program.link();
   this->game.init(this->data.vertices.data(), sizeof(Vertex) * get_data().vertices.size());
   output_on_screen("--------------------------------------------\n");
 //  debug(vertices);
-  double previous_time = Time::get_game_time();
-  bool is_rendering = true;
-  while (is_rendering)
-  {
-    double current_time = Time::get_game_time();
-    this->frame_counter++;
-    if (this->window.is_closed()) is_rendering = false;
 
-    while ((current_time - previous_time) >= 1.0f && this->frame_counter <= (long) FRAME_CAP)
+  auto previous_time = std::chrono::system_clock::now();
+  while (!Window::is_closed())
+  {
+    auto current_time = std::chrono::system_clock::now();
+    auto delta_time = current_time - previous_time;
+    auto end_time = current_time + std::chrono::milliseconds(7);
+    this->frame_counter++;
+    if (Window::is_closed()) break;
+
+    while (delta_time >= std::chrono::seconds(1) && this->frame_counter <= (long) MAX_FPS)
     {
       char title[sizeof(long) + 5];
       snprintf(title, sizeof(long) + 5, "%ld FPS", this->frame_counter);
-      glfwSetWindowTitle(this->window.get_window(), title);
+      glfwSetWindowTitle(Window::get_window(), title);
       this->frame_counter = 0;
       previous_time = current_time;
     }
-    if (is_rendering) render(program, bg_color);
-    else stop(program);
+    render();
+    std::this_thread::sleep_until(end_time);
   }
+  stop();  // Terminate and cleanup.
 }
 
-void Engine::render(const Shader &program, Color &color)
+void Engine::render()
 {
-  Render::reset();  // Reset the color on screen.
-  program.activate(); // Specify what program to use.
+  Window::clear_bg();  // Reset the background color on screen.
+  this->shader_program.activate(); // Specify what program to use.
 
   // Update fragment uniform
-  color.set_color((float) (sin(glfwGetTime()) + .6),
-                  (float) (sin(glfwGetTime()) + .1),
-                  (float) (sin(glfwGetTime()) + .3), 1.0f);
-  program.update_color(color);  // Update object color.
-  program.update_scale(0.20f);
+  this->shader_program.update_color((float) (sin(glfwGetTime()) + .6),
+                                    (float) (sin(glfwGetTime()) + .1),
+                                    (float) (sin(glfwGetTime()) + .3), 1.0f);  // Update object color.
+  this->shader_program.update_scale(0.20f);
   this->game.render();  // Render our graphics.
-  this->window.refresh(); // Refresh the window screen.
+  Window::refresh(); // Refresh the window screen.
   glfwPollEvents(); // Listen and call the appropriate keyboard and mouse callbacks.
 }
 
-void Engine::stop(const Shader &shader_program)
+void Engine::stop()
 {
   if (!this->running_state) return;
   this->running_state = false;
-  cleanup(shader_program);
+  cleanup();
 }
 
-void Engine::cleanup(const Shader &shader_program)
+void Engine::cleanup()
 {
   output_on_screen("------------SHUTTING DOWN ENGINE------------\n");
   this->game.get_mesh().cleanup();
-  shader_program.delete_shaders(); // Delete all shaders.
-  this->window.cleanup();
+  this->shader_program = Shader();
+  this->shader_program.delete_shaders(); // Delete all shaders.
+  Window::cleanup();
   output_on_screen("TERMINATING GLFW...\t");
   glfwTerminate(); // Free resources and close all glfw windows and cursors.
   output_on_screen("Done.\n", INFO, true);
@@ -116,18 +115,25 @@ Engine::~Engine()
   if (this->running_state) cleanup();
 }
 
-[[maybe_unused]] const Window &Engine::get_window() const
+void *Engine::operator new(unsigned long size)
 {
-  return window;
+  auto engine = (Engine *) malloc(size);
+  if (engine == nullptr)
+  {
+    output_on_screen("NOT ENOUGH MEMORY ON THE HEAP\n", ERROR);
+    exit(-11);
+  }
+  return engine;
 }
 
-[[maybe_unused]] void Engine::set_window(const Window &window_)
+void Engine::operator delete(void *engine)
 {
-  this->window = window_;
+  if (engine != nullptr) free(engine);
 }
 
 int main()
 {
+  int exit_code = 0;
   // Get shader sources and data.
   std::string vertex_source = Shader::get_shader_source("../Resources/Shaders/default.vert");
   std::string fragment_source = Shader::get_shader_source("../Resources/Shaders/default.frag");
@@ -136,11 +142,11 @@ int main()
   gl_vertex_data_s data = {vertex_source.c_str(), fragment_source.c_str(), vertices};
 
   // Setup and start the engine.
-  Engine game_engine;  // Initialize our game engine.
-  game_engine.set_shader_data(data);  // Get all relevant data for vertices and fragments.
-  game_engine.start();
-
+  auto *game_engine = new Engine();
+  game_engine->set_shader_data(data);  // Get all relevant data for vertices and fragments.
+  game_engine->run();
   // In case of an unexpected crash.
-  if (game_engine.get_running_state()) return UNEXPECTED_ERROR;
-  return 0;
+  if (game_engine->get_running_state()) exit_code = UNEXPECTED_ERROR;
+  delete game_engine;
+  return exit_code;
 }

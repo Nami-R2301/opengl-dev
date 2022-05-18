@@ -1,4 +1,4 @@
-#version 330 core
+#version 450 core
 // Imports the color from the Vertex Shader
 out vec4 FragColor;
 uniform vec4 fragment_color;
