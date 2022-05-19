@@ -13,13 +13,13 @@ class Matrix4f
 {
 public:
   explicit Matrix4f(int size = 16);
-  Matrix4f(const Matrix4f &other_matrix);
+  [[maybe_unused]] Matrix4f(const Matrix4f &other_matrix);
   ~Matrix4f();
   [[nodiscard]] int length() const;
   void init_identity();
   Matrix4f operator*(const Matrix4f &other_matrix);
-  [[nodiscard]] const float *get_matrix() const;
-  [[nodiscard]] const float *get_value(int row, int col) const;
+  [[nodiscard]] float **get_matrix() const;
+  [[nodiscard]] float get_value(int row, int col) const;
   void set_value(int row, int col, float value);
   void print_values() const;
   [[nodiscard]] int get_num_rows() const;
@@ -27,7 +27,7 @@ public:
 private:
   int num_rows;
   int num_cols;
-  const float **matrix;
+  float **matrix;
 };
 
 #endif //OPENGL_DEV_MATRIX4F_H

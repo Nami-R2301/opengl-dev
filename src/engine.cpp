@@ -69,15 +69,13 @@ void Engine::run()
   {
     auto current_time = std::chrono::system_clock::now();
     set_frame_counter(this->frame_counter + 1);  // Increment fps.
-    if (current_time - previous_time >= std::chrono::seconds(1))  // Show how many fps were achieved.
+    // Show how many fps were achieved.
+    if (current_time - previous_time >= std::chrono::seconds(1) && this->frame_counter >= MAX_FPS) // More than 144fps.
     {
-      if (this->frame_counter >= (1 * MILI_SECONDS / MAX_FPS))  // More than 144 fps.
-      {
-        snprintf(title, sizeof(title), "%ld FPS\n", get_frame_counter());
-        Logger::alert(title);
-        title[strlen(title) - 1] = '\0';  // Remove newline for window title.
-        glfwSetWindowTitle(Window::get_window(), title);
-      }
+      snprintf(title, sizeof(title), "%ld FPS\n", get_frame_counter());
+      Logger::alert(title);
+      title[strlen(title) - 1] = '\0';  // Remove newline for window title.
+      glfwSetWindowTitle(Window::get_window(), title);
       set_frame_counter(0);  // Reset since the second has passed.
       previous_time = current_time;  // Count towards the next second.
     }

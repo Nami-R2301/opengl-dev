@@ -243,7 +243,7 @@ void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
 void Shader::set_uniform(const char *uniform_name, const Matrix4f &value)
 {
   glUniformMatrix4fv(this->uniforms[uniform_name], value.length(),
-                     true, value.get_matrix());
+                     true, *value.get_matrix());
 }
 
 
