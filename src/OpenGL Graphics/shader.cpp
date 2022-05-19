@@ -7,14 +7,17 @@
 #define COMPILE_ERROR -6
 #define LINK_ERROR -7
 
-Shader::Shader() = default;
+Shader::Shader()
+{
+  this->uniforms = std::map<const char *, int>();
+}
 
-const char *Shader::get_fragment_source() const
+[[maybe_unused]] const char *Shader::get_fragment_source() const
 {
   return this->fragment_source;
 }
 
-const char *Shader::get_vertex_source() const
+[[maybe_unused]] const char *Shader::get_vertex_source() const
 {
   return this->vertex_source;
 }
@@ -203,6 +206,44 @@ void Shader::delete_shader() const
   glDeleteShader(this->get_program());
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
   Logger::alert("Done.\n", INFO, true);
+}
+
+void Shader::add_uniform(const char *uniform)
+{
+  int uniform_location = glGetUniformLocation(program, uniform);
+  char buffer[75];
+  if (uniform_location < 0)
+  {
+    if (snprintf(buffer, 75, "ERROR : COULD NOT FIND UNIFORM : %s", uniform) < 0)
+    {
+      Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+      exit(ERROR_SNPRINTF);
+    }
+    Logger::alert(buffer, ERROR);
+  } else this->uniforms.emplace(uniform, uniform_location);
+}
+
+void Shader::set_uniform(const char *uniform_name, int value)
+{
+  glUniform1i(this->uniforms[uniform_name], value);
+}
+
+void Shader::set_uniform(const char *uniform_name, float value)
+{
+  glUniform1f(this->uniforms[uniform_name], value);
+}
+
+void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
+{
+  glUniform3f(this->uniforms[uniform_name], vector_3f.get_x(),
+              vector_3f.get_y(),
+              vector_3f.get_z());
+}
+
+void Shader::set_uniform(const char *uniform_name, const Matrix4f &value)
+{
+  glUniformMatrix4fv(this->uniforms[uniform_name], value.length(),
+                     true, value.get_matrix());
 }
 
 

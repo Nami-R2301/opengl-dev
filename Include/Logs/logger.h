@@ -12,6 +12,7 @@
 #define INFO 1
 #define ERROR 2
 #define ERROR_OPENING_FILE 3
+#define ERROR_HEAP_ALLOC -11
 #define ERROR_SNPRINTF -13
 
 class Logger

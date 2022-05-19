@@ -18,7 +18,8 @@ public:
   [[nodiscard]] int length() const;
   void init_identity();
   Matrix4f operator*(const Matrix4f &other_matrix);
-  [[nodiscard]] float get_value(int row, int col) const;
+  [[nodiscard]] const float *get_matrix() const;
+  [[nodiscard]] const float *get_value(int row, int col) const;
   void set_value(int row, int col, float value);
   void print_values() const;
   [[nodiscard]] int get_num_rows() const;
@@ -26,7 +27,7 @@ public:
 private:
   int num_rows;
   int num_cols;
-  float **matrix;
+  const float **matrix;
 };
 
 #endif //OPENGL_DEV_MATRIX4F_H

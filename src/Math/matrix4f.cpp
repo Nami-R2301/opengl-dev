@@ -55,7 +55,7 @@ void Matrix4f::init_identity()
   for (int i = 0; i < num_rows; ++i) this->matrix[i][i] = 1;
 }
 
-float Matrix4f::get_value(int row, int col) const
+const float *const Matrix4f::get_value(int row, int col) const
 {
   return this->matrix[row][col];
 }
@@ -106,4 +106,9 @@ Matrix4f Matrix4f::operator*(const Matrix4f &other_matrix)
     }
   }
   return result;
+}
+
+const float **Matrix4f::get_matrix() const
+{
+  return this->matrix;
 }

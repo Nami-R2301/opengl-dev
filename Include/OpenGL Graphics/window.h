@@ -36,7 +36,7 @@ public:
   [[maybe_unused]] static bool is_fullscreen();
   static bool is_closed();
   static void cleanup();
-  [[maybe_unused]] static void set_callbacks(const Shader &program);
+  [[maybe_unused]] static void set_callbacks();
 private:
   static GLFWwindow *window;
   static GLFWmonitor *monitor;

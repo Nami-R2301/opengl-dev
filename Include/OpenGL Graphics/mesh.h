@@ -29,12 +29,14 @@ private:
   GLuint vao = 0;
   GLuint evo = 0;
   int size = 0;
+
   void add_vbo();
   void add_vao();
   void add_evo();
   void bind_vbo() const;
   void bind_vao() const;
   void bind_evo() const;
+
   static void unbind_vbo();
   static void unbind_vao();
   static void unbind_evo();

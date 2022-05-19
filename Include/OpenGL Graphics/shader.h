@@ -6,18 +6,20 @@
 #define GAME_OPENGL_SHADER_H
 
 #include <fstream>
-#include "color.h"
 #include <vector>
+#include <map>
+#include "color.h"
 #include "vertex.h"
 #include "render.h"
 #include "../Logs/logger.h"
+#include "../Math/matrix4f.h"
 
 class Shader
 {
 public:
   Shader();
-  [[nodiscard]] const char *get_fragment_source() const;
-  [[nodiscard]] const char *get_vertex_source() const;
+  [[maybe_unused]] [[nodiscard]] const char *get_fragment_source() const;
+  [[maybe_unused]] [[nodiscard]] const char *get_vertex_source() const;
   [[maybe_unused]] void set_fragment_source(const char *file_path);
   [[maybe_unused]] void set_vertex_source(const char *file_path);
   void create_program();
@@ -31,13 +33,19 @@ public:
   void validate() const;
   void activate() const;
 //  static void scroll_callback([[maybe_unused]] GLFWwindow *window, double x_offset, double y_offset);
-  [[maybe_unused]] void update_scale(float scale) const;
-  [[maybe_unused]] void update_color(const Color &color) const;
+  void add_uniform(const char *uniform);
+  void set_uniform(const char *uniform_name, int value);
+  void set_uniform(const char *uniform_name, float value);
+  void set_uniform(const char *uniform_name, const Vector_3f &vector_3f);
+  void set_uniform(const char *uniform_name, const Matrix4f &matrix_4f);
+  void update_scale(float scale) const;
+  void update_color(const Color &color) const;
   void update_color(float red, float green, float blue, float alpha) const;
 
 private:
   static void compile_errors(unsigned int shader, const char *type);
   GLuint program = 0;
+  std::map<const char *, int> uniforms;
   const char *fragment_source = nullptr;
   const char *vertex_source = nullptr;
 };

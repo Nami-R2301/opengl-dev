@@ -24,11 +24,14 @@ public:
   void prepare_mesh();
   void input();
   void update();
+  void draw();
   void render();
   void save();
   void cleanup();
   [[nodiscard]] Mesh get_mesh() const;
   [[maybe_unused]] void set_mesh(const Mesh &mesh);
+  void *operator new(unsigned long size);
+  void operator delete(void *game);
 private:
   Mesh mesh;
   Shader program;

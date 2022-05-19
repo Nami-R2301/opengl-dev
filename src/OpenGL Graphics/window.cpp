@@ -82,6 +82,16 @@ void Window::create_window()
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
+void Window::set_callbacks()
+{
+  glfwSetWindowSizeCallback(Window::window, window_viewport_callback);  // Change screen size event.
+  glfwSetCursorPosCallback(Window::window, cursor_position_callback);  // Change cursor position event.
+  glfwSetCursorEnterCallback(Window::window, cursor_enter_callback);  // Cursor in/out screen event.
+  glfwSetMouseButtonCallback(Window::window, mouse_button_callback);  // Mouse button input event.
+//  glfwSetScrollCallback(window, scroll_callback);  // Mouse scroll event.
+  glfwSetKeyCallback(Window::window, key_callback); // Key input events.
+}
+
 // Show the window created.
 [[maybe_unused]] void Window::hide()
 {
@@ -92,7 +102,7 @@ void Window::refresh()
 {
   if (is_closed()) return;
   glfwSwapBuffers(Window::window); // Update window buffer (refresh window).
-  glfwSwapInterval(0);  // Disable/enable Vertical synchronisation (Vsync).
+  glfwSwapInterval(1);  // Disable/enable Vertical synchronisation (Vsync).
 }
 
 // Let the window open as long as the close flag (gathered by glfwPollEvents) is not set to true.
@@ -267,14 +277,4 @@ void Window::cleanup()
   glfwDestroyWindow(Window::window);
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
   Logger::alert("Done.\n", INFO, true);
-}
-
-void Window::set_callbacks(const Shader &program)
-{
-  glfwSetWindowSizeCallback(Window::window, window_viewport_callback);  // Change screen size event.
-  glfwSetCursorPosCallback(Window::window, cursor_position_callback);  // Change cursor position event.
-  glfwSetCursorEnterCallback(Window::window, cursor_enter_callback);  // Cursor in/out screen event.
-  glfwSetMouseButtonCallback(Window::window, mouse_button_callback);  // Mouse button input event.
-//  glfwSetScrollCallback(window, scroll_callback);  // Mouse scroll event.
-  glfwSetKeyCallback(Window::window, key_callback); // Key input events.
 }
