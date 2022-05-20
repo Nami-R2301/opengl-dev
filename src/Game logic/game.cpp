@@ -4,6 +4,10 @@
 
 #include "../../Include/Game logic/game.h"
 
+static float scale_value = 0.0f;
+static float color_value = 0.0f;
+static float translation_value = 0.0f;
+
 Game::Game() = default;
 
 Mesh Game::get_mesh() const
@@ -23,8 +27,6 @@ Shader Game::get_program()
 
 void Game::prepare_mesh()
 {
-  this->mesh = Mesh();
-  this->program = Shader();
   this->program.create_program();
   // Get all relevant data for vertices and fragments.
   std::vector<Vertex> vertices = set_vertices_data();
@@ -34,6 +36,21 @@ void Game::prepare_mesh()
                            get_file_contents("../Resources/Shaders/default.frag").c_str());
   this->program.link();
   this->mesh.setup_graphics(vertices.data(), sizeof(Vertex) * vertices.size());
+
+  // Add shader uniforms.
+  this->program.add_uniform("fragment_color");
+  this->program.add_uniform("transform");
+  this->program.add_uniform("scale");
+}
+
+Transform Game::get_transform() const
+{
+  return this->transform;
+}
+
+[[maybe_unused]] void Game::set_transform(const Transform &transform_)
+{
+  this->transform = transform_;
 }
 
 void Game::input()
@@ -41,25 +58,23 @@ void Game::input()
 
 }
 
+void Game::update()
+{
+  // Update program uniforms
+  scale_value = 0.15f;
+  auto time = (float) sin(glfwGetTime());
+  color_value = std::abs(time);
+  translation_value = time;
+  this->transform.set_translation(translation_value, 0, 0);
+}
+
 void Game::render()
 {
   this->program.activate(); // Specify what program to use.
-
-  // Update fragment_source uniform
-  this->program.update_color((float) (sin(glfwGetTime()) + .6),
-                             (float) (sin(glfwGetTime()) + .1),
-                             (float) (sin(glfwGetTime()) + .3), 1.0f);  // Update object color.
-  this->program.update_scale(0.20f);
-}
-
-void Game::update()
-{
-  input();
-  render();
-}
-
-void Game::draw()
-{
+  // Set program uniforms.
+  this->program.set_uniform("fragment_color", color_value);
+  this->program.set_uniform("scale", scale_value);
+  this->program.set_uniform("transform", this->transform.get_transformation());
   this->mesh.draw();
 }
 

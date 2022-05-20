@@ -12,20 +12,8 @@ Color::Color(float red, float green, float blue, float alpha)
     color.green = green;
     color.blue = blue;
     color.alpha = alpha;
-  } else if (red > 1.0f || green > 1.0f || blue > 1.0f)
-  {
-    color.red /= MAX; // Normalise the value between 0 and 1.
-    color.green /= MAX;
-    color.blue /= MAX;
-    color.alpha = 1.0f;
-  } else if ((red < 0.0f && red >= -1.0f) || (green < 0.0f && green >= -1.0f)
-             || (blue < 0.0f && blue >= -1.0f))
-  {
-    color.red = 0 - red;
-    color.green = 0 - green;
-    color.blue = 0 - blue;
-    color.alpha = 1.0f;
-  }
+  } else if ((red > 1.0f || red < 0.0f) || (green > 1.0f || green < 0.0f) || (blue > 1.0f || blue < 0.0f))
+    normalize();
 }
 
 [[maybe_unused]] Color::Color(const rgb_color_s &RGB_value)
@@ -34,13 +22,9 @@ Color::Color(float red, float green, float blue, float alpha)
   color.green = RGB_value.green;
   color.blue = RGB_value.blue;
   color.alpha = RGB_value.alpha;
-  if (RGB_value.red > 1 && RGB_value.green > 1 && RGB_value.blue > 1)
-  {
-    color.red /= MAX; // Normalise the value between 0 and 1.
-    color.green /= MAX;
-    color.blue /= MAX;
-    color.alpha = 1.0f;
-  }
+  if ((RGB_value.red > 1.0f || RGB_value.red < 0.0f) || (RGB_value.green > 1.0f || RGB_value.green < 0.0f)
+      || (RGB_value.blue > 1.0f || RGB_value.blue < 0.0f))
+    normalize();
 }
 
 // Reset the color.
@@ -142,4 +126,13 @@ bool Color::operator==(const Color &other_color)
 void Color::operator delete(void *color)
 {
   if (color != nullptr) free(color);
+}
+
+void Color::normalize()
+{
+  float min = 0.0f, max = 1.0f;
+  this->color.red = (get_red() - min) / (max - min);
+  this->color.green = (get_green() - min) / (max - min);
+  this->color.blue = (get_blue() - min) / (max - min);
+  this->color.alpha = (get_alpha() - min) / (max - min);
 }

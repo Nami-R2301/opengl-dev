@@ -8,6 +8,7 @@
 #include "../OpenGL Graphics/mesh.h"
 #include "../OpenGL Graphics/vertex_test.h"
 #include "../OpenGL Graphics/shader.h"
+#include "../Math/transform.h"
 
 typedef struct gl_data_s
 {
@@ -24,7 +25,6 @@ public:
   void prepare_mesh();
   void input();
   void update();
-  void draw();
   void render();
   void save();
   void cleanup();
@@ -32,9 +32,12 @@ public:
   [[maybe_unused]] void set_mesh(const Mesh &mesh);
   void *operator new(unsigned long size);
   void operator delete(void *game);
+  [[nodiscard]] Transform get_transform() const;
+  [[maybe_unused]] void set_transform(const Transform &transform_);
 private:
   Mesh mesh;
   Shader program;
+  Transform transform;
 };
 
 #endif //OPENGL_DEV_GAME_H

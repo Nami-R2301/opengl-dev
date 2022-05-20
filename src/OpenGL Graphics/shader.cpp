@@ -123,7 +123,7 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
         Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
         exit(ERROR_SNPRINTF);
       }
-      Logger::alert(print_buffer, ERROR);
+      Logger::alert(print_buffer, ERROR, true);
       exit(COMPILE_ERROR);
     }
   }
@@ -226,11 +226,15 @@ void Shader::add_uniform(const char *uniform)
 void Shader::set_uniform(const char *uniform_name, int value)
 {
   glUniform1i(this->uniforms[uniform_name], value);
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
 
 void Shader::set_uniform(const char *uniform_name, float value)
 {
   glUniform1f(this->uniforms[uniform_name], value);
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
 
 void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
@@ -238,12 +242,30 @@ void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
   glUniform3f(this->uniforms[uniform_name], vector_3f.get_x(),
               vector_3f.get_y(),
               vector_3f.get_z());
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
 
-void Shader::set_uniform(const char *uniform_name, const Matrix4f &value)
+void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
 {
-  glUniformMatrix4fv(this->uniforms[uniform_name], value.length(),
-                     true, *value.get_matrix());
+  glUniformMatrix4fv(this->uniforms[uniform_name], 1,
+                     GL_TRUE, &value.get_matrix()[0][0]);
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+}
+
+void Shader::set_uniform(const char *uniform_name, const Color &color)
+{
+  glUniform4f(this->uniforms[uniform_name],
+              color.get_red(), color.get_green(), color.get_blue(), color.get_alpha());
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+}
+
+void Shader::cleanup()
+{
+  delete_shader();
+  this->uniforms.clear();
 }
 
 

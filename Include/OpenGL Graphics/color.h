@@ -33,6 +33,7 @@ public:
   [[maybe_unused]] rgb_color_s &get_rgb_values();
   [[maybe_unused]] void set_color(const Color &new_color);
   [[maybe_unused]] void set_color(float red, float blue, float green, float alpha);
+  void normalize();
   void clear();
   [[maybe_unused]] void print() const;
   void *operator new(unsigned long size);

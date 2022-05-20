@@ -89,8 +89,9 @@ void Engine::run()
 void Engine::render()
 {
   Window::clear_bg();  // Reset the background color on screen.
+  this->game->input();  // Check for inputs.
   this->game->update();  // Update the game.
-  this->game->draw();  // Redraw on screen.
+  this->game->render();  // Redraw on screen.
   Window::refresh(); // Refresh the window screen.
 }
 

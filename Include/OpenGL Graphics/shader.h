@@ -12,7 +12,7 @@
 #include "vertex.h"
 #include "render.h"
 #include "../Logs/logger.h"
-#include "../Math/matrix4f.h"
+#include "../Math/matrix_4f.h"
 
 class Shader
 {
@@ -36,11 +36,14 @@ public:
   void add_uniform(const char *uniform);
   void set_uniform(const char *uniform_name, int value);
   void set_uniform(const char *uniform_name, float value);
+  void set_uniform(const char *uniform_name, const Color &color);
   void set_uniform(const char *uniform_name, const Vector_3f &vector_3f);
-  void set_uniform(const char *uniform_name, const Matrix4f &matrix_4f);
+  void set_uniform(const char *uniform_name, const Matrix_4f &matrix_4f);
+  void set_uniform(const char *uniform_name, const glm::mat4x4 &matrix_4f);
   void update_scale(float scale) const;
   void update_color(const Color &color) const;
   void update_color(float red, float green, float blue, float alpha) const;
+  void cleanup();
 
 private:
   static void compile_errors(unsigned int shader, const char *type);

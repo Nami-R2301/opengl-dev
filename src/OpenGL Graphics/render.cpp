@@ -121,6 +121,10 @@ void Render::gl_error_callback(GLenum source)
       sprintf(_source, "APPLICATION");
       break;
 
+    case GL_INVALID_OPERATION:
+      sprintf(_source, "INVALID OPENGL OPERATION FOR UNIFORM");
+      break;
+
     default:
       sprintf(_source, "UNKNOWN");
       break;
