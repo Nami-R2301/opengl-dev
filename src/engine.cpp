@@ -72,10 +72,9 @@ void Engine::run()
     // Show how many fps were achieved.
     if (current_time - previous_time >= std::chrono::seconds(1) && this->frame_counter >= MAX_FPS) // More than 144fps.
     {
-      snprintf(title, sizeof(title), "%ld FPS\n", get_frame_counter());
-      Logger::alert(title);
-      title[strlen(title) - 1] = '\0';  // Remove newline for window title.
+      snprintf(title, sizeof(title), "%ld FPS", get_frame_counter());
       glfwSetWindowTitle(Window::get_window(), title);
+
       set_frame_counter(0);  // Reset since the second has passed.
       previous_time = current_time;  // Count towards the next second.
     }

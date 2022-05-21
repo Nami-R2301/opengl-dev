@@ -5,10 +5,12 @@
 #ifndef OPENGL_DEV_TIME_H
 #define OPENGL_DEV_TIME_H
 
+// GLFW
 #include <GLFW/glfw3.h>
+
+// std and chrono.
 #include <iostream>
-#include <thread>
-#include <ctime>
+#include <chrono>
 
 class Time
 {

@@ -13,10 +13,11 @@ class Transform
 public:
   Transform();
   [[nodiscard]] Matrix_4f get_transformation() const;
-  [[nodiscard]] const Vector_3f &get_translation() const;
-  void set_translation(float x, float y, float z);
+  [[maybe_unused]] [[nodiscard]] const Vector_3f &get_translation() const;
+  [[maybe_unused]] void set_translation(float x, float y, float z);
   void set_translation(const Vector_3f &translation);
-  [[nodiscard]] const Vector_3f &get_rotation() const;
+  [[maybe_unused]] [[nodiscard]] const Vector_3f &get_rotation() const;
+  [[maybe_unused]] void set_rotation(float x, float y, float z);
   void set_rotation(const Vector_3f &rotation_);
   [[nodiscard]] const Vector_3f &get_scale() const;
   void set_scale(const Vector_3f &scale_);

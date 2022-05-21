@@ -6,6 +6,16 @@
 
 Mesh::Mesh() = default;
 
+std::vector<GLuint> Mesh::get_indices() const
+{
+  return this->indices;
+}
+
+void Mesh::set_indices(const std::vector<GLuint> &indices_)
+{
+  this->indices = indices_;
+}
+
 void Mesh::add_vbo()
 {
   Logger::alert("CREATING VBO...\t");
@@ -44,12 +54,13 @@ void Mesh::bind_vao() const
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
-void Mesh::bind_evo() const
+void Mesh::bind_evo(const std::vector<GLuint> &indices_) const
 {
   Logger::alert("BINDING EVO...\t");
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, evo);
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // For evo.
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, (long) (indices_.size() * sizeof(int)),
+               indices_.data(), GL_STATIC_DRAW);
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
   Logger::alert("Done.\n", INFO, true);
 }
@@ -65,7 +76,7 @@ void Mesh::add_vertices(const Vertex *vertices, unsigned long size_)
 void Mesh::draw() const
 {
   bind_vao();
-  glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, nullptr); // Draw from vertex_source arrays.
+  glDrawElements(GL_TRIANGLES, (int) indices.size(), GL_UNSIGNED_INT, nullptr); // Draw from vertex_source arrays.
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
@@ -76,15 +87,15 @@ void Mesh::setup_graphics(const Vertex *vertices, unsigned long size_)
   add_vao();
   bind_vao();
   add_evo();
-  bind_evo();
+  bind_evo(get_indices());
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *) nullptr);
+  glVertexAttribPointer(0, COUNT_VECTOR3D, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (void *) nullptr);
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(0);  // layout (location = 0).
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *) (4 * sizeof(float)));
+  glVertexAttribPointer(1, COUNT_COLOR, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (void *) (COLOR_SIZE));
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(1);  // layout (location = 1).
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 
   unbind_vao();

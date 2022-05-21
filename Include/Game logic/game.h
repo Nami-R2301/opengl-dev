@@ -6,6 +6,7 @@
 #define OPENGL_DEV_GAME_H
 
 #include "../OpenGL Graphics/mesh.h"
+#include "../OpenGL Graphics/res_loader.h"
 #include "../OpenGL Graphics/vertex_test.h"
 #include "../OpenGL Graphics/shader.h"
 #include "../Math/transform.h"
@@ -32,7 +33,7 @@ public:
   [[maybe_unused]] void set_mesh(const Mesh &mesh);
   void *operator new(unsigned long size);
   void operator delete(void *game);
-  [[nodiscard]] Transform get_transform() const;
+  [[maybe_unused]] [[nodiscard]] Transform get_transform() const;
   [[maybe_unused]] void set_transform(const Transform &transform_);
 private:
   Mesh mesh;

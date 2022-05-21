@@ -11,6 +11,7 @@ Matrix_4f::Matrix_4f()
   for (int i = 0; i < this->num_rows; i++)
     // Initialize each cell
     for (int j = 0; j < get_num_cols(); ++j) set_value(i, j, 0);
+  init_identity();
 }
 
 Matrix_4f::Matrix_4f(const Matrix_4f &other_matrix)
@@ -20,6 +21,7 @@ Matrix_4f::Matrix_4f(const Matrix_4f &other_matrix)
   for (int i = 0; i < this->num_rows; i++)
     for (int j = 0; j < this->num_cols; j++)
       set_value(i, j, other_matrix.get_value(i, j));
+  init_identity();
 }
 
 glm::mat4x4 Matrix_4f::get_matrix() const
@@ -86,26 +88,62 @@ void Matrix_4f::init_identity()
   for (int i = 0; i < num_rows; ++i) set_value(i, i, 1);
 }
 
-void Matrix_4f::init_translation(float x, float y, float z)
+[[maybe_unused]] void Matrix_4f::init_translation(float x, float y, float z)
 {
-  init_identity();
   for (int i = 0; i < num_rows; ++i)
   {
-    if (i == 0) set_value(i, get_num_cols() - 1, x);  // add x to last col (w) component.
-    if (i == 1) set_value(i, get_num_cols() - 1, y);  // add y to last col (w) component.
-    if (i == 2) set_value(i, get_num_cols() - 1, z);  // add z to last col (w) component.
+    if (i == 0) set_value(i, get_num_cols() - 1, x);
+    if (i == 1) set_value(i, get_num_cols() - 1, y);
+    if (i == 2) set_value(i, get_num_cols() - 1, z);
   }
 }
 
 void Matrix_4f::init_translation(const Vector_3f &vector_3f)
 {
-  init_identity();
   for (int i = 0; i < num_rows; ++i)
   {
-    if (i == 0) set_value(i, get_num_cols() - 1, vector_3f.get_x());  // add x to last col (w) component.
-    if (i == 1) set_value(i, get_num_cols() - 1, vector_3f.get_y());  // add y to last col (w) component.
-    if (i == 2) set_value(i, get_num_cols() - 1, vector_3f.get_z());  // add z to last col (w) component.
+    if (i == 0) set_value(i, get_num_cols() - 1, vector_3f.get_x());
+    if (i == 1) set_value(i, get_num_cols() - 1, vector_3f.get_y());
+    if (i == 2) set_value(i, get_num_cols() - 1, vector_3f.get_z());
   }
+}
+
+void Matrix_4f::init_rotation(Vector_3f vector_3f)
+{
+  Matrix_4f rotation_x, rotation_y, rotation_z; // Init rotation matrices.
+
+  // Get angles and convert to radiant.
+  vector_3f.set_x((float) (vector_3f.get_x() * (M_PI / 180)));
+  vector_3f.set_y((float) (vector_3f.get_y() * (M_PI / 180)));
+  vector_3f.set_z((float) (vector_3f.get_z() * (M_PI / 180)));
+
+  // Set angles for rotation matrix z.
+  rotation_z.set_value(0, 0, std::cos(vector_3f.get_z()));
+  rotation_z.set_value(0, 1, -(std::sin(vector_3f.get_z())));
+  rotation_z.set_value(1, 0, std::sin(vector_3f.get_z()));
+  rotation_z.set_value(1, 1, std::cos(vector_3f.get_z()));
+
+  // Set angles for rotation matrix x.
+  rotation_x.set_value(1, 1, std::cos(vector_3f.get_x()));
+  rotation_x.set_value(1, 2, -(std::sin(vector_3f.get_x())));
+  rotation_x.set_value(2, 1, std::sin(vector_3f.get_x()));
+  rotation_x.set_value(2, 2, std::cos(vector_3f.get_x()));
+
+  // Set angles for rotation matrix y.
+  rotation_y.set_value(0, 0, std::cos(vector_3f.get_y()));
+  rotation_y.set_value(0, 2, -(std::sin(vector_3f.get_y())));
+  rotation_y.set_value(2, 0, std::sin(vector_3f.get_y()));
+  rotation_y.set_value(2, 2, std::cos(vector_3f.get_y()));
+
+  this->matrix = (rotation_z * (rotation_y * rotation_x)).get_matrix();  // Init current matrix instance.
+}
+
+void Matrix_4f::init_scale(Vector_3f vector_3f)
+{
+  // For every row except w.
+  set_value(0, 0, vector_3f.get_x());
+  set_value(1, 1, vector_3f.get_y());
+  set_value(2, 2, vector_3f.get_z());
 }
 
 

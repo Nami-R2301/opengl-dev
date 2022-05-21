@@ -173,33 +173,6 @@ void Shader::activate() const
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
-[[maybe_unused]] void Shader::update_scale(const float scale) const
-{
-  // Update vertex_source uniform
-  int vertex_scale_location = glGetUniformLocation(program, "scale");
-  if (vertex_scale_location >= 0)
-    glUniform1f(vertex_scale_location, scale);
-  else Logger::alert("ERROR WHEN UPDATING SCALE\n", ERROR);
-}
-
-[[maybe_unused]] void Shader::update_color(const Color &new_color) const
-{
-  int vertex_color_location = glGetUniformLocation(program, "fragment_color");
-  if (vertex_color_location >= 0)
-    glUniform4f(vertex_color_location, new_color.get_red(), new_color.get_green(),
-                new_color.get_blue(), new_color.get_alpha());
-  else Logger::alert("ERROR WHEN UPDATING COLOR\n", ERROR);
-}
-
-void Shader::update_color(float red, float green, float blue, float alpha) const
-{
-  int vertex_color_location = glGetUniformLocation(program, "fragment_color");
-  if (vertex_color_location >= 0)
-    glUniform4f(vertex_color_location, red, green,
-                blue, alpha);
-  else Logger::alert("ERROR WHEN UPDATING COLOR\n", ERROR);
-}
-
 void Shader::delete_shader() const
 {
   Logger::alert("DESTROYING SHADERS...\t");

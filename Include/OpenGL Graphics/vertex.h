@@ -9,8 +9,6 @@
 #include "color.h"
 #include "../Math/vector_2f.h"
 
-#define VERTEX_SIZE 7  // Position (3) + color (4).
-
 // Manipulation of vertices to pass on to our opengl vertex_source shaders.
 class Vertex
 {

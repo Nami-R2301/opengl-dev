@@ -26,7 +26,7 @@ public:
   [[maybe_unused]] static int get_y_pos();
   [[maybe_unused]] static float get_x_scale();
   [[maybe_unused]] static float get_y_scale();
-  [[maybe_unused]] static Color *get_bg_color();
+  [[maybe_unused]] static Color get_bg_color();
 
   [[maybe_unused]] static void set_width(int width);
   [[maybe_unused]] static void set_height(int height);
@@ -47,7 +47,7 @@ private:
   static int y_pos;
   static float x_scale;
   static float y_scale;
-  static Color *bg_color;
+  static Color bg_color;
   static bool fullscreen;
 
   static void init();
