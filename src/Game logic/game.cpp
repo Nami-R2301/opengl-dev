@@ -5,7 +5,7 @@
 #include "../../Include/Game logic/game.h"
 
 static float color_value = 0.0f;
-static float translation_value;
+static float translation_value = 0.0f;
 
 Game::Game() = default;
 
@@ -34,18 +34,18 @@ void Game::prepare_mesh()
   this->program.link();
 
   Resource_loader object_file = Resource_loader("../../Resources/Models/default.obj");
-  const std::vector<Vertex> vertices = object_file.load_vertices();
-  const std::vector<GLuint> evo_indices = object_file.load_faces();
+//  const std::vector<Vertex> vertices = object_file.load_vertices();
+//  const std::vector<GLuint> evo_indices = object_file.load_faces();
 
-//  // Get all relevant data for vertices and fragments.
-//  std::vector<Vertex> vertices = set_vertices_data();
-//  // Setting up evo.
-//  std::vector<GLuint> evo_indices =
-//      {
-//          0, 3, 5, // Lower left triangle.
-//          5, 4, 1, // Lower right triangle.
-//          3, 2, 4, // Upper triangle.
-//      };
+  // Get all relevant data for vertices and fragments.
+  std::vector<Vertex> vertices = set_vertices_data();
+  // Setting up evo.
+  std::vector<GLuint> evo_indices =
+      {
+          0, 3, 5, // Lower left triangle.
+          3, 2, 4, // Upper triangle.
+          5, 4, 1 // Lower right triangle.
+      };
   this->mesh.set_indices(evo_indices);
   this->mesh.setup_graphics(vertices.data(), VERTEX_SIZE * vertices.size());
 
@@ -75,9 +75,9 @@ void Game::update()
   auto time = (float) sin(glfwGetTime());
   color_value = std::abs(time);
   translation_value = time / 2;
-  this->transform.set_translation(Vector_3f(translation_value, 0, 0));
+  this->transform.set_translation(Vector_3f(translation_value, translation_value, 0));
   this->transform.set_rotation(Vector_3f(translation_value * 360, 0, 0));
-  this->transform.set_scale(Vector_3f(translation_value * 3, translation_value * 3, translation_value * 3));
+  this->transform.set_scale(Vector_3f(translation_value * 2, translation_value * 2, translation_value * 2));
 }
 
 void Game::render()

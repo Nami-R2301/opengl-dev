@@ -2265,3 +2265,678 @@ Alpha value : 1.00
 [INFO] [Fri May 20 22:48:50 2022] : SUCCESSFULLY SHUT DOWN GAME.
 [INFO] [Fri May 20 22:48:50 2022] : TERMINATING GLFW...	Done.
 [INFO] [Fri May 20 22:48:50 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:19:01 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:19:01 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:19:01 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:19:01 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:19:01 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:19:01 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:19:01 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:19:01 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:19:01 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:19:01 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:19:01 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:19:01 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:19:01 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:19:01 2022] : Mouse entered
+[INFO] [Sat May 21 00:19:04 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:19:04 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:19:04 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:19:04 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:19:04 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:19:04 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:19:04 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:19:04 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:19:04 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:19:04 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:19:04 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:19:48 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:19:48 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:19:48 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:19:48 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:19:48 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:19:48 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:19:48 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:19:48 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:19:48 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:19:48 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:19:48 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:19:48 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:19:48 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:19:48 2022] : Mouse entered
+[INFO] [Sat May 21 00:19:49 2022] : Mouse left
+[INFO] [Sat May 21 00:19:51 2022] : Mouse entered
+[INFO] [Sat May 21 00:19:53 2022] : Mouse left
+[INFO] [Sat May 21 00:19:53 2022] : Mouse entered
+[INFO] [Sat May 21 00:19:54 2022] : Mouse left
+[INFO] [Sat May 21 00:19:54 2022] : Mouse entered
+[INFO] [Sat May 21 00:19:56 2022] : Mouse left
+[INFO] [Sat May 21 00:19:57 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:19:57 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:19:57 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:19:57 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:19:57 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:19:57 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:19:57 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:19:57 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:19:57 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:19:57 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:19:57 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:20:19 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:20:19 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:20:19 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:20:19 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:20:19 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:20:19 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:20:19 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:20:19 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:20:19 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:20:19 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:20:19 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:20:19 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:20:19 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:20:19 2022] : Mouse entered
+[INFO] [Sat May 21 00:20:20 2022] : Mouse left
+[INFO] [Sat May 21 00:20:21 2022] : Mouse entered
+[INFO] [Sat May 21 00:20:32 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:20:32 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:20:32 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:20:32 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:20:32 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:20:32 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:20:32 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:20:32 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:20:32 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:20:32 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:20:32 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:20:56 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:20:56 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:20:56 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:20:56 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:20:56 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:20:56 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:20:57 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:20:57 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:20:57 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:20:57 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:20:57 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:20:57 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:20:57 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:20:57 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:20:57 2022] : Mouse entered
+[INFO] [Sat May 21 00:21:35 2022] : Mouse left
+[INFO] [Sat May 21 00:21:37 2022] : Mouse entered
+[INFO] [Sat May 21 00:21:37 2022] : Mouse left
+[INFO] [Sat May 21 00:21:38 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:21:38 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:21:38 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:21:38 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:21:38 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:21:38 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:21:38 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:21:38 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:21:38 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:21:38 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:21:38 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:21:56 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:21:56 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:21:56 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:21:56 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:21:56 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:21:56 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:21:56 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:21:56 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:21:56 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:21:56 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:21:56 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:21:56 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:21:56 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:21:56 2022] : Mouse entered
+[INFO] [Sat May 21 00:21:58 2022] : Mouse left
+[INFO] [Sat May 21 00:21:59 2022] : Mouse entered
+[INFO] [Sat May 21 00:21:59 2022] : Mouse left
+[INFO] [Sat May 21 00:22:01 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:01 2022] : Mouse left
+[INFO] [Sat May 21 00:22:02 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:03 2022] : Mouse left
+[INFO] [Sat May 21 00:22:04 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:04 2022] : USER LEFT CLICKED INSIDE THE WINDOW
+[INFO] [Sat May 21 00:22:05 2022] : USER RELEASED LEFT CLICK INSIDE THE WINDOW
+[INFO] [Sat May 21 00:22:05 2022] : Mouse left
+[INFO] [Sat May 21 00:22:06 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:06 2022] : Mouse left
+[INFO] [Sat May 21 00:22:06 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:06 2022] : Mouse left
+[INFO] [Sat May 21 00:22:07 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:10 2022] : Mouse left
+[INFO] [Sat May 21 00:22:10 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:15 2022] : Mouse left
+[INFO] [Sat May 21 00:22:15 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:16 2022] : Mouse left
+[INFO] [Sat May 21 00:22:17 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:17 2022] : Mouse left
+[INFO] [Sat May 21 00:22:21 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:22 2022] : Mouse left
+[INFO] [Sat May 21 00:22:22 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:24 2022] : Mouse left
+[INFO] [Sat May 21 00:22:24 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:24 2022] : Mouse left
+[INFO] [Sat May 21 00:22:25 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:26 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:22:26 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:22:26 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:22:26 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:22:26 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:22:26 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:22:26 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:22:26 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:22:26 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:22:26 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:22:26 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:22:52 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:22:52 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:22:52 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:22:52 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:22:52 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:22:52 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:22:52 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:22:52 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:22:52 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:22:52 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:22:52 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:22:52 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:22:52 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:22:52 2022] : Mouse entered
+[INFO] [Sat May 21 00:22:55 2022] : Mouse left
+[INFO] [Sat May 21 00:22:55 2022] : Mouse entered
+[INFO] [Sat May 21 00:23:03 2022] : Mouse left
+[INFO] [Sat May 21 00:23:03 2022] : Mouse entered
+[INFO] [Sat May 21 00:23:40 2022] : Mouse left
+[INFO] [Sat May 21 00:23:40 2022] : Mouse entered
+[INFO] [Sat May 21 00:23:44 2022] : Mouse left
+[INFO] [Sat May 21 00:23:44 2022] : Mouse entered
+[INFO] [Sat May 21 00:23:47 2022] : Mouse left
+[INFO] [Sat May 21 00:23:47 2022] : Mouse entered
+[INFO] [Sat May 21 00:25:23 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:25:23 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:25:23 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:25:23 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:25:23 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:25:23 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:25:23 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:25:23 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:25:23 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:25:23 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:25:23 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 00:25:45 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 00:25:45 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 00:25:45 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 00:25:45 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 00:25:45 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 00:25:45 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 00:25:45 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 00:25:45 2022] : Extensions available : 397
+[INFO] [Sat May 21 00:25:45 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 00:25:45 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 00:25:45 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 00:25:45 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 00:25:45 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 00:25:45 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:12 2022] : Mouse left
+[INFO] [Sat May 21 00:26:12 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:12 2022] : Mouse left
+[INFO] [Sat May 21 00:26:12 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:13 2022] : Mouse left
+[INFO] [Sat May 21 00:26:14 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:15 2022] : Mouse left
+[INFO] [Sat May 21 00:26:19 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:21 2022] : Mouse left
+[INFO] [Sat May 21 00:26:21 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:26 2022] : Mouse left
+[INFO] [Sat May 21 00:26:26 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:33 2022] : Mouse left
+[INFO] [Sat May 21 00:26:33 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:33 2022] : Mouse left
+[INFO] [Sat May 21 00:26:34 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:36 2022] : Mouse left
+[INFO] [Sat May 21 00:26:36 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:37 2022] : Mouse left
+[INFO] [Sat May 21 00:26:37 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:37 2022] : Mouse left
+[INFO] [Sat May 21 00:26:37 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:42 2022] : Mouse left
+[INFO] [Sat May 21 00:26:43 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:48 2022] : Mouse left
+[INFO] [Sat May 21 00:26:48 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:49 2022] : Mouse left
+[INFO] [Sat May 21 00:26:49 2022] : Mouse entered
+[INFO] [Sat May 21 00:26:49 2022] : Mouse left
+[INFO] [Sat May 21 00:26:50 2022] : Mouse entered
+[INFO] [Sat May 21 00:27:05 2022] : Mouse left
+[INFO] [Sat May 21 00:27:13 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 00:27:13 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 00:27:13 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 00:27:13 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 00:27:13 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 00:27:13 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 00:27:13 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 00:27:13 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 00:27:13 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 00:27:13 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 00:27:13 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 01:35:19 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 01:35:19 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 01:35:19 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 01:35:19 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 01:35:19 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 01:35:19 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 01:35:20 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 01:35:20 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 01:35:20 2022] : Extensions available : 397
+[INFO] [Sat May 21 01:35:20 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 01:35:20 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 01:35:20 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 01:35:20 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 01:35:20 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 01:35:24 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 01:35:24 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 01:35:24 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 01:35:24 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 01:35:24 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 01:35:24 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 01:35:24 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 01:35:24 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 01:35:24 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 01:35:24 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 01:35:24 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 01:36:06 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 01:36:06 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 01:36:06 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 01:36:06 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 01:36:06 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 01:36:06 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 01:36:06 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 01:36:06 2022] : Extensions available : 397
+[INFO] [Sat May 21 01:36:06 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 01:36:06 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 01:36:06 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 01:36:06 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 01:36:06 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 01:36:24 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 01:36:24 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 01:36:24 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 01:36:24 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 01:36:24 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 01:36:24 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 01:36:24 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 01:36:24 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 01:36:24 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 01:36:24 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 01:36:24 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 01:37:55 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 01:37:55 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 01:37:55 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 01:37:55 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 01:37:55 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 01:37:55 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 01:37:55 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 01:37:55 2022] : Extensions available : 397
+[INFO] [Sat May 21 01:37:55 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 01:37:55 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 01:37:55 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 01:37:55 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 01:37:55 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 01:37:55 2022] : Mouse entered
+[INFO] [Sat May 21 01:37:59 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 01:37:59 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 01:37:59 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 01:37:59 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 01:37:59 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 01:37:59 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 01:37:59 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 01:37:59 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 01:37:59 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 01:37:59 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 01:37:59 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 01:38:17 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 01:38:17 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 01:38:17 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 01:38:17 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 01:38:17 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 01:38:17 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 01:38:17 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 01:38:17 2022] : Extensions available : 397
+[INFO] [Sat May 21 01:38:17 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 01:38:17 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 01:38:17 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 01:38:17 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 01:38:17 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 01:38:20 2022] : Mouse entered
+[INFO] [Sat May 21 01:38:27 2022] : Mouse left
+[INFO] [Sat May 21 01:38:28 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 01:38:28 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 01:38:28 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 01:38:28 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 01:38:28 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 01:38:28 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 01:38:28 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 01:38:28 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 01:38:28 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 01:38:28 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 01:38:28 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 01:40:37 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 01:40:37 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 01:40:37 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 01:40:37 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 01:40:37 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 01:40:37 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 01:40:37 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 01:40:37 2022] : Extensions available : 397
+[INFO] [Sat May 21 01:40:37 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 01:40:37 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 01:40:37 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 01:40:37 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 01:40:37 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 01:40:37 2022] : Mouse entered
+[INFO] [Sat May 21 01:40:42 2022] : Mouse left
+[INFO] [Sat May 21 01:40:52 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 01:40:52 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 01:40:52 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 01:40:52 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 01:40:52 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 01:40:52 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 01:40:52 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 01:40:52 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 01:40:52 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 01:40:52 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 01:40:52 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 01:48:18 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 01:48:18 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 01:48:18 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 01:48:18 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 01:48:18 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 01:48:18 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 01:48:18 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 01:48:18 2022] : Extensions available : 397
+[INFO] [Sat May 21 01:48:18 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 01:48:18 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 01:48:18 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 01:48:18 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 01:48:18 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 01:48:24 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 01:48:24 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 01:48:24 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 01:48:24 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 01:48:24 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 01:48:24 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 01:48:24 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 01:48:24 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 01:48:24 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 01:48:24 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 01:48:24 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 21:55:08 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 21:55:08 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 21:55:08 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 21:55:08 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 21:55:08 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 21:55:08 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 21:55:08 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 21:55:08 2022] : Extensions available : 397
+[INFO] [Sat May 21 21:55:08 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 21:55:08 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 21:55:08 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 21:55:08 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 21:55:08 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 21:55:08 2022] : Mouse entered
+[INFO] [Sat May 21 21:55:10 2022] : Mouse left
+[INFO] [Sat May 21 21:55:10 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 21:55:10 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 21:55:10 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 21:55:10 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 21:55:10 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 21:55:10 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 21:55:10 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 21:55:10 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 21:55:10 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 21:55:10 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 21:55:10 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 21:57:08 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 21:57:08 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 21:57:08 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 21:57:08 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 21:57:08 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 21:57:08 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 21:57:08 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 21:57:08 2022] : Extensions available : 397
+[INFO] [Sat May 21 21:57:08 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 21:57:08 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 21:57:08 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 21:57:08 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 21:57:08 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 21:57:08 2022] : Mouse entered
+[INFO] [Sat May 21 21:57:12 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 21:57:12 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 21:57:12 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 21:57:12 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 21:57:12 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 21:57:12 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 21:57:12 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 21:57:12 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 21:57:12 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 21:57:12 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 21:57:12 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 21:57:25 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 21:57:25 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 21:57:25 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 21:57:25 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 21:57:25 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 21:57:25 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 21:57:25 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 21:57:25 2022] : Extensions available : 397
+[INFO] [Sat May 21 21:57:25 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 21:57:25 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 21:57:25 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 21:57:25 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 21:57:25 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 21:57:37 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 21:57:37 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 21:57:37 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 21:57:37 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 21:57:37 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 21:57:37 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 21:57:37 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 21:57:37 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 21:57:37 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 21:57:37 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 21:57:37 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 21:58:31 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 21:58:31 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 21:58:31 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 21:58:31 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 21:58:31 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 21:58:31 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 21:58:31 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 21:58:31 2022] : Extensions available : 397
+[INFO] [Sat May 21 21:58:31 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 21:58:31 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 21:58:31 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 21:58:31 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 21:58:31 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 21:58:31 2022] : Mouse entered
+[INFO] [Sat May 21 21:58:36 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 21:58:36 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 21:58:36 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 21:58:36 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 21:58:36 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 21:58:36 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 21:58:36 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 21:58:36 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 21:58:36 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 21:58:36 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 21:58:36 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------
+[INFO] [Sat May 21 21:59:21 2022] : ------------STARTING UP ENGINE--------------
+[INFO] [Sat May 21 21:59:21 2022] : INITIALIZING GLFW...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : CREATING WINDOW...
+[INFO] [Sat May 21 21:59:21 2022] : DETECTING MONITOR...
+[INFO] [Sat May 21 21:59:21 2022] : Number of monitors detected : 2
+[INFO] [Sat May 21 21:59:21 2022] : Monitor stats : 	Width : 1920px, height : 1080px, refresh rate : 144hz
+[INFO] [Sat May 21 21:59:21 2022] : DONE CREATING WINDOW.
+[INFO] [Sat May 21 21:59:21 2022] : FETCHING OPENGL AND GLFW INFO...
+[INFO] [Sat May 21 21:59:21 2022] : Extensions available : 397
+[INFO] [Sat May 21 21:59:21 2022] : Opengl version : 4.5.0 NVIDIA 510.73.05
+[INFO] [Sat May 21 21:59:21 2022] : GLFW Version : 3.3.7 X11 GLX EGL OSMesa clock_gettime evdev
+[INFO] [Sat May 21 21:59:21 2022] : CREATING PROGRAM...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : CREATING, SOURCING AND COMPILING SHADER : 35633...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : CREATING, SOURCING AND COMPILING SHADER : 35632...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : CREATING VBO...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : BINDING VBO...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : CREATING VAO...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : CREATING EVO...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : BINDING EVO...	Done.
+[INFO] [Sat May 21 21:59:21 2022] : ------------SUCCESSFULLY STARTED UP ENGINE--------------
+[INFO] [Sat May 21 21:59:21 2022] : ------------RUNNING--------------
+[INFO] [Sat May 21 21:59:26 2022] : ------------STOPPING--------------
+[INFO] [Sat May 21 21:59:26 2022] : ------------SHUTTING DOWN ENGINE------------
+[INFO] [Sat May 21 21:59:26 2022] : DESTROYING WINDOW...	Done.
+[INFO] [Sat May 21 21:59:26 2022] : SHUTTING DOWN GAME...
+[INFO] [Sat May 21 21:59:26 2022] : DESTROYING VBO...	Done.
+[INFO] [Sat May 21 21:59:26 2022] : DESTROYING VAO...	Done.
+[INFO] [Sat May 21 21:59:26 2022] : DESTROYING EVO...	Done.
+[INFO] [Sat May 21 21:59:26 2022] : DESTROYING SHADERS...	Done.
+[INFO] [Sat May 21 21:59:26 2022] : SUCCESSFULLY SHUT DOWN GAME.
+[INFO] [Sat May 21 21:59:26 2022] : TERMINATING GLFW...	Done.
+[INFO] [Sat May 21 21:59:26 2022] : ------------SUCCESSFULLY SHUT DOWN ENGINE------------

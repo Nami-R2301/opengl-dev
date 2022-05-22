@@ -68,9 +68,10 @@ void Engine::run()
   while (!Window::is_closed())
   {
     auto current_time = std::chrono::system_clock::now();
+    if (!Window::is_closed()) render();
     set_frame_counter(this->frame_counter + 1);  // Increment fps.
-    // Show how many fps were achieved.
-    if (current_time - previous_time >= std::chrono::seconds(1) && this->frame_counter >= MAX_FPS) // More than 144fps.
+    // Show how many fps were achieved if a second passed or if we rendered enough frames before the second passed.
+    if (current_time - previous_time >= std::chrono::seconds(1) || this->frame_counter >= Window::get_refresh_rate())
     {
       snprintf(title, sizeof(title), "%ld FPS", get_frame_counter());
       glfwSetWindowTitle(Window::get_window(), title);
@@ -78,7 +79,6 @@ void Engine::run()
       set_frame_counter(0);  // Reset since the second has passed.
       previous_time = current_time;  // Count towards the next second.
     }
-    if (!Window::is_closed()) render();
     glfwPollEvents(); // Listen and call the appropriate keyboard and mouse callbacks.
   }
   Logger::alert("------------STOPPING--------------\n");

@@ -13,8 +13,6 @@
 #include "Logs/logger.h"
 
 //TODO: Change max fps to reasonable amount when in production.
-#define MAX_FPS 144L
-#define MILI_SECONDS 1000L
 #define NOT_FINISHED 223
 #define CRASH 224
 
@@ -38,7 +36,6 @@ private:
   bool running_state;
   long frame_counter;
   int exit_code = NOT_FINISHED;  // Document the program exit code for maintenance.
-  const double time_per_frame = ((1.0f * MILI_SECONDS) / (double) MAX_FPS);  // Approx. 6.94 ms.
 
   [[maybe_unused]] void set_game(Game *game_);
   void set_frame_counter(long counter);

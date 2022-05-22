@@ -20,7 +20,7 @@ const std::vector<GLuint> &Resource_loader::load_faces()
 
 Resource_loader::~Resource_loader()
 {
-  Resource_loader::file_stream.close();
+  this->file_stream.close();
 }
 
 
