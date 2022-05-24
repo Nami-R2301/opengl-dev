@@ -19,12 +19,19 @@ public:
   [[maybe_unused]] [[nodiscard]] const Vector_3f &get_rotation() const;
   [[maybe_unused]] void set_rotation(float x, float y, float z);
   void set_rotation(const Vector_3f &rotation_);
-  [[nodiscard]] const Vector_3f &get_scale() const;
+  __attribute__((unused)) const Vector_3f &get_scale() const;
   void set_scale(const Vector_3f &scale_);
+  static void set_projection(float fov, float width, float height, float z_near, float z_far);
+  Matrix_4f get_projected_transformation() const;
 private:
   Vector_3f translation;
   Vector_3f rotation;
   Vector_3f scale;
+  static float z_near;
+  static float z_far;
+  static float width;
+  static float height;
+  static float fov;
 };
 
 #endif //OPENGL_DEV_TRANSFORM_H

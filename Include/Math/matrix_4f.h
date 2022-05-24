@@ -20,6 +20,7 @@ public:
   void init_translation(const Vector_3f &vector_3f);
   void init_rotation(Vector_3f vector_3f);
   void init_scale(Vector_3f vector_3f);
+  void init_projection(float fov_, float width_, float height_, float z_near_, float z_far_);
 
   [[nodiscard]] int length() const;
   [[nodiscard]] glm::mat4x4 get_matrix() const;

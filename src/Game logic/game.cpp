@@ -26,6 +26,9 @@ Shader Game::get_program()
 
 void Game::prepare_mesh()
 {
+  Resource_loader object_file("../Resources/Models/cube.obj");
+  this->mesh = object_file.load_obj_data();
+
   this->program.create_program();
   this->program.add_shader(GL_VERTEX_SHADER,
                            get_file_contents("../Resources/Shaders/default.vert").c_str());
@@ -33,25 +36,11 @@ void Game::prepare_mesh()
                            get_file_contents("../Resources/Shaders/default.frag").c_str());
   this->program.link();
 
-  Resource_loader object_file = Resource_loader("../../Resources/Models/default.obj");
-//  const std::vector<Vertex> vertices = object_file.load_vertices();
-//  const std::vector<GLuint> evo_indices = object_file.load_faces();
-
-  // Get all relevant data for vertices and fragments.
-  std::vector<Vertex> vertices = set_vertices_data();
-  // Setting up evo.
-  std::vector<GLuint> evo_indices =
-      {
-          0, 3, 5, // Lower left triangle.
-          3, 2, 4, // Upper triangle.
-          5, 4, 1 // Lower right triangle.
-      };
-  this->mesh.set_indices(evo_indices);
-  this->mesh.setup_graphics(vertices.data(), VERTEX_SIZE * vertices.size());
-
   // Add shader uniforms.
   this->program.add_uniform("fragment_color");
   this->program.add_uniform("transform");
+  Transform::set_projection(85.0f, (float) Window::get_width(), (float) Window::get_height(),
+                            0.1f, 1000.0f);
 }
 
 [[maybe_unused]] Transform Game::get_transform() const
@@ -75,17 +64,20 @@ void Game::update()
   auto time = (float) sin(glfwGetTime());
   color_value = std::abs(time);
   translation_value = time / 2;
-  this->transform.set_translation(Vector_3f(translation_value, translation_value, 0));
-  this->transform.set_rotation(Vector_3f(translation_value * 360, 0, 0));
-  this->transform.set_scale(Vector_3f(translation_value * 2, translation_value * 2, translation_value * 2));
+  this->transform.set_translation(Vector_3f(translation_value, 0, 5));
+  this->transform.set_rotation(Vector_3f(translation_value * 360, translation_value * 360, 0));
+//  this->transform.set_scale(Vector_3f(0.7f * translation_value,
+//                                      0.7f * translation_value,
+//                                      0.7f * translation_value));
 }
 
 void Game::render()
 {
   this->program.activate(); // Specify what program to use.
+
   // Set program uniforms.
   this->program.set_uniform("fragment_color", color_value);
-  this->program.set_uniform("transform", this->transform.get_transformation());
+  this->program.set_uniform("transform", this->transform.get_projected_transformation());
   this->mesh.draw();
 }
 

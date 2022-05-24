@@ -118,22 +118,22 @@ void Matrix_4f::init_rotation(Vector_3f vector_3f)
   vector_3f.set_z((float) (vector_3f.get_z() * (M_PI / 180)));
 
   // Set angles for rotation matrix z.
-  rotation_z.set_value(0, 0, std::cos(vector_3f.get_z()));
-  rotation_z.set_value(0, 1, -(std::sin(vector_3f.get_z())));
-  rotation_z.set_value(1, 0, std::sin(vector_3f.get_z()));
-  rotation_z.set_value(1, 1, std::cos(vector_3f.get_z()));
+  rotation_z.set_value(0, 0, cosf(vector_3f.get_z()));
+  rotation_z.set_value(0, 1, -(sinf(vector_3f.get_z())));
+  rotation_z.set_value(1, 0, sinf(vector_3f.get_z()));
+  rotation_z.set_value(1, 1, cosf(vector_3f.get_z()));
 
   // Set angles for rotation matrix x.
-  rotation_x.set_value(1, 1, std::cos(vector_3f.get_x()));
-  rotation_x.set_value(1, 2, -(std::sin(vector_3f.get_x())));
-  rotation_x.set_value(2, 1, std::sin(vector_3f.get_x()));
-  rotation_x.set_value(2, 2, std::cos(vector_3f.get_x()));
+  rotation_x.set_value(1, 1, cosf(vector_3f.get_x()));
+  rotation_x.set_value(1, 2, -(sinf(vector_3f.get_x())));
+  rotation_x.set_value(2, 1, sinf(vector_3f.get_x()));
+  rotation_x.set_value(2, 2, cosf(vector_3f.get_x()));
 
   // Set angles for rotation matrix y.
-  rotation_y.set_value(0, 0, std::cos(vector_3f.get_y()));
-  rotation_y.set_value(0, 2, -(std::sin(vector_3f.get_y())));
-  rotation_y.set_value(2, 0, std::sin(vector_3f.get_y()));
-  rotation_y.set_value(2, 2, std::cos(vector_3f.get_y()));
+  rotation_y.set_value(0, 0, cosf(vector_3f.get_y()));
+  rotation_y.set_value(0, 2, -(sinf(vector_3f.get_y())));
+  rotation_y.set_value(2, 0, sinf(vector_3f.get_y()));
+  rotation_y.set_value(2, 2, cosf(vector_3f.get_y()));
 
   this->matrix = (rotation_z * (rotation_y * rotation_x)).get_matrix();  // Init current matrix instance.
 }
@@ -144,6 +144,21 @@ void Matrix_4f::init_scale(Vector_3f vector_3f)
   set_value(0, 0, vector_3f.get_x());
   set_value(1, 1, vector_3f.get_y());
   set_value(2, 2, vector_3f.get_z());
+}
+
+void Matrix_4f::init_projection(float fov_, float width_, float height_, float z_near_, float z_far_)
+{
+  float aspect_ratio = width_ / height_;
+  auto fov_to_rad = (float) (fov_ * (M_PI / 180) / 2);
+  float tan_half_fov = tanf(fov_to_rad);
+  float z_range = z_near_ - z_far_;
+
+  set_value(0, 0, 1.0f / (tan_half_fov * aspect_ratio));
+  set_value(1, 1, 1.0f / tan_half_fov);
+  set_value(2, 2, (-z_near_ - z_far_) / z_range);  // Scaling the z index to the range.
+  set_value(2, 3, 2 * z_far_ * z_near_ / z_range);  // Scaling the z index to the range.
+  set_value(3, 2, get_value(2, 2));  // Copy whatever z value we have.
+  set_value(3, 3, 0.0f);  // Get rid of w.
 }
 
 

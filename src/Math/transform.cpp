@@ -4,6 +4,9 @@
 
 #include "../../Include/Math/transform.h"
 
+// Projection variables.
+float Transform::z_near, Transform::z_far, Transform::width, Transform::height, Transform::fov;
+
 Transform::Transform()
 {
   this->translation = Vector_3f(0, 0, 0);
@@ -52,7 +55,7 @@ void Transform::set_rotation(const Vector_3f &rotation_)
   this->rotation = rotation_;
 }
 
-const Vector_3f &Transform::get_scale() const
+__attribute__((unused)) const Vector_3f &Transform::get_scale() const
 {
   return this->scale;
 }
@@ -60,4 +63,22 @@ const Vector_3f &Transform::get_scale() const
 void Transform::set_scale(const Vector_3f &scale_)
 {
   this->scale = scale_;
+}
+
+void Transform::set_projection(float fov_, float width_, float height_, float z_near_, float z_far_)
+{
+  Transform::width = width_;
+  Transform::height = height_;
+  Transform::fov = fov_;
+  Transform::z_near = z_near_;
+  Transform::z_far = z_far_;
+}
+
+Matrix_4f Transform::get_projected_transformation() const
+{
+  Matrix_4f transformation = get_transformation(), projection;
+  projection.init_projection(Transform::fov, Transform::width, Transform::height,
+                             Transform::z_near, Transform::z_far);
+
+  return projection * transformation;
 }

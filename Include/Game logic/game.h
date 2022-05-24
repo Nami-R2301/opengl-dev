@@ -10,6 +10,7 @@
 #include "../OpenGL Graphics/vertex_test.h"
 #include "../OpenGL Graphics/shader.h"
 #include "../Math/transform.h"
+#include "../OpenGL Graphics/window.h"
 
 typedef struct gl_data_s
 {
