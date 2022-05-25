@@ -21,8 +21,6 @@ Mesh Resource_loader::load_obj_data()
     ss.clear();
     ss.str(line);
     ss >> prefix;
-    char *result = strncpy(c_line, ss.str().c_str(), ss.str().size());  // Convert to c-like strings for strtok.
-    if (result == nullptr) Logger::alert("ERROR WHILE SPLITING LINE TO BUFFER (STRTOK)!\nEXITING...\n", ERROR);
 
     if (prefix == "v") // Vertex position
     {
@@ -38,21 +36,18 @@ Mesh Resource_loader::load_obj_data()
         indices.emplace_back(temp_indices[2] - 1);
       } else  // Vertex/vertex texture/vertex normal (v/vt/vn).
       {
-        while (ss)  // Split with spaces.
+        char *faces = (char *) malloc(line.size());
+        for (int i = 0; i < 3; i++)
         {
-          char *current_pos = strtok(result, " ");
-          current_pos = strtok(nullptr, " ");  // Skip prefix.
-          current_pos = strtok(current_pos, "/");
-          while (current_pos != nullptr)
-          {
-            indices.emplace_back(strtof(current_pos, nullptr));
-            current_pos = strtok(nullptr, "/");
-          }
-          current_pos = strtok(current_pos, " ");
+          ss >> faces;  // Get next string after space.
+          char *ptr = strtok(faces, "/");  // Separate by delim.
+          indices.emplace_back(strtof(ptr, nullptr) - 1);  // get first index only.
         }
+        free(faces);
       }
     }
   }
+  free(c_line);
   if (vertices.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR VERTEX DATA (v) NOT FOUND!\n", ERROR);
   if (indices.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR FACE DATA (f) NOT FOUND!\n", ERROR);
   Mesh mesh;
