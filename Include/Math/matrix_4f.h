@@ -29,7 +29,7 @@ public:
   [[nodiscard]] int get_num_rows() const;
   [[nodiscard]] int get_num_cols() const;
   void set_value(int row, int col, float value);
-  void print_values() const;
+  __attribute__((unused)) void print_values() const;
 
   Matrix_4f operator*(const Matrix_4f &other_matrix);
 private:

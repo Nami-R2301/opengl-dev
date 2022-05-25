@@ -49,7 +49,7 @@ int Matrix_4f::get_num_cols() const
   return num_cols;
 }
 
-void Matrix_4f::print_values() const
+__attribute__((unused)) void Matrix_4f::print_values() const
 {
   for (int i = 0; i < get_num_rows(); ++i)
   {
@@ -172,23 +172,15 @@ void Matrix_4f::init_camera(Vector_3f forward, Vector_3f up)
 
   Vector_3f u = f.cross(r);
 
-  matrix[0][0] = r.get_x();
-  matrix[0][1] = r.get_y();
-  matrix[0][2] = r.get_z();
-  matrix[0][3] = 0;
-  matrix[1][0] = u.get_x();
-  matrix[1][1] = u.get_y();
-  matrix[1][2] = u.get_z();
-  matrix[1][3] = 0;
-  matrix[2][0] = f.get_x();
-  matrix[2][1] = f.get_y();
-  matrix[2][2] = f.get_z();
-  matrix[2][3] = 0;
-  matrix[3][0] = 0;
-  matrix[3][1] = 0;
-  matrix[3][2] = 0;
-  matrix[3][3] = 1;
-
+  set_value(0, 0, r.get_x());
+  set_value(0, 1, r.get_y());
+  set_value(0, 2, r.get_z());
+  set_value(1, 0, u.get_x());
+  set_value(1, 1, u.get_y());
+  set_value(1, 2, u.get_z());
+  set_value(2, 0, f.get_x());
+  set_value(2, 1, f.get_y());
+  set_value(2, 2, f.get_z());
 }
 
 
