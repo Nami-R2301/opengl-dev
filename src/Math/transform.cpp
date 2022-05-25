@@ -6,6 +6,7 @@
 
 // Projection variables.
 float Transform::z_near, Transform::z_far, Transform::width, Transform::height, Transform::fov;
+Camera Transform::camera;  /* NOLINT */
 
 Transform::Transform()
 {
@@ -65,6 +66,16 @@ void Transform::set_scale(const Vector_3f &scale_)
   this->scale = scale_;
 }
 
+const Camera &Transform::get_camera()
+{
+  return camera;
+}
+
+void Transform::set_camera(const Camera &camera_)
+{
+  Transform::camera = camera_;
+}
+
 void Transform::set_projection(float fov_, float width_, float height_, float z_near_, float z_far_)
 {
   Transform::width = width_;
@@ -76,9 +87,14 @@ void Transform::set_projection(float fov_, float width_, float height_, float z_
 
 Matrix_4f Transform::get_projected_transformation() const
 {
-  Matrix_4f transformation = get_transformation(), projection;
+  Matrix_4f transformation = get_transformation(), projection, camera_rotation, camera_translation;
+
   projection.init_projection(Transform::fov, Transform::width, Transform::height,
                              Transform::z_near, Transform::z_far);
+  camera_rotation.init_camera(Transform::camera.get_forward(), Transform::camera.get_up());
+  camera_translation.init_translation(-Transform::camera.get_position().get_x(),
+                                      -Transform::camera.get_position().get_y(),
+                                      -Transform::camera.get_position().get_z());
 
-  return projection * transformation;
+  return projection * (camera_rotation * (camera_translation * transformation));
 }

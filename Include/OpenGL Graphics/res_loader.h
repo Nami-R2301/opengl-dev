@@ -17,8 +17,6 @@ class Resource_loader
 public:
   explicit Resource_loader(const char *file_path);
   Mesh load_obj_data();
-  [[nodiscard]] const std::vector<GLuint> &get_face_indices();
-  [[nodiscard]] const std::vector<Vertex> &get_vertices();
   ~Resource_loader();
 private:
   std::ifstream file_stream;

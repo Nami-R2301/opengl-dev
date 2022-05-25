@@ -26,9 +26,11 @@ Shader Game::get_program()
 
 void Game::prepare_mesh()
 {
+  // Load custom mesh.
   Resource_loader object_file("../Resources/Models/cube.obj");
   this->mesh = object_file.load_obj_data();
 
+  // Init opengl memory buffers and shaders.
   this->program.create_program();
   this->program.add_shader(GL_VERTEX_SHADER,
                            get_file_contents("../Resources/Shaders/default.vert").c_str());
@@ -36,11 +38,13 @@ void Game::prepare_mesh()
                            get_file_contents("../Resources/Shaders/default.frag").c_str());
   this->program.link();
 
-  // Add shader uniforms.
+  // Add shader uniforms to glsl program.
   this->program.add_uniform("fragment_color");
   this->program.add_uniform("transform");
+  // Set world view inside window.
   Transform::set_projection(85.0f, (float) Window::get_width(), (float) Window::get_height(),
                             0.1f, 1000.0f);
+  Transform::set_camera(this->camera);
 }
 
 [[maybe_unused]] Transform Game::get_transform() const

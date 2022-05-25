@@ -40,6 +40,7 @@ private:
   Mesh mesh;
   Shader program;
   Transform transform;
+  Camera camera;
 };
 
 #endif //OPENGL_DEV_GAME_H

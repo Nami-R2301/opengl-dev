@@ -23,7 +23,7 @@ public:
   [[nodiscard]] float dot(const Vector_3f &other_vector) const;
   Vector_3f normalize();
   [[nodiscard]] Vector_3f cross(const Vector_3f &other_vector) const;
-  [[nodiscard]] Vector_3f rotate(float angle) const;
+  Vector_3f rotate(float angle, const Vector_3f &axis);
   Vector_3f operator+(const Vector_3f &other_vector) const;
   Vector_3f operator+(float coord) const;
   Vector_3f operator-(const Vector_3f &other_vector) const;

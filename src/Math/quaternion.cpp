@@ -66,28 +66,24 @@ Quaternion Quaternion::normalize()
 
 Quaternion Quaternion::conjugate() const
 {
-  return Quaternion(-this->x, -this->y, -this->z, this->w);
+  return {-this->x, -this->y, -this->z, this->w};
 }
 
-Quaternion Quaternion::operator*(const Quaternion &other_quaternion) const
+Quaternion Quaternion::operator*(const Quaternion &r) const
 {
-  float w_ = w * other_quaternion.get_w() - x * other_quaternion.get_x()
-             - y * other_quaternion.get_y() - z * other_quaternion.get_z();
-  float x_ = x * other_quaternion.get_w() + w * other_quaternion.get_x()
-             + y * other_quaternion.get_z() - z * other_quaternion.get_y();
-  float y_ = y * other_quaternion.get_w() + w * other_quaternion.get_y()
-             + z * other_quaternion.get_x() - x * other_quaternion.get_z();
-  float z_ = z * other_quaternion.get_w() + w * other_quaternion.get_z()
-             + x * other_quaternion.get_y() - y * other_quaternion.get_x();
+  float w_ = w * r.get_w() - x * r.get_x() - y * r.get_y() - z * r.get_z();
+  float x_ = x * r.get_w() + w * r.get_x() + y * r.get_z() - z * r.get_y();
+  float y_ = y * r.get_w() + w * r.get_y() + z * r.get_x() - x * r.get_z();
+  float z_ = z * r.get_w() + w * r.get_z() + x * r.get_y() - y * r.get_x();
 
-  return Quaternion(x_, y_, z_, w_);
+  return {x_, y_, z_, w_};
 }
 
-Quaternion Quaternion::operator*(const Vector_3f &vector_3f) const
+Quaternion Quaternion::multiply(Vector_3f r) const
 {
-  float w_ = -x * vector_3f.get_x() - y * vector_3f.get_y() - z * vector_3f.get_z();
-  float x_ = w * vector_3f.get_x() + y * vector_3f.get_z() - z * vector_3f.get_y();
-  float y_ = w * vector_3f.get_y() + z * vector_3f.get_x() - x * vector_3f.get_z();
-  float z_ = w * vector_3f.get_z() + x * vector_3f.get_y() - y * vector_3f.get_x();
-  return Quaternion(x_, y_, z_, w_);
+  float w_ = -x * r.get_x() - y * r.get_y() - z * r.get_z();
+  float x_ = w * r.get_x() + y * r.get_z() - z * r.get_y();
+  float y_ = w * r.get_y() + z * r.get_x() - x * r.get_z();
+  float z_ = w * r.get_z() + x * r.get_y() - y * r.get_x();
+  return {x_, y_, z_, w_};
 }

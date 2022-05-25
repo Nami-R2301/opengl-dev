@@ -7,6 +7,7 @@
 
 #include "vector_3f.h"
 #include "matrix_4f.h"
+#include "camera.h"
 
 class Transform
 {
@@ -23,10 +24,13 @@ public:
   void set_scale(const Vector_3f &scale_);
   static void set_projection(float fov, float width, float height, float z_near, float z_far);
   Matrix_4f get_projected_transformation() const;
+  static const Camera &get_camera();
+  static void set_camera(const Camera &camera_);
 private:
   Vector_3f translation;
   Vector_3f rotation;
   Vector_3f scale;
+  static Camera camera;
   static float z_near;
   static float z_far;
   static float width;

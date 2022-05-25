@@ -21,6 +21,7 @@ public:
   void init_rotation(Vector_3f vector_3f);
   void init_scale(Vector_3f vector_3f);
   void init_projection(float fov_, float width_, float height_, float z_near_, float z_far_);
+  void init_camera(Vector_3f forward, Vector_3f up);
 
   [[nodiscard]] int length() const;
   [[nodiscard]] glm::mat4x4 get_matrix() const;

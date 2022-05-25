@@ -3,6 +3,7 @@
 //
 
 #include "../../Include/Math/vector_3f.h"
+#include "../../Include/Math/quaternion.h"
 
 Vector_3f::Vector_3f(float x, float y, float z)
 {
@@ -68,9 +69,23 @@ Vector_3f Vector_3f::cross(const Vector_3f &other_vector) const
   return Vector_3f(x_, y_, z_);
 }
 
-Vector_3f Vector_3f::rotate(float angle) const
+Vector_3f Vector_3f::rotate(float angle, const Vector_3f &axis)
 {
-  return Vector_3f();
+  auto angle_to_rad = (float) (angle * (M_PI / 180));
+  float sin_half_angle = sinf(angle_to_rad / 2);
+  float cos_half_angle = cosf(angle_to_rad / 2);
+
+  float rotation_x = axis.get_x() * sin_half_angle, rotation_y = axis.get_y() * sin_half_angle,
+      rotation_z = axis.get_z() * sin_half_angle, rotation_w = cos_half_angle;
+
+  Quaternion rotation(rotation_x, rotation_y, rotation_z, rotation_w);
+  Quaternion conjugate = rotation.conjugate();
+  Quaternion w = (rotation.multiply(*this)) * conjugate;
+
+  this->x = w.get_x();
+  this->y = w.get_y();
+  this->z = w.get_z();
+  return *this;
 }
 
 // Add two vectors.

@@ -41,7 +41,7 @@ Mesh Resource_loader::load_obj_data()
         {
           ss >> faces;  // Get next string after space.
           char *ptr = strtok(faces, "/");  // Separate by delim.
-          indices.emplace_back(strtof(ptr, nullptr) - 1);  // get first index only.
+          indices.emplace_back(strtof(ptr, nullptr) - 1);  // Obj indexing starts at 1, so -1.
         }
         free(faces);
       }
@@ -59,16 +59,6 @@ Mesh Resource_loader::load_obj_data()
 Resource_loader::~Resource_loader()
 {
   this->file_stream.close();
-}
-
-const std::vector<GLuint> &Resource_loader::get_face_indices()
-{
-  return this->indices;
-}
-
-const std::vector<Vertex> &Resource_loader::get_vertices()
-{
-  return this->vertices;
 }
 
 
