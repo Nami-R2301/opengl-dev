@@ -20,6 +20,7 @@ public:
   const Vector_3f &get_up() const;
   void set_up(const Vector_3f &up);
 
+  void input();
   void move(const Vector_3f &direction, float amount);
   [[nodiscard]] Vector_3f get_left();
   [[nodiscard]] Vector_3f get_right();

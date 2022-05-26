@@ -23,6 +23,7 @@ class Game
 {
 public:
   Game();
+
   [[nodiscard]] Shader get_program();
   void prepare_mesh();
   void input();
@@ -30,17 +31,37 @@ public:
   void render();
   void save();
   void cleanup();
+
   [[nodiscard]] Mesh get_mesh() const;
   [[maybe_unused]] void set_mesh(const Mesh &mesh);
+  __attribute__((unused)) Transform get_transform() const;
+  __attribute__((unused)) void set_transform(const Transform &transform_);
+  [[nodiscard]] static Camera get_camera();
+
   void *operator new(unsigned long size);
   void operator delete(void *game);
-  [[maybe_unused]] [[nodiscard]] Transform get_transform() const;
-  [[maybe_unused]] void set_transform(const Transform &transform_);
+
+  static void set_callbacks();
 private:
   Mesh mesh;
   Shader program;
   Transform transform;
-  Camera camera;
+  static Camera camera;
 };
+
+void toggle_fullscreen(GLFWwindow *window);
+
+void window_viewport_callback([[maybe_unused]] GLFWwindow *, int, int);
+
+void cursor_position_callback(GLFWwindow *window, double, double);
+
+void cursor_enter_callback([[maybe_unused]] GLFWwindow *, int);
+
+void mouse_button_callback([[maybe_unused]] GLFWwindow *, int, int, int);
+
+void scroll_callback([[maybe_unused]] GLFWwindow *, double, double);
+
+void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
+                  int action, int combination);
 
 #endif //OPENGL_DEV_GAME_H

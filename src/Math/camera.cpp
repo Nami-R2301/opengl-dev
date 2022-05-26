@@ -56,14 +56,14 @@ void Camera::set_up(const Vector_3f &up_)
 // Gets the normalized vector facing left based on camera's forward and up vectors.
 Vector_3f Camera::get_left()
 {
-  Vector_3f left = up.cross(forward);
+  Vector_3f left = forward.cross(up);
   left.normalize();
   return left;
 }
 
 Vector_3f Camera::get_right()
 {
-  Vector_3f right = forward.cross(up);
+  Vector_3f right = up.cross(forward);
   right.normalize();
   return right;
 }
@@ -95,4 +95,8 @@ void Camera::rotate_y(float angle)
 
   this->up = this->forward.cross(horizontal_axis);
   this->up.normalize();
+}
+
+void Camera::input()
+{
 }

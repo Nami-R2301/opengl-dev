@@ -36,7 +36,6 @@ public:
   [[maybe_unused]] static bool is_fullscreen();
   static bool is_closed();
   static void cleanup();
-  [[maybe_unused]] static void set_callbacks();
 private:
   static GLFWwindow *window;
   static GLFWmonitor *monitor;
@@ -52,20 +51,5 @@ private:
 
   static void init();
 };
-
-void toggle_fullscreen(GLFWwindow *window);
-
-void window_viewport_callback([[maybe_unused]] GLFWwindow *, int, int);
-
-void cursor_position_callback(GLFWwindow *window, double, double);
-
-void cursor_enter_callback([[maybe_unused]] GLFWwindow *, int);
-
-void mouse_button_callback([[maybe_unused]] GLFWwindow *, int, int, int);
-
-void scroll_callback([[maybe_unused]] GLFWwindow *, double, double);
-
-void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
-                  int action, int combination);
 
 #endif //GAME_OPENGL_WINDOW_H

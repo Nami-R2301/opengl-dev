@@ -53,7 +53,7 @@ void Engine::start()
   Logger::alert("------------STARTING UP ENGINE--------------\n");
   Render::init_graphics();  // Setup openGL graphic settings.
   Window::create_window();
-  Window::set_callbacks();  // Set our mouse and keyboard callbacks.
+  Game::set_callbacks();  // Set our mouse and keyboard callbacks.
   Render::show_gl_info();  // Show info about opengl and glfw versions.
   this->game->prepare_mesh();
   Logger::alert("------------SUCCESSFULLY STARTED UP ENGINE--------------\n");

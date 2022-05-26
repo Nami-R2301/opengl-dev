@@ -82,16 +82,6 @@ void Window::create_window()
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
-void Window::set_callbacks()
-{
-  glfwSetWindowSizeCallback(Window::window, window_viewport_callback);  // Change screen size event.
-  glfwSetCursorPosCallback(Window::window, cursor_position_callback);  // Change cursor position event.
-  glfwSetCursorEnterCallback(Window::window, cursor_enter_callback);  // Cursor in/out screen event.
-  glfwSetMouseButtonCallback(Window::window, mouse_button_callback);  // Mouse button input event.
-//  glfwSetScrollCallback(window, scroll_callback);  // Mouse scroll event.
-  glfwSetKeyCallback(Window::window, key_callback); // Key input events.
-}
-
 // Show the window created.
 [[maybe_unused]] void Window::hide()
 {
@@ -207,65 +197,6 @@ void toggle_fullscreen(GLFWwindow *window)
     glfwSetWindowMonitor(window, nullptr, Window::get_x_pos(), Window::get_y_pos(),
                          (int) (width / 2), (int) (height / 2),
                          GLFW_DONT_CARE);  // Set maximum refresh rate possible.
-  }
-}
-
-/******************************CALLBACKS****************************/
-
-// Whenever the window size changed (by OS or user resize) this callback function executes
-void window_viewport_callback([[maybe_unused]] GLFWwindow *window, int width, int height)
-{
-  /* make sure the viewport matches the new window dimensions; note that width and
-   * height will be significantly larger than specified on retina displays.
-   */
-  glViewport(0, 0, width, height);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-}
-
-// Whenever the cursor changes position within the window, this callback function executes.
-void cursor_position_callback([[maybe_unused]] GLFWwindow *window, double x_pos, double y_pos)
-{
-  int window_width = 0, window_height = 0;
-  glfwGetWindowSize(window, &window_width, &window_height);
-  fflush(stdout);
-  if (!glfwWindowShouldClose(window) && (x_pos <= window_width && y_pos <= window_height)) {
-    // For debugging purposes.
-    //printf("\nX coordinate : %.2f\nY coordinate : %.2f\n", x_pos, y_pos);
-  }
-}
-
-// Whenever the mouse cursor enters or leaves the window, this callback function executes.
-void cursor_enter_callback([[maybe_unused]] GLFWwindow *window, int entered)
-{
-  fflush(stdout);
-  if (!glfwWindowShouldClose(window) && entered) Logger::alert("Mouse entered\n", INFO);
-  else if (!glfwWindowShouldClose(window) && !entered) Logger::alert("Mouse left\n", INFO);
-}
-
-// Whenever a mouse button is pressed or released, this callback function executes.
-void mouse_button_callback([[maybe_unused]] GLFWwindow *window, int button, int action, int combination)
-{
-  int window_width = 0, window_height = 0;
-  double cursor_x_pos = 0.0f, cursor_y_pos = 0.0f;
-  glfwGetWindowSize(window, &window_width, &window_height);
-  glfwGetCursorPos(window, &cursor_x_pos, &cursor_y_pos);
-  //printf("\nCURSOR IS AT POSITION :\nX = %.2f\nY = %.2f\n", cursor_x_pos, cursor_y_pos);
-  if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_PRESS && !combination
-      && (cursor_x_pos <= window_width && cursor_y_pos <= window_height))
-    Logger::alert("USER LEFT CLICKED INSIDE THE WINDOW\n");
-  else if (button == GLFW_MOUSE_BUTTON_1 && action == GLFW_RELEASE && !combination)
-    Logger::alert("USER RELEASED LEFT CLICK INSIDE THE WINDOW\n");
-}
-
-void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
-                  int action, int combination)
-{
-  if (key == GLFW_KEY_F && action == GLFW_PRESS && !combination)
-  {
-    toggle_fullscreen(window);
-  } else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS && !combination)
-  {
-    glfwSetWindowShouldClose(window, true);
   }
 }
 
