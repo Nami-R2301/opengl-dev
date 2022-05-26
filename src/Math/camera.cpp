@@ -28,7 +28,7 @@ const Vector_3f &Camera::get_position() const
   return position;
 }
 
-void Camera::set_position(const Vector_3f &position_)
+__attribute__((unused)) void Camera::set_position(const Vector_3f &position_)
 {
   Camera::position = position_;
 }
@@ -40,7 +40,7 @@ const Vector_3f &Camera::get_forward() const
 
 void Camera::set_forward(const Vector_3f &forward_)
 {
-  Camera::forward = forward_;
+  forward = forward_;
 }
 
 const Vector_3f &Camera::get_up() const
@@ -50,7 +50,7 @@ const Vector_3f &Camera::get_up() const
 
 void Camera::set_up(const Vector_3f &up_)
 {
-  Camera::up = up_;
+  up = up_;
 }
 
 // Gets the normalized vector facing left based on camera's forward and up vectors.
@@ -70,7 +70,7 @@ Vector_3f Camera::get_right()
 
 void Camera::move(const Vector_3f &direction, const float amount)
 {
-  this->position + (direction * amount);
+  this->position = this->position + (direction * amount);
 }
 
 void Camera::rotate_x(float angle)
@@ -78,11 +78,11 @@ void Camera::rotate_x(float angle)
   Vector_3f horizontal_axis = Camera::y_axis.cross(this->forward);
   horizontal_axis.normalize();
 
-  this->forward.rotate(angle, horizontal_axis);
-  this->forward.normalize();
+  this->forward = this->forward.rotate(angle, horizontal_axis);
+  set_forward(this->forward.normalize());
 
   this->up = this->forward.cross(horizontal_axis);
-  this->up.normalize();
+  set_up(this->up.normalize());
 }
 
 void Camera::rotate_y(float angle)
@@ -90,13 +90,13 @@ void Camera::rotate_y(float angle)
   Vector_3f horizontal_axis = Camera::y_axis.cross(this->forward);
   horizontal_axis.normalize();
 
-  forward.rotate(angle, y_axis);
-  forward.normalize();
+  this->forward = this->forward.rotate(angle, y_axis);
+  set_forward(this->forward.normalize());
 
   this->up = this->forward.cross(horizontal_axis);
-  this->up.normalize();
+  set_up(this->up.normalize());
 }
 
-void Camera::input()
+__attribute__((unused)) void Camera::input()
 {
 }

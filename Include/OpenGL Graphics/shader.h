@@ -13,6 +13,7 @@
 #include "render.h"
 #include "../Logs/logger.h"
 #include "../Math/matrix_4f.h"
+#include "../../Include/OpenGL Graphics/res_loader.h"
 
 class Shader
 {
@@ -49,6 +50,6 @@ private:
   const char *vertex_source = nullptr;
 };
 
-std::string get_file_contents(const char* filename);
+std::string load_shader_source(const char *filename);
 
 #endif //GAME_OPENGL_SHADER_H

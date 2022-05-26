@@ -14,13 +14,13 @@ public:
   Camera(const Vector_3f &camera_position, const Vector_3f &camera_forward, const Vector_3f &camera_up);
 
   const Vector_3f &get_position() const;
-  void set_position(const Vector_3f &position);
+  __attribute__((unused)) void set_position(const Vector_3f &position);
   const Vector_3f &get_forward() const;
-  void set_forward(const Vector_3f &forward);
+  __attribute__((unused)) void set_forward(const Vector_3f &forward);
   const Vector_3f &get_up() const;
-  void set_up(const Vector_3f &up);
+  __attribute__((unused)) void set_up(const Vector_3f &up);
 
-  void input();
+  __attribute__((unused)) void input();
   void move(const Vector_3f &direction, float amount);
   [[nodiscard]] Vector_3f get_left();
   [[nodiscard]] Vector_3f get_right();

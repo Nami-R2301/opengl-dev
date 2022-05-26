@@ -16,7 +16,8 @@ class Resource_loader
 {
 public:
   explicit Resource_loader(const char *file_path);
-  Mesh load_obj_data();
+  static std::string load_shader_source(const char *filename);
+  Mesh load_mesh();
   ~Resource_loader();
 private:
   std::ifstream file_stream;

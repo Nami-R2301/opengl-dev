@@ -23,10 +23,8 @@ class Game
 {
 public:
   Game();
-
   [[nodiscard]] Shader get_program();
   void prepare_mesh();
-  void input();
   void update();
   void render();
   void save();
@@ -36,12 +34,14 @@ public:
   [[maybe_unused]] void set_mesh(const Mesh &mesh);
   __attribute__((unused)) Transform get_transform() const;
   __attribute__((unused)) void set_transform(const Transform &transform_);
-  [[nodiscard]] static Camera get_camera();
+  __attribute__((unused)) static Camera get_camera();
 
   void *operator new(unsigned long size);
   void operator delete(void *game);
 
   static void set_callbacks();
+  static void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
+                           int action, int combination);
 private:
   Mesh mesh;
   Shader program;
@@ -59,9 +59,6 @@ void cursor_enter_callback([[maybe_unused]] GLFWwindow *, int);
 
 void mouse_button_callback([[maybe_unused]] GLFWwindow *, int, int, int);
 
-void scroll_callback([[maybe_unused]] GLFWwindow *, double, double);
-
-void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
-                  int action, int combination);
+//void scroll_callback([[maybe_unused]] GLFWwindow *, double, double);
 
 #endif //OPENGL_DEV_GAME_H

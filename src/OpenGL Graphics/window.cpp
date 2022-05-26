@@ -157,12 +157,12 @@ int Window::get_y_pos()
   return Window::y_pos;
 }
 
-float Window::get_x_scale()
+__attribute__((unused)) float Window::get_x_scale()
 {
   return Window::x_scale;
 }
 
-float Window::get_y_scale()
+__attribute__((unused)) float Window::get_y_scale()
 {
   return Window::y_scale;
 }

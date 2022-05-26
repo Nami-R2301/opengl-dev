@@ -8,7 +8,23 @@ Resource_loader::Resource_loader(const char *file_path)
   this->file_stream = std::ifstream(file_path);
 }
 
-Mesh Resource_loader::load_obj_data()
+std::string Resource_loader::load_shader_source(const char *filename)
+{
+  std::ifstream in((filename), std::ios::binary);
+  if (in)
+  {
+    std::string contents;
+    in.seekg(0, std::ios::end);
+    contents.resize(in.tellg());
+    in.seekg(0, std::ios::beg);
+    in.read(&contents[0], (long) contents.size());
+    in.close();
+    return contents;
+  }
+  throw errno;
+}
+
+Mesh Resource_loader::load_mesh()
 {
   std::string line;
   std::string prefix;

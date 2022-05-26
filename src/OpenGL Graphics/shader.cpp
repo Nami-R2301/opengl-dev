@@ -24,33 +24,17 @@ Shader::Shader()
 
 [[maybe_unused]] void Shader::set_fragment_source(const char *file_path)
 {
-  this->fragment_source = get_file_contents(file_path).c_str();
+  this->fragment_source = Resource_loader::load_shader_source(file_path).c_str();
 }
 
 [[maybe_unused]] void Shader::set_vertex_source(const char *file_path)
 {
-  this->vertex_source = get_file_contents(file_path).c_str();
+  this->vertex_source = Resource_loader::load_shader_source(file_path).c_str();
 }
 
 GLuint Shader::get_program() const
 {
   return program;
-}
-
-std::string get_file_contents(const char *filename)
-{
-  std::ifstream in((filename), std::ios::binary);
-  if (in)
-  {
-    std::string contents;
-    in.seekg(0, std::ios::end);
-    contents.resize(in.tellg());
-    in.seekg(0, std::ios::beg);
-    in.read(&contents[0], (long) contents.size());
-    in.close();
-    return contents;
-  }
-  throw errno;
 }
 
 void Shader::create_program()

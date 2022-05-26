@@ -29,14 +29,14 @@ void Game::prepare_mesh()
 {
   // Load custom mesh.
   Resource_loader object_file("../Resources/Models/cube.obj");
-  this->mesh = object_file.load_obj_data();
+  this->mesh = object_file.load_mesh();
 
   // Init opengl memory buffers and shaders.
   this->program.create_program();
   this->program.add_shader(GL_VERTEX_SHADER,
-                           get_file_contents("../Resources/Shaders/default.vert").c_str());
+                           Resource_loader::load_shader_source("../Resources/Shaders/default.vert").c_str());
   this->program.add_shader(GL_FRAGMENT_SHADER,
-                           get_file_contents("../Resources/Shaders/default.frag").c_str());
+                           Resource_loader::load_shader_source("../Resources/Shaders/default.frag").c_str());
   this->program.link();
 
   // Add shader uniforms to glsl program.
@@ -45,7 +45,6 @@ void Game::prepare_mesh()
   // Set world view inside window.
   Transform::set_projection(85.0f, (float) Window::get_width(), (float) Window::get_height(),
                             0.1f, 1000.0f);
-  Transform::set_camera(Game::camera);
 }
 
 __attribute__((unused)) Transform Game::get_transform() const
@@ -58,14 +57,9 @@ __attribute__((unused)) void Game::set_transform(const Transform &transform_)
   this->transform = transform_;
 }
 
-Camera Game::get_camera()
+__attribute__((unused)) Camera Game::get_camera()
 {
   return Game::camera;
-}
-
-void Game::input()
-{
-
 }
 
 void Game::update()
@@ -74,6 +68,8 @@ void Game::update()
   auto time = (float) sin(glfwGetTime());
   color_value = std::abs(time);
   translation_value = time / 2;
+
+  Transform::set_camera(Game::camera);  // Update camera position.
   this->transform.set_translation(Vector_3f(translation_value, 0, 5));
   this->transform.set_rotation(Vector_3f(translation_value * 360, translation_value * 360, 0));
 //  this->transform.set_scale(Vector_3f(0.7f * translation_value,
@@ -154,13 +150,13 @@ void mouse_button_callback([[maybe_unused]] GLFWwindow *window, int button, int 
     Logger::alert("USER RELEASED LEFT CLICK INSIDE THE WINDOW\n");
 }
 
-void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
-                  int action, int combination)
+void Game::key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
+                        int action, int combination)
 {
-  float movement_amount = 10.0f * (float) glfwGetTime();
-  float rotation_amount = (float) 100.0f * (float) glfwGetTime();
+  float movement_amount = 0.3f;
+  float rotation_amount = 0.3f;
 
-  if (action == GLFW_PRESS && !combination)
+  if (action == GLFW_PRESS || action == GLFW_REPEAT)  // Key pressed or held down.
   {
     switch (key)
     {
@@ -171,28 +167,28 @@ void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]]
         glfwSetWindowShouldClose(window, true);
         break;
       case (GLFW_KEY_W):
-        Game::get_camera().move(Game::get_camera().get_forward(), movement_amount);
+        Game::camera.move(Game::camera.get_forward(), movement_amount);
         break;
       case (GLFW_KEY_S):
-        Game::get_camera().move(Game::get_camera().get_forward(), -movement_amount);
+        Game::camera.move(Game::camera.get_forward(), -movement_amount);
         break;
       case (GLFW_KEY_A):
-        Game::get_camera().move(Game::get_camera().get_left(), movement_amount);
+        Game::camera.move(Game::camera.get_left(), movement_amount);
         break;
       case (GLFW_KEY_D):
-        Game::get_camera().move(Game::get_camera().get_right(), movement_amount);
+        Game::camera.move(Game::camera.get_right(), movement_amount);
         break;
       case (GLFW_KEY_UP):
-        Game::get_camera().rotate_x(-rotation_amount);
+        Game::camera.rotate_x(-rotation_amount);
         break;
       case (GLFW_KEY_DOWN):
-        Game::get_camera().rotate_x(rotation_amount);
+        Game::camera.rotate_x(rotation_amount);
         break;
       case (GLFW_KEY_LEFT):
-        Game::get_camera().rotate_y(-rotation_amount);
+        Game::camera.rotate_y(-rotation_amount);
         break;
       case (GLFW_KEY_RIGHT):
-        Game::get_camera().rotate_y(rotation_amount);
+        Game::camera.rotate_y(rotation_amount);
         break;
       default:
         break;
