@@ -8,13 +8,14 @@
 #include "GLFW/glfw3.h"
 #include "color.h"
 #include <cmath>
-#include "../../Include/Logs/logger.h"
+#include "../Logs/logger.h"
 
 class Render
 {
 public:
   static void init_graphics();
   static const char *get_GL_version();
+  static void set_textures(bool enabled);
   static void show_gl_info();
   static void reset_bg();
   static void glfw_error_callback(int error_code, const char *err_str);

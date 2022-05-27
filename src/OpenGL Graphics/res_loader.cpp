@@ -5,12 +5,27 @@
 
 Resource_loader::Resource_loader(const char *file_path)
 {
-  this->file_stream = std::ifstream(file_path);
+  // Add filename to path.
+  char relative_file_path[255];
+  if (snprintf(relative_file_path, 255, "../Resources/%s", file_path) < 0)
+  {
+    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+    exit(ERROR_SNPRINTF);
+  }
+  this->file_stream = std::ifstream(relative_file_path);
 }
 
-std::string Resource_loader::load_shader_source(const char *filename)
+std::string Resource_loader::load_shader_source(const char *file_path)
 {
-  std::ifstream in((filename), std::ios::binary);
+  // Add filename to path.
+  char relative_file_path[255];
+  if (snprintf(relative_file_path, 255, "../Resources/Shaders/%s", file_path) < 0)
+  {
+    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+    exit(ERROR_SNPRINTF);
+  }
+
+  std::ifstream in((relative_file_path), std::ios::binary);
   if (in)
   {
     std::string contents;
@@ -24,7 +39,15 @@ std::string Resource_loader::load_shader_source(const char *filename)
   throw errno;
 }
 
-Mesh Resource_loader::load_mesh()
+Texture Resource_loader::load_texture(const char *file_path)
+{
+  Logger::alert("LOADING TEXTURE...\t");
+  Texture tex = Texture(file_path);
+  Logger::alert("Done.\n", INFO, true);
+  return tex;
+}
+
+void Resource_loader::load_mesh()
 {
   std::string line;
   std::string prefix;
@@ -66,15 +89,21 @@ Mesh Resource_loader::load_mesh()
   free(c_line);
   if (vertices.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR VERTEX DATA (v) NOT FOUND!\n", ERROR);
   if (indices.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR FACE DATA (f) NOT FOUND!\n", ERROR);
-  Mesh mesh;
-  mesh.set_indices(indices);
-  mesh.setup_graphics(vertices.data(), VERTEX_SIZE * vertices.size());
-  return mesh;
 }
 
 Resource_loader::~Resource_loader()
 {
   this->file_stream.close();
+}
+
+std::vector<Vertex> Resource_loader::load_vertices() const
+{
+  return this->vertices;
+}
+
+std::vector<GLuint> Resource_loader::load_indices() const
+{
+  return this->indices;
 }
 
 

@@ -28,19 +28,25 @@ Shader Game::get_program()
 void Game::prepare_mesh()
 {
   // Load custom mesh.
-  Resource_loader object_file("../Resources/Models/cube.obj");
-  this->mesh = object_file.load_mesh();
+  Resource_loader object_file("Models/cube.obj");
+  Texture texCoord = Resource_loader::load_texture("../Resources/Textures/tiles.png");
+  object_file.load_mesh();
+
+  this->mesh.set_tex_id(texCoord.get_id());
+  this->mesh.set_indices(object_file.load_indices());
+  std::vector<Vertex> vertices = object_file.load_vertices();
+  this->mesh.setup_graphics(vertices.data(), VERTEX_SIZE * vertices.size());
 
   // Init opengl memory buffers and shaders.
   this->program.create_program();
   this->program.add_shader(GL_VERTEX_SHADER,
-                           Resource_loader::load_shader_source("../Resources/Shaders/default.vert").c_str());
+                           Resource_loader::load_shader_source("default.vert").c_str());
   this->program.add_shader(GL_FRAGMENT_SHADER,
-                           Resource_loader::load_shader_source("../Resources/Shaders/default.frag").c_str());
+                           Resource_loader::load_shader_source("default.frag").c_str());
   this->program.link();
 
   // Add shader uniforms to glsl program.
-  this->program.add_uniform("fragment_color");
+//  this->program.add_uniform("fragment_color");
   this->program.add_uniform("transform");
   // Set world view inside window.
   Transform::set_projection(85.0f, (float) Window::get_width(), (float) Window::get_height(),
@@ -82,7 +88,7 @@ void Game::render()
   this->program.activate(); // Specify what program to use.
 
   // Set program uniforms.
-  this->program.set_uniform("fragment_color", color_value);
+//  this->program.set_uniform("fragment_color", color_value);
   this->program.set_uniform("transform", this->transform.get_projected_transformation());
   this->mesh.draw();
 }

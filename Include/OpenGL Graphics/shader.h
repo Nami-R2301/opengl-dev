@@ -13,7 +13,7 @@
 #include "render.h"
 #include "../Logs/logger.h"
 #include "../Math/matrix_4f.h"
-#include "../../Include/OpenGL Graphics/res_loader.h"
+#include "res_loader.h"
 
 class Shader
 {

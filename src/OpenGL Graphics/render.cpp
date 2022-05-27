@@ -12,6 +12,12 @@ void Render::reset_bg()
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
+void Render::set_textures(bool enabled)
+{
+  if (enabled) glEnable(GL_TEXTURE_2D);
+  else glDisable(GL_TEXTURE_2D);
+}
+
 void Render::init_graphics()
 {
   //  glDebugMessageCallback(GLDebugMessageCallback, NULL);
@@ -20,6 +26,7 @@ void Render::init_graphics()
   // Enable openGL error handling.
   glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);  // Calls to callback will be synchronous for debug breakpoints.
   glEnable(GL_DEBUG_OUTPUT);  // Enable debug output.
+  set_textures(true);  // Enable textures.
   if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
 
   // Init glfw library.

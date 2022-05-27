@@ -18,6 +18,12 @@ Vertex::Vertex(const Vector_3f &vector_3f, const Color &color)
   this->color = color;
 }
 
+Vertex::Vertex(const Vector_3f &position, const Vector_2f &tex_coord)
+{
+  this->position = position;
+  this->texCoord = tex_coord;
+}
+
 Vertex::Vertex(const Vertex &_vertex_)
 {
   this->position = _vertex_.position;
@@ -32,6 +38,16 @@ Vertex::Vertex(const Vertex &_vertex_)
 [[maybe_unused]] void Vertex::set_position(const Vector_3f &position_)
 {
   Vertex::position = position_;
+}
+
+const Vector_2f &Vertex::get_texCoord() const
+{
+  return texCoord;
+}
+
+void Vertex::set_texCoord(const Vector_2f &texCoord_)
+{
+  Vertex::texCoord = texCoord_;
 }
 
 [[maybe_unused]] const Color &Vertex::get_color() const

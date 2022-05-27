@@ -70,6 +70,7 @@ void Shader::add_shader(int type, const char *source) const
 void Shader::source(GLuint shader_, const char *source, int *length)
 {
   glShaderSource(shader_, 1, &source, length);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
 // Compile the shaders into machine code to pass on to the GPU.
