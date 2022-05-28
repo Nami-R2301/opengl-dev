@@ -21,6 +21,40 @@ void Mesh::set_tex_id(unsigned int tex_id_)
   this->tex = tex_id_;
 }
 
+void Mesh::setup_graphics(const Vertex *vertices, unsigned long size_)
+{
+  add_vbo();
+  add_vertices(vertices, size_);
+  add_vao();
+  bind_vao();
+  add_evo();
+  bind_evo(get_indices());
+  bind_tex();
+
+  glEnableVertexAttribArray(0);  // layout (location = 0) (position).
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  glVertexAttribPointer(0, COUNT_VECTOR3D, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                        (void *) POSITION_OFFSET);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+
+  glEnableVertexAttribArray(1);  // layout (location = 1) (color).
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  glVertexAttribPointer(1, COUNT_COLOR, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                        (void *) (COLOR_OFFSET));
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+
+  glEnableVertexAttribArray(2);  // layout (location = 2) (texCoord).
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  glVertexAttribPointer(2, COUNT_VECTOR2D, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
+                        (void *) (TEXTURE_OFFSET));
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+
+  unbind_tex();
+  unbind_vao();
+  unbind_vbo();
+  unbind_evo();
+}
+
 void Mesh::add_vbo()
 {
   Logger::alert("CREATING VBO...\t");
@@ -86,47 +120,6 @@ void Mesh::add_vertices(const Vertex *vertices, unsigned long size_)
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
-void Mesh::draw() const
-{
-  bind_vao();
-  bind_tex();
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glDrawElements(GL_TRIANGLES, (int) indices.size(), GL_UNSIGNED_INT, nullptr); // Draw from vertex_source arrays.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-}
-
-void Mesh::setup_graphics(const Vertex *vertices, unsigned long size_)
-{
-  add_vbo();
-  add_vertices(vertices, size_);
-  add_vao();
-  bind_vao();
-  add_evo();
-  bind_evo(get_indices());
-  bind_tex();
-
-  glEnableVertexAttribArray(0);  // layout (location = 0) (position).
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glVertexAttribPointer(0, COUNT_VECTOR3D, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (void *) nullptr);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-
-  glEnableVertexAttribArray(1);  // layout (location = 1) (color).
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glVertexAttribPointer(1, COUNT_COLOR, GL_FLOAT, GL_FALSE, VERTEX_SIZE, (void *) (COLOR_SIZE));
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-
-  glEnableVertexAttribArray(2);  // layout (location = 2) (texCoord).
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  glVertexAttribPointer(2, COUNT_VECTOR2D, GL_FLOAT, GL_FALSE, VERTEX_SIZE,
-                        (void *) (COLOR_SIZE + VECTOR3F_SIZE + 1));
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-
-  unbind_tex();
-  unbind_vao();
-  unbind_vbo();
-  unbind_evo();
-}
-
 void Mesh::unbind_tex()
 {
   glBindTexture(GL_TEXTURE_2D, 0);
@@ -147,6 +140,15 @@ void Mesh::unbind_vao()
 void Mesh::unbind_evo()
 {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+}
+
+void Mesh::draw() const
+{
+  bind_vao();
+  bind_tex();
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  glDrawElements(GL_TRIANGLES, (int) indices.size(), GL_UNSIGNED_INT, nullptr); // Draw from vertex_source arrays.
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 

@@ -12,6 +12,12 @@ void Render::reset_bg()
   if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
 }
 
+void Render::set_clear_color(const Color &color)
+{
+  glClearColor(color.get_red(), color.get_green(), color.get_blue(), color.get_alpha());
+  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+}
+
 void Render::set_textures(bool enabled)
 {
   if (enabled) glEnable(GL_TEXTURE_2D);
@@ -43,7 +49,7 @@ void Render::init_graphics()
   if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
   glCullFace(GL_BACK); // The back side of shapes will NOT be drawn.
   if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
-  glEnable(GL_CULL_FACE); // Don't render the back face of shapes since the camera won't see it.
+  glDisable(GL_CULL_FACE); // Don't render the back face of shapes since the camera won't see it.
   if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
 
   // Let OpenGL keep track of depth for shapes and auto determine if some shapes closer or further away from

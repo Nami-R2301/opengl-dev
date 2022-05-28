@@ -26,7 +26,7 @@ public:
   [[maybe_unused]] static int get_y_pos();
   __attribute__((unused)) [[maybe_unused]] static float get_x_scale();
   __attribute__((unused)) [[maybe_unused]] static float get_y_scale();
-  [[maybe_unused]] static Color get_bg_color();
+  __attribute__((unused)) [[maybe_unused]] static Color get_bg_color();
 
   [[maybe_unused]] static void set_width(int width);
   [[maybe_unused]] static void set_height(int height);

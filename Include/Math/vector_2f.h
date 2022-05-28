@@ -13,8 +13,8 @@ public:
   explicit Vector_2f(float x = 0, float y = 0);
   [[nodiscard]] float get_x() const;
   [[nodiscard]] float get_y() const;
-  void setX(float x);
-  void setY(float y);
+  void set_x(float x);
+  void set_y(float y);
   [[nodiscard]] float length() const;
   [[nodiscard]] float dot(const Vector_2f &vector_) const;
   Vector_2f normalize();

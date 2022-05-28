@@ -18,6 +18,7 @@ public:
   static void set_textures(bool enabled);
   static void show_gl_info();
   static void reset_bg();
+  static void set_clear_color(const Color &color);
   static void glfw_error_callback(int error_code, const char *err_str);
   static void gl_error_callback(GLenum source);
 };

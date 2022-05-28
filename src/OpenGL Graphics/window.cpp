@@ -19,7 +19,7 @@ int Window::y_pos = 0;
 float Window::x_scale = 0.0f;
 float Window::y_scale = 0.0f;
 
-Color Window::bg_color;  // Default background color (gray);
+Color Window::bg_color;  // Default background color (gray) NOLINT;
 
 void Window::init()
 {
@@ -167,17 +167,14 @@ __attribute__((unused)) float Window::get_y_scale()
   return Window::y_scale;
 }
 
-Color Window::get_bg_color()
+__attribute__((unused)) Color Window::get_bg_color()
 {
   return Window::bg_color;
 }
 
 void Window::clear_bg()
 {
-  bg_color = Color();
-  get_bg_color().clear();
-  glClearColor(bg_color.get_red(), bg_color.get_green(),
-               bg_color.get_blue(), bg_color.get_alpha());
+  Render::set_clear_color(Color());
   Render::reset_bg();
 }
 

@@ -18,17 +18,24 @@ class Resource_loader
 {
 public:
   explicit Resource_loader(const char *file_path);
-  static std::string load_shader_source(const char *file_path);
-  std::vector<Vertex> load_vertices() const;
-  std::vector<GLuint> load_indices() const;
-  static Texture load_texture(const char *file_path);
-  void load_mesh();
   ~Resource_loader();
+
+  static std::string load_shader_source(const char *file_path);
+  static Texture load_texture_file(const char *file_path);
+  void load_mesh();
+
+  const std::vector<Vertex> &get_vertices() const;
+  const std::vector<GLuint> &get_indices() const;
 private:
   std::ifstream file_stream;
   std::vector<Vertex> vertices;
   std::vector<GLuint> indices;
-  std::vector<GLuint> textures;
+  std::vector<Vector_2f> texCoords;
+
+  void load_vertices(std::stringstream &ss);
+  void load_indices(std::stringstream &ss, std::string &line);
+  void load_textures(std::stringstream &ss);
+  void set_vertex_textures();
 };
 
 #endif //OPENGL_DEV_RES_LOADER_H

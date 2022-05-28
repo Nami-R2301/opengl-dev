@@ -4,7 +4,7 @@
 
 #include "../../Include/Game logic/game.h"
 
-static float color_value = 0.0f;
+//static float color_value = 0.0f;
 static float translation_value = 0.0f;
 Camera Game::camera;  /* NOLINT */
 
@@ -29,13 +29,13 @@ void Game::prepare_mesh()
 {
   // Load custom mesh.
   Resource_loader object_file("Models/cube.obj");
-  Texture texCoord = Resource_loader::load_texture("../Resources/Textures/tiles.png");
-  object_file.load_mesh();
+  Texture texCoord = Resource_loader::load_texture_file("../Resources/Textures/tiles.png");
+  object_file.load_mesh();  // Load obj file containing custom object mesh.
 
   this->mesh.set_tex_id(texCoord.get_id());
-  this->mesh.set_indices(object_file.load_indices());
-  std::vector<Vertex> vertices = object_file.load_vertices();
-  this->mesh.setup_graphics(vertices.data(), VERTEX_SIZE * vertices.size());
+  this->mesh.set_indices(object_file.get_indices());
+  this->mesh.setup_graphics(object_file.get_vertices().data(),
+                            VERTEX_SIZE * object_file.get_vertices().size());
 
   // Init opengl memory buffers and shaders.
   this->program.create_program();
@@ -72,7 +72,7 @@ void Game::update()
 {
   // Update program uniforms
   auto time = (float) sin(glfwGetTime());
-  color_value = std::abs(time);
+//  color_value = std::abs(time);
   translation_value = time / 2;
 
   Transform::set_camera(Game::camera);  // Update camera position.

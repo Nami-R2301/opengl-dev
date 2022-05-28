@@ -22,14 +22,14 @@ float Vector_2f::get_y() const
   return this->y;
 }
 
-void Vector_2f::setX(float x_)
+void Vector_2f::set_x(float x_)
 {
-  this->x = x_;
+  this->x = x;
 }
 
-void Vector_2f::setY(float y_)
+void Vector_2f::set_y(float y_)
 {
-  this->y = y_;
+  this->y = y;
 }
 
 float Vector_2f::length() const
