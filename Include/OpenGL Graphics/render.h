@@ -6,6 +6,7 @@
 #define OPENGL_DEV_RENDER_H
 
 #include "GLFW/glfw3.h"
+#include <GLES3/gl3.h>
 #include "color.h"
 #include <cmath>
 #include "../Logs/logger.h"

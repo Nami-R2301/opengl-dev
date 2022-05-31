@@ -52,10 +52,10 @@ void Engine::start()
   set_running_state(true);
   Logger::alert("------------STARTING UP ENGINE--------------\n");
   Render::init_graphics();  // Setup openGL graphic settings.
-  Window::create_window();
+  Window::create_window();  // Make glfw context.
   Game::set_callbacks();  // Set our mouse and keyboard callbacks.
   Render::show_gl_info();  // Show info about opengl and glfw versions.
-  this->game->prepare_mesh();
+  this->game->prepare_mesh();  // Initialize and load meshes to draw on screen.
   Logger::alert("------------SUCCESSFULLY STARTED UP ENGINE--------------\n");
 }
 
@@ -64,22 +64,23 @@ void Engine::run()
   start();  // Start and setup engine.
   Logger::alert("------------RUNNING--------------\n");
   char title[sizeof(long) + 5];
-  auto previous_time = std::chrono::system_clock::now();
+  this->system_time.set_previous_time(std::chrono::system_clock::now());
   while (!Window::is_closed())
   {
-    auto current_time = std::chrono::system_clock::now();
+    this->system_time.set_current_time(std::chrono::system_clock::now());
     if (!Window::is_closed()) render();
     set_frame_counter(this->frame_counter + 1);  // Increment fps.
     // Show how many fps were achieved if a second passed or if we rendered enough frames before the second passed.
-    if (current_time - previous_time >= std::chrono::seconds(1) || this->frame_counter >= Window::get_refresh_rate())
+    if (this->system_time.get_delta_time_chrono() >= std::chrono::seconds(1) ||
+        this->frame_counter >= Window::get_refresh_rate())
     {
       snprintf(title, sizeof(title), "%ld FPS", get_frame_counter());
       glfwSetWindowTitle(Window::get_window(), title);
 
       set_frame_counter(0);  // Reset since the second has passed.
-      previous_time = current_time;  // Count towards the next second.
+      this->system_time.set_previous_time(this->system_time.get_current_time());  // Count towards the next second.
     }
-    glfwPollEvents(); // Listen and call the appropriate keyboard and mouse callbacks.
+    glfwPollEvents(); // Listen and call the appropriate events.
   }
   Logger::alert("------------STOPPING--------------\n");
   stop();  // Terminate and cleanup.
@@ -88,6 +89,7 @@ void Engine::run()
 void Engine::render()
 {
   Window::clear_bg();  // Reset the background color on screen.
+  this->game->input();  // Read and process game inputs.
   this->game->update();  // Update the game.
   this->game->render();  // Redraw on screen.
   Window::refresh(); // Refresh the window screen.

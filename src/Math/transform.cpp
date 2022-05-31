@@ -56,17 +56,17 @@ void Transform::set_rotation(const Vector_3f &rotation_)
   this->rotation = rotation_;
 }
 
-__attribute__((unused)) const Vector_3f &Transform::get_scale() const
+[[maybe_unused]] const Vector_3f &Transform::get_scale() const
 {
   return this->scale;
 }
 
-void Transform::set_scale(const Vector_3f &scale_)
+[[maybe_unused]] void Transform::set_scale(const Vector_3f &scale_)
 {
   this->scale = scale_;
 }
 
-const Camera &Transform::get_camera()
+[[maybe_unused]] const Camera &Transform::get_camera()
 {
   return camera;
 }

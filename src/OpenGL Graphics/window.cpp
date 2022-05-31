@@ -3,6 +3,7 @@
 //
 
 #include "../../Include/OpenGL Graphics/window.h"
+#include "../../Include/Game logic/input.h"
 
 GLFWwindow *Window::window = nullptr;
 GLFWmonitor *Window::monitor = nullptr;  // Defaults to windowed mode.
@@ -24,11 +25,6 @@ Color Window::bg_color;  // Default background color (gray) NOLINT;
 void Window::init()
 {
   glfwSetWindowAspectRatio(Window::window, 16, 9);
-  glfwSetInputMode(Window::window, GLFW_CURSOR, GLFW_CURSOR_NORMAL); // Set our mouse cursor to default.
-
-  /* Set our different callbacks for handling events. */
-  // Make sure we finish events before treating the next ones.
-  glfwSetInputMode(Window::window, GLFW_STICKY_KEYS, GLFW_TRUE);
 }
 
 void Window::setup_monitor()
@@ -95,6 +91,16 @@ void Window::refresh()
   glfwSwapInterval(1);  // Disable/enable Vertical synchronisation (Vsync).
 }
 
+void Window::input()
+{
+  if (Input::get_key(GLFW_KEY_F)) toggle_fullscreen();
+  if (Input::get_key_down(GLFW_KEY_LEFT_ALT) &&
+      Input::get_key_down(GLFW_KEY_F4))
+  {
+    glfwSetWindowShouldClose(Window::get_window(), true);
+  }
+}
+
 // Let the window open as long as the close flag (gathered by glfwPollEvents) is not set to true.
 bool Window::is_closed()
 {
@@ -117,17 +123,17 @@ GLFWwindow *Window::get_window()
   return Window::height;
 }
 
-[[maybe_unused]] void Window::set_width(int width_)
+void Window::set_width(int width_)
 {
   Window::width = width_;
 }
 
-[[maybe_unused]] void Window::set_height(int height_)
+void Window::set_height(int height_)
 {
   Window::height = height_;
 }
 
-[[maybe_unused]] bool Window::is_fullscreen()
+bool Window::is_fullscreen()
 {
   return Window::fullscreen;
 }
@@ -142,7 +148,7 @@ GLFWwindow *Window::get_window()
   Window::refresh_rate = refresh_rate_;
 }
 
-[[maybe_unused]] void Window::set_fullscreen(bool fullscreen_state)
+void Window::set_fullscreen(bool fullscreen_state)
 {
   Window::fullscreen = fullscreen_state;
 }
@@ -157,17 +163,17 @@ int Window::get_y_pos()
   return Window::y_pos;
 }
 
-__attribute__((unused)) float Window::get_x_scale()
+[[maybe_unused]] float Window::get_x_scale()
 {
   return Window::x_scale;
 }
 
-__attribute__((unused)) float Window::get_y_scale()
+[[maybe_unused]] float Window::get_y_scale()
 {
   return Window::y_scale;
 }
 
-__attribute__((unused)) Color Window::get_bg_color()
+[[maybe_unused]] Color Window::get_bg_color()
 {
   return Window::bg_color;
 }
@@ -178,22 +184,27 @@ void Window::clear_bg()
   Render::reset_bg();
 }
 
-void toggle_fullscreen(GLFWwindow *window)
+void Window::toggle_fullscreen()
 {
-  GLFWmonitor *monitor = glfwGetWindowMonitor(window);
-  if (!monitor)
+  if (!is_fullscreen())
   {
     monitor = glfwGetPrimaryMonitor();
     const GLFWvidmode *mode = glfwGetVideoMode(monitor);
     glfwSetWindowMonitor(window, monitor, Window::get_x_pos(), Window::get_y_pos(),
                          mode->width, mode->height, mode->refreshRate);
+    set_fullscreen(true);
+    set_width(mode->width);
+    set_height(mode->height);
   } else
   {
-    int width, height;
-    glfwGetWindowSize(window, &width, &height);
+    int width_ = 0, height_ = 0;
+    glfwGetWindowSize(window, &width_, &height_);
     glfwSetWindowMonitor(window, nullptr, Window::get_x_pos(), Window::get_y_pos(),
-                         (int) (width / 2), (int) (height / 2),
+                         (int) (width_ / 2), (int) (height_ / 2),
                          GLFW_DONT_CARE);  // Set maximum refresh rate possible.
+    set_fullscreen(false);
+    set_width(width_);
+    set_height(height_);
   }
 }
 

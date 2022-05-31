@@ -12,7 +12,6 @@
 #include "OpenGL Graphics/window.h"
 #include "Logs/logger.h"
 
-//TODO: Change max fps to reasonable amount when in production.
 #define NOT_FINISHED 223
 #define CRASH 224
 
@@ -35,6 +34,7 @@ private:
   gl_vertex_data_s data;
   bool running_state;
   long frame_counter;
+  Game_time system_time;
   int exit_code = NOT_FINISHED;  // Document the program exit code for maintenance.
 
   [[maybe_unused]] void set_game(Game *game_);

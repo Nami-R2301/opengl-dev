@@ -49,7 +49,7 @@ int Matrix_4f::get_num_cols() const
   return num_cols;
 }
 
-__attribute__((unused)) void Matrix_4f::print_values() const
+[[maybe_unused]] void Matrix_4f::print_values() const
 {
   for (int i = 0; i < get_num_rows(); ++i)
   {
@@ -163,13 +163,10 @@ void Matrix_4f::init_projection(float fov_, float width_, float height_, float z
 
 void Matrix_4f::init_camera(Vector_3f forward, Vector_3f up)
 {
-  Vector_3f f = forward;
-  f.normalize();
+  Vector_3f f = forward.normalize();
+  Vector_3f r = up.normalize();
 
-  Vector_3f r = up;
-  r.normalize();
   r = r.cross(f);
-
   Vector_3f u = f.cross(r);
 
   set_value(0, 0, r.get_x());

@@ -11,6 +11,7 @@
 #include "../OpenGL Graphics/shader.h"
 #include "../Math/transform.h"
 #include "../OpenGL Graphics/window.h"
+#include "../OpenGL Graphics/material.h"
 
 typedef struct gl_data_s
 {
@@ -23,41 +24,33 @@ class Game
 {
 public:
   Game();
-  [[nodiscard]] Shader get_program();
   void prepare_mesh();
+  void input();
   void update();
   void render();
   void save();
   void cleanup();
 
+  [[nodiscard]] Shader get_program();
   [[nodiscard]] Mesh get_mesh() const;
   [[maybe_unused]] void set_mesh(const Mesh &mesh);
-  __attribute__((unused)) Transform get_transform() const;
-  __attribute__((unused)) void set_transform(const Transform &transform_);
-  __attribute__((unused)) static Camera get_camera();
+  [[maybe_unused]] Transform get_transform() const;
+  [[maybe_unused]] void set_transform(const Transform &transform_);
+  [[nodiscard]] Camera get_camera();
 
   void *operator new(unsigned long size);
   void operator delete(void *game);
 
   static void set_callbacks();
-  static void key_callback([[maybe_unused]] GLFWwindow *window, int key, [[maybe_unused]] int scan_code,
-                           int action, int combination);
+  static void window_viewport_callback([[maybe_unused]] GLFWwindow *window, int width, int height);
+  static void window_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 private:
   Mesh mesh;
   Shader program;
   Transform transform;
-  static Camera camera;
+  Material material;
+  Camera camera;
 };
-
-void toggle_fullscreen(GLFWwindow *window);
-
-void window_viewport_callback([[maybe_unused]] GLFWwindow *, int, int);
-
-void cursor_position_callback(GLFWwindow *window, double, double);
-
-void cursor_enter_callback([[maybe_unused]] GLFWwindow *, int);
-
-void mouse_button_callback([[maybe_unused]] GLFWwindow *, int, int, int);
 
 //void scroll_callback([[maybe_unused]] GLFWwindow *, double, double);
 

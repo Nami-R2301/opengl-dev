@@ -13,7 +13,7 @@
 #define COUNT_VECTOR2D 2
 #define COUNT_VECTOR3D 3
 #define COUNT_COLOR 4
-#define COLOR_SIZE sizeof(float) * 4
+//#define COLOR_SIZE sizeof(float) * 4
 #define VERTEX_SIZE sizeof(float) * 9
 //#define TEXTURE_SIZE VECTOR2F_SIZE
 

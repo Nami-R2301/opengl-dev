@@ -172,7 +172,7 @@ void Shader::add_uniform(const char *uniform)
   char buffer[75];
   if (uniform_location < 0)
   {
-    if (snprintf(buffer, 75, "ERROR : COULD NOT FIND UNIFORM : %s", uniform) < 0)
+    if (snprintf(buffer, 75, "ERROR : COULD NOT FIND UNIFORM : %s\n", uniform) < 0)
     {
       Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
       exit(ERROR_SNPRINTF);
@@ -181,21 +181,21 @@ void Shader::add_uniform(const char *uniform)
   } else this->uniforms.emplace(uniform, uniform_location);
 }
 
-void Shader::set_uniform(const char *uniform_name, int value)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value)
 {
   glUniform1i(this->uniforms[uniform_name], value);
   GLenum error = glGetError();
   if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
 
-void Shader::set_uniform(const char *uniform_name, float value)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, float value)
 {
   glUniform1f(this->uniforms[uniform_name], value);
   GLenum error = glGetError();
   if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
 
-void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
 {
   glUniform3f(this->uniforms[uniform_name], vector_3f.get_x(),
               vector_3f.get_y(),
@@ -219,6 +219,14 @@ void Shader::set_uniform(const char *uniform_name, const Color &color)
   GLenum error = glGetError();
   if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
+
+//void Shader::update_uniforms(const Matrix_4f &world_matrix, Matrix_4f projected_matrix,
+//                             const Material &material)
+//{
+//  // Set program uniforms.
+//  set_uniform("color", material.get_color());
+//  set_uniform("transform", projected_matrix);
+//}
 
 void Shader::cleanup()
 {

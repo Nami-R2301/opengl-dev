@@ -26,7 +26,7 @@ void Logger::save_to_file(const char *info)
 
 void Logger::alert(const char *info, int info_type, bool inline_)
 {
-  auto time = Time::get_real_time();  // Get std::time_t struct.
+  auto time = Game_time::get_real_time();  // Get std::time_t struct.
   char *current_time = ctime(&time);  // Transform to const char*.
   current_time[strlen(current_time) - 1] = '\0';  // Remove newline.
 

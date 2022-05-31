@@ -14,17 +14,20 @@
 #include "../Logs/logger.h"
 #include "../Math/matrix_4f.h"
 #include "res_loader.h"
+#include "material.h"
 
 class Shader
 {
 public:
   Shader();
+
   [[maybe_unused]] [[nodiscard]] const char *get_fragment_source() const;
   [[maybe_unused]] [[nodiscard]] const char *get_vertex_source() const;
   [[maybe_unused]] void set_fragment_source(const char *file_path);
   [[maybe_unused]] void set_vertex_source(const char *file_path);
-  void create_program();
   [[nodiscard]] GLuint get_program() const;
+
+  void create_program();
   void add_shader(int shader_type, const char *source) const;
   void delete_shader() const;
   static void source(GLuint count = 1, const char *source = nullptr, int *length = nullptr);
@@ -33,13 +36,15 @@ public:
   void link() const;
   void validate() const;
   void activate() const;
-//  static void scroll_callback([[maybe_unused]] GLFWwindow *window, double x_offset, double y_offset);
+
+//  void update_uniforms(const Matrix_4f& world_matrix, Matrix_4f projected_matrix, const Material& material);
   void add_uniform(const char *uniform);
   void set_uniform(const char *uniform_name, int value);
   void set_uniform(const char *uniform_name, float value);
   void set_uniform(const char *uniform_name, const Color &color);
   void set_uniform(const char *uniform_name, const Vector_3f &vector_3f);
   void set_uniform(const char *uniform_name, const Matrix_4f &matrix_4f);
+
   void cleanup();
 
 private:

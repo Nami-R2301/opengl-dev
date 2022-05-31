@@ -5,8 +5,8 @@
 #ifndef OPENGL_DEV_COLOR_H
 #define OPENGL_DEV_COLOR_H
 
-#include <GLES3/gl3.h>
-#include "../../Include/Logs/logger.h"
+#include <cstdio>
+#include "../Logs/logger.h"
 
 // Set custom colors for the background or for fragments.
 class Color

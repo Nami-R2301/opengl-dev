@@ -14,17 +14,22 @@ class Vector_3f
 {
 public:
   explicit Vector_3f(float x = 0, float y = 0, float z = 0);
+
   [[nodiscard]] float get_x() const;
   [[nodiscard]] float get_y() const;
   [[nodiscard]] float get_z() const;
+
   void set_x(float x);
   void set_y(float y);
   void set_z(float z_);
+
   [[nodiscard]] float length() const;
   [[nodiscard]] float dot(const Vector_3f &other_vector) const;
-  Vector_3f normalize();
+  [[nodiscard]] Vector_3f normalize() const;
   [[nodiscard]] Vector_3f cross(const Vector_3f &other_vector) const;
-  Vector_3f rotate(float angle, const Vector_3f &axis);
+  [[nodiscard]] Vector_3f rotate(float angle, const Vector_3f &axis) const;
+  [[nodiscard]] Vector_3f absolute() const;
+
   Vector_3f operator+(const Vector_3f &other_vector) const;
   Vector_3f operator+(float coord) const;
   Vector_3f operator-(const Vector_3f &other_vector) const;

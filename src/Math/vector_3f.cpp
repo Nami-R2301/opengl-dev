@@ -47,18 +47,17 @@ float Vector_3f::length() const
   return std::sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
 }
 
-float Vector_3f::dot(const Vector_3f &other_vector) const
+[[maybe_unused]] float Vector_3f::dot(const Vector_3f &other_vector) const
 {
   return (this->x * other_vector.get_x()) +
          (this->y * other_vector.get_y()) +
          (this->z * other_vector.get_z());
 }
 
-Vector_3f Vector_3f::normalize()
+Vector_3f Vector_3f::normalize() const
 {
   float length = this->length();
-  this->x /= length, this->y /= length, this->z /= length;
-  return *this;
+  return Vector_3f(this->x / length, this->y / length, this->z / length);
 }
 
 Vector_3f Vector_3f::cross(const Vector_3f &other_vector) const
@@ -69,7 +68,7 @@ Vector_3f Vector_3f::cross(const Vector_3f &other_vector) const
   return Vector_3f(x_, y_, z_);
 }
 
-Vector_3f Vector_3f::rotate(float angle, const Vector_3f &axis)
+Vector_3f Vector_3f::rotate(float angle, const Vector_3f &axis) const
 {
   auto angle_to_rad = (float) (angle * (M_PI / 180));
   float sin_half_angle = sinf(angle_to_rad / 2);
@@ -82,10 +81,12 @@ Vector_3f Vector_3f::rotate(float angle, const Vector_3f &axis)
   Quaternion conjugate = rotation.conjugate();
   Quaternion w = (rotation.multiply(*this)) * conjugate;
 
-  this->x = w.get_x();
-  this->y = w.get_y();
-  this->z = w.get_z();
-  return *this;
+  return Vector_3f(w.get_x(), w.get_y(), w.get_z());
+}
+
+[[maybe_unused]] Vector_3f Vector_3f::absolute() const
+{
+  return Vector_3f(std::abs(this->x), std::abs(this->y), std::abs(this->z));
 }
 
 // Add two vectors.

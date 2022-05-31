@@ -15,8 +15,8 @@ class Matrix_4f
 public:
   Matrix_4f();
   [[maybe_unused]] Matrix_4f(const Matrix_4f &other_matrix);
-  void init_identity();
   [[maybe_unused]] void init_translation(float x, float y, float z);
+  void init_identity();
   void init_translation(const Vector_3f &vector_3f);
   void init_rotation(Vector_3f vector_3f);
   void init_scale(Vector_3f vector_3f);

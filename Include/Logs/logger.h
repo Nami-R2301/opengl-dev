@@ -5,12 +5,13 @@
 #ifndef OPENGL_DEV_LOGGER_H
 #define OPENGL_DEV_LOGGER_H
 
-// chrono and snprintf.
-#include "../Game logic/time.h"
+// Game_time
+#include "../Game logic/game_time.h"
 
-// strlen and std::string.
+// strlen, std::string and snprintf.
 #include <cstdlib>
 #include <cstring>
+#include <cstdio>
 
 #define INFO 1
 #define ERROR 2

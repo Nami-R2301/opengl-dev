@@ -16,6 +16,8 @@ public:
   static void create_window();
   static void clear_bg();
   static void refresh();
+  static void input();
+  static void toggle_fullscreen();
   [[maybe_unused]] static void hide();
 
   static GLFWwindow *get_window();
@@ -24,9 +26,9 @@ public:
   [[maybe_unused]] static int get_refresh_rate();
   [[maybe_unused]] static int get_x_pos();
   [[maybe_unused]] static int get_y_pos();
-  __attribute__((unused)) [[maybe_unused]] static float get_x_scale();
-  __attribute__((unused)) [[maybe_unused]] static float get_y_scale();
-  __attribute__((unused)) [[maybe_unused]] static Color get_bg_color();
+  [[maybe_unused]] static float get_x_scale();
+  [[maybe_unused]] static float get_y_scale();
+  [[maybe_unused]] static Color get_bg_color();
 
   [[maybe_unused]] static void set_width(int width);
   [[maybe_unused]] static void set_height(int height);
