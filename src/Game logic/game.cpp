@@ -27,13 +27,14 @@ void Game::prepare_mesh()
 {
   // Load custom mesh.
   Resource_loader object_file("Models/cube.obj");
-  Texture texCoord = Resource_loader::load_texture_file("../Resources/Textures/tiles.png");
+  this->material.set_texture(Resource_loader::load_texture_file("../Resources/Textures/tiles.png"));
   object_file.load_mesh();  // Load obj file containing custom object mesh.
 
-  this->mesh.set_tex_id(texCoord.get_id());
+  std::vector<Vertex> vertices_ = object_file.get_vertices();
+  this->mesh.set_tex_id(this->material.get_texture().get_id());
   this->mesh.set_indices(object_file.get_indices());
-  this->mesh.setup_graphics(object_file.get_vertices().data(),
-                            VERTEX_SIZE * object_file.get_vertices().size());
+  this->mesh.setup_graphics(vertices_.data(),
+                            VERTEX_SIZE * vertices_.size());
 
   // Init opengl memory buffers and shaders.
   this->program.create_program();
@@ -44,7 +45,7 @@ void Game::prepare_mesh()
   this->program.link();
 
   // Add shader uniforms to glsl program.
-  this->program.add_uniform("color");
+//  this->program.add_uniform("uniform_color");
   this->program.add_uniform("transform");
   // Set world view inside window.
   Transform::set_projection(125.0f, (float) Window::get_width(), (float) Window::get_height(),
@@ -89,8 +90,8 @@ void Game::update()
 void Game::render()
 {
   this->program.activate(); // Specify what program to use.
-  this->program.set_uniform("color", material.get_color());
   this->program.set_uniform("transform", this->transform.get_projected_transformation());
+//  this->program.set_uniform("uniform_color", material.get_color());
   this->mesh.draw();
 }
 
