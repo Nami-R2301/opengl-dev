@@ -2,7 +2,7 @@
 // Created by nami on 5/30/22.
 //
 
-#include "../Include/OpenGL Graphics/material.h"
+#include "../../Include/OpenGL Graphics/material.h"
 
 Material::Material(const Texture &texture, const Color &color)
 {
