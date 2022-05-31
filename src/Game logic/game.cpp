@@ -44,10 +44,10 @@ void Game::prepare_mesh()
   this->program.link();
 
   // Add shader uniforms to glsl program.
-//  this->program.add_uniform("fragment_color");
+  this->program.add_uniform("color");
   this->program.add_uniform("transform");
   // Set world view inside window.
-  Transform::set_projection(85.0f, (float) Window::get_width(), (float) Window::get_height(),
+  Transform::set_projection(125.0f, (float) Window::get_width(), (float) Window::get_height(),
                             0.1f, 1000.0f);
 }
 
@@ -76,7 +76,7 @@ void Game::update()
 {
   auto time = (float) sin(glfwGetTime());
   translation_value = time / 2;
-  this->material.set_color(Color(time, time, time, 1.0f));
+  this->material.set_color(Color(time, 0, time, 1.0f));
 
   Transform::set_camera(get_camera());  // Update camera position.
   this->transform.set_translation(Vector_3f(translation_value, 0, 5));

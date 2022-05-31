@@ -212,7 +212,7 @@ void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
   if (error != GL_NO_ERROR) Render::gl_error_callback(error);
 }
 
-void Shader::set_uniform(const char *uniform_name, const Color &color)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color)
 {
   glUniform4f(this->uniforms[uniform_name],
               color.get_red(), color.get_green(), color.get_blue(), color.get_alpha());
