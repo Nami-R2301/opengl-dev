@@ -9,13 +9,13 @@ static bool glfw_init = false;  // Flag to check glfw prepare_mesh status.
 void Render::reset_bg()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear and change the back buffer color bit with our color.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "RENDER.CPP", 12);  // check errors.
 }
 
 void Render::set_clear_color(const Color &color)
 {
   glClearColor(color.get_red(), color.get_green(), color.get_blue(), color.get_alpha());
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "RENDER.CPP", 18);  // check errors.
 }
 
 void Render::set_textures(bool enabled)
@@ -33,35 +33,34 @@ void Render::init_graphics()
   glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);  // Calls to callback will be synchronous for debug breakpoints.
   glEnable(GL_DEBUG_OUTPUT);  // Enable debug output.
   set_textures(true);  // Enable textures.
-  if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) gl_error_callback(glGetError(), "RENDER.CPP", 36);  // check errors.
 
   // Init glfw library.
-  Logger::alert("INITIALIZING GLFW...\t", INFO);
+  Logger::alert(INFO, "INITIALIZING GLFW...");
   glfwInit();
   glfw_init = true;
-  Logger::alert("Done.\n", INFO, true);
 
   Color background_color;  // Default dark-mode-like color for background.
   glClearColor(background_color.get_red(), background_color.get_green(),
                background_color.get_blue(), background_color.get_alpha());
 
   glFrontFace(GL_CW); // Every shape drawn in clock-wise manner will be considered the FRONT face.
-  if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) gl_error_callback(glGetError(), "RENDER.CPP", 49);  // check errors.
   glCullFace(GL_BACK); // The back side of shapes will NOT be drawn.
-  if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) gl_error_callback(glGetError(), "RENDER.CPP", 51);  // check errors.
   glDisable(GL_CULL_FACE); // Don't render the back face of shapes since the camera won't see it.
-  if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) gl_error_callback(glGetError(), "RENDER.CPP", 53);  // check errors.
 
   // Let OpenGL keep track of depth for shapes and auto determine if some shapes closer or further away from
   // the camera should take priority (drawn on top of other ones).
   glEnable(GL_DEPTH_TEST);
-  if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) gl_error_callback(glGetError(), "RENDER.CPP", 58);  // check errors.
 
   //TODO: Depth clamp for later.
 
   // Let OpenGL do the exponential gamma correction for us so textures and colors don't appear as dark.
   glEnable(GL_FRAMEBUFFER_SRGB);
-  if (glGetError() != 0) gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) gl_error_callback(glGetError(), "RENDER.CPP", 64);  // check errors.
 }
 
 const char *Render::get_GL_version()
@@ -71,45 +70,24 @@ const char *Render::get_GL_version()
 
 void Render::show_gl_info()
 {
-  Logger::alert("FETCHING OPENGL AND GLFW INFO...\n");
+  Logger::alert(INFO, "FETCHING OPENGL AND GLFW INFO");
   // Get openGL and GLFW version.
   int num_ext;
   glGetIntegerv(GL_NUM_EXTENSIONS, &num_ext);
-  char buffer[75];
-  if (snprintf(buffer, 75, "Extensions available : %d\n", num_ext) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-  Logger::alert(buffer);
-  if (snprintf(buffer, 75, "Opengl version : %s\n", get_GL_version()) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-  Logger::alert(buffer);
-  if (snprintf(buffer, 75, "GLFW Version : %s\n", glfwGetVersionString()) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-  Logger::alert(buffer);
+
+  Logger::alert(INFO, "Extensions available : %d", num_ext);
+  Logger::alert(INFO, "Opengl version : %s", get_GL_version());
+  Logger::alert(INFO, "GLFW Version : %s", glfwGetVersionString());
 }
 
 void Render::glfw_error_callback(int error_code, const char *err_str)
 {
-  char print_buffer[256];
-  if (snprintf(print_buffer, 256, "ERROR : %s\n", err_str) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-  Logger::alert(print_buffer, ERROR);
+  Logger::alert(ERROR, "ERROR : %s", err_str);
   if (glfw_init) glfwTerminate();  // If glfw has been initialized.
   exit(error_code);
 }
 
-void Render::gl_error_callback(GLenum source)
+void Render::gl_error_callback(GLenum source, const char *source_file, unsigned int line_number)
 {
   char _source[50];
   switch (source)
@@ -142,12 +120,7 @@ void Render::gl_error_callback(GLenum source)
       sprintf(_source, "UNKNOWN");
       break;
   }
-  char print_buffer[256];
-  if (snprintf(print_buffer, 256, "OpenGL error :\n%s ERROR", _source) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-  Logger::alert(print_buffer, ERROR);
+  Logger::alert(ERROR, "OPENGL ERROR IN %s AT LINE %d :\n%s ERROR",
+                source_file, line_number, _source);
   exit((int) source);
 }

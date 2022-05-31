@@ -27,6 +27,7 @@ public:
   [[maybe_unused]] void set_vertex_source(const char *file_path);
   [[nodiscard]] GLuint get_program() const;
 
+  void setup_basic_shader();
   void create_program();
   void add_shader(int shader_type, const char *source) const;
   void delete_shader() const;

@@ -13,7 +13,7 @@ public:
   Texture();
   explicit Texture(const char *file_path);
 
-  [[nodiscard]] unsigned int get_id() const;
+  [[nodiscard]] GLuint get_id() const;
   void set_id(int id_texture);
   void set_local_buffer(unsigned char *local_buffer);
   int get_width() const;
@@ -23,6 +23,8 @@ public:
   int get_bits_per_pixel() const;
   void set_bits_per_pixel(int bits_per_pixel);
   unsigned char *get_local_buffer() const;
+
+  Texture &operator=(const Texture &other_texture);
 private:
   GLuint id = 0;
   unsigned char *local_buffer = nullptr;

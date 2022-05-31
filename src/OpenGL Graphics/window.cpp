@@ -31,19 +31,15 @@ void Window::setup_monitor()
 {
   int monitor_count;
   GLFWmonitor **monitors = glfwGetMonitors(&monitor_count);
-  Logger::alert("DETECTING MONITOR...\n");
-  char print_buffer[75];
-  snprintf(print_buffer, sizeof(print_buffer), "Number of monitors detected : %d\n", monitor_count);
-  Logger::alert(print_buffer);
+  Logger::alert(INFO, "DETECTING MONITOR...");
+  Logger::alert(INFO, "Number of monitors detected : %d", monitor_count);
   Window::monitor = monitors[0]; // Get main monitor specs.
   const GLFWvidmode *mode = glfwGetVideoMode(monitor); // Get video specs of monitor.
   Window::width = (int) (mode->width / 2);
   Window::height = (int) (mode->height / 2);
   Window::refresh_rate = mode->refreshRate;
-  snprintf(print_buffer, sizeof(print_buffer),
-           "Monitor stats : \tWidth : %dpx, height : %dpx, refresh rate : %dhz\n",
-           mode->width, mode->height, mode->refreshRate);
-  Logger::alert(print_buffer);
+  Logger::alert(INFO, "Monitor stats : \tWidth : %dpx, height : %dpx, refresh rate : %dhz",
+                mode->width, mode->height, mode->refreshRate);
   glfwGetMonitorContentScale(monitor, &Window::x_scale, &Window::y_scale);  // Get monitor scale.
 
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
@@ -64,18 +60,18 @@ void Window::setup_monitor()
 
 void Window::create_window()
 {
-  Logger::alert("CREATING WINDOW...\n");
+  Logger::alert(INFO, "CREATING WINDOW...");
   setup_monitor();
   // Generate a pointer to a window using our monitor info, so that we later hide it.
   Window::window = glfwCreateWindow(Window::width, Window::height, "Game",
                                     nullptr, nullptr);  // Windowed mode.
   init();
-  Logger::alert("DONE CREATING WINDOW.\n");
+  Logger::alert(INFO, "DONE CREATING WINDOW.");
   glfwMakeContextCurrent(Window::window); // Show our window.
   // Specify which coordinates to draw for our window -> from (0,0) to (monitor_width, monitor_height).
   glViewport(0, 0, Window::width, Window::height);
   glfwGetWindowPos(window, &Window::x_pos, &Window::y_pos);  // Get initial window position.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "WINDOW.CPP", 78);  // check errors.
 }
 
 // Show the window created.
@@ -211,8 +207,7 @@ void Window::toggle_fullscreen()
 // Free resources and close the window.
 void Window::cleanup()
 {
-  Logger::alert("DESTROYING WINDOW...\t");
+  Logger::alert(INFO, "DESTROYING WINDOW...");
   glfwDestroyWindow(Window::window);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  Logger::alert("Done.\n", INFO, true);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "WINDOW.CPP", 216);  // check errors.
 }

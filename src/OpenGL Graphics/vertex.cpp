@@ -40,7 +40,7 @@ Vertex::Vertex(const Vertex &_vertex_)
   Vertex::position = position_;
 }
 
-const Vector_2f &Vertex::get_texCoord() const
+[[maybe_unused]] const Vector_2f &Vertex::get_texCoord() const
 {
   return texCoord;
 }
@@ -85,17 +85,10 @@ Vertex::Vertex(float x_coord, float y_coord, float z_coord, float _red_, float _
 
 void Vertex::print_vertex() const
 {
-  char buffer[256];
-  if (snprintf(buffer, 256, "\nCoordinates :\nx = %.2f;\ny = %.2f;\nz = %.2f\n\nColor :\nRed = %.2f;\n"
-                            "Green = %.2f;\nBlue =  %.2f;\nAlpha = %.2f\n", this->position.get_x(),
-               this->position.get_y(), this->position.get_z(), this->color.get_red(),
-               this->color.get_green(), this->color.get_blue(), this->color.get_alpha()) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-
-  Logger::alert(buffer);
+  Logger::alert(INFO, "\nCoordinates :\nx = %.2f;\ny = %.2f;\nz = %.2f\n\nColor :\nRed = %.2f;\n"
+                      "Green = %.2f;\nBlue =  %.2f;\nAlpha = %.2f", this->position.get_x(),
+                this->position.get_y(), this->position.get_z(), this->color.get_red(),
+                this->color.get_green(), this->color.get_blue(), this->color.get_alpha());
 }
 
 float Vertex::length() const

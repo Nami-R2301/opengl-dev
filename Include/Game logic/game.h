@@ -23,7 +23,7 @@ typedef struct gl_data_s
 class Game
 {
 public:
-  Game();
+  explicit Game();
   void prepare_mesh();
   void input();
   void update();

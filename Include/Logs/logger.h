@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
+#include <cstdarg>
 
 #define INFO 1
 #define ERROR 2
@@ -23,7 +24,7 @@ class Logger
 {
 public:
   static void open_file();
-  static void alert(const char *info, int info_type = INFO, bool inline_ = false);
+  static void alert(int info_type = INFO, const char *format = "\n", ...);
   static void close_file();
 private:
   static void save_to_file(const char *info);

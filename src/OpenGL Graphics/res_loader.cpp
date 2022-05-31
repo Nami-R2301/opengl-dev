@@ -9,7 +9,7 @@ Resource_loader::Resource_loader(const char *file_path)
   char relative_file_path[255];
   if (snprintf(relative_file_path, 255, "../Resources/%s", file_path) < 0)
   {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+    Logger::alert(ERROR, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...");
     exit(ERROR_SNPRINTF);
   }
   this->file_stream = std::ifstream(relative_file_path);
@@ -21,7 +21,7 @@ std::string Resource_loader::load_shader_source(const char *file_path)
   char relative_file_path[255];
   if (snprintf(relative_file_path, 255, "../Resources/Shaders/%s", file_path) < 0)
   {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+    Logger::alert(ERROR, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...");
     exit(ERROR_SNPRINTF);
   }
 
@@ -41,9 +41,8 @@ std::string Resource_loader::load_shader_source(const char *file_path)
 
 Texture Resource_loader::load_texture_file(const char *file_path)
 {
-  Logger::alert("LOADING TEXTURE...\t");
-  Texture tex = Texture(file_path);
-  Logger::alert("Done.\n", INFO, true);
+  Logger::alert(INFO, "LOADING TEXTURE...");
+  Texture tex(file_path);
   return tex;
 }
 
@@ -64,9 +63,15 @@ void Resource_loader::load_mesh()
     if (prefix == "vt") load_textures(ss);  // Load texture coordinates.
   }
   set_vertex_textures();  // Set Vector_2f texture coordinates for each appropriate vertex.
-  if (texCoords.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR TEXTURE DATA (f) NOT FOUND!\n", ERROR);
-  if (vertices.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR VERTEX DATA (v) NOT FOUND!\n", ERROR);
-  if (indices.empty()) Logger::alert("ERROR : OBJECT FILE (.OBJ) FOR FACE DATA (f) NOT FOUND!\n", ERROR);
+  if (texCoords.empty())
+    Logger::alert(ERROR,
+                  "ERROR : OBJECT FILE (.OBJ) FOR TEXTURE DATA (f) NOT FOUND!\n");
+  if (vertices.empty())
+    Logger::alert(ERROR,
+                  "ERROR : OBJECT FILE (.OBJ) FOR VERTEX DATA (v) NOT FOUND!\n");
+  if (indices.empty())
+    Logger::alert(ERROR,
+                  "ERROR : OBJECT FILE (.OBJ) FOR FACE DATA (f) NOT FOUND!\n");
 }
 
 void Resource_loader::load_vertices(std::stringstream &ss)

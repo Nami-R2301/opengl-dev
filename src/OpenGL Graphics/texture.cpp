@@ -19,19 +19,19 @@ Texture::Texture(const char *file_path) : id(0), local_buffer(nullptr),
 
   // Initialize openGL texture buffers.
   glGenTextures(1, &id);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 22);  // check errors.
 
   // Initialize flags for texture buffers.
   glBindTexture(GL_TEXTURE_2D, id);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 26);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);  // Min surface to cover.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 28);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  // Max surface to cover and extend.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 30);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);  // Normalize x-axis of texture.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 32);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);  // Normalize y-axis of texture.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 34);  // check errors.
 
   // Assign texture image to texture buffer.
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
@@ -43,7 +43,7 @@ Texture::Texture(const char *file_path) : id(0), local_buffer(nullptr),
     stbi_image_free(local_buffer);
 }
 
-unsigned int Texture::get_id() const
+GLuint Texture::get_id() const
 {
   return this->id;
 }
@@ -91,4 +91,15 @@ int Texture::get_bits_per_pixel() const
 void Texture::set_bits_per_pixel(int bits_per_pixel_)
 {
   bits_per_pixel = bits_per_pixel_;
+}
+
+Texture &Texture::operator=(const Texture &other_texture)
+{
+  if (this == &other_texture) return *this;
+  this->id = other_texture.id;
+  this->local_buffer = other_texture.local_buffer;
+  this->width = other_texture.width;
+  this->height = other_texture.height;
+  this->bits_per_pixel = other_texture.bits_per_pixel;
+  return *this;
 }

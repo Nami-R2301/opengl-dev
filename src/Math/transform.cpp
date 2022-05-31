@@ -4,10 +4,6 @@
 
 #include "../../Include/Math/transform.h"
 
-// Projection variables.
-float Transform::z_near, Transform::z_far, Transform::width, Transform::height, Transform::fov;
-Camera Transform::camera;  /* NOLINT */
-
 Transform::Transform()
 {
   this->translation = Vector_3f(0, 0, 0);
@@ -66,35 +62,25 @@ void Transform::set_rotation(const Vector_3f &rotation_)
   this->scale = scale_;
 }
 
-[[maybe_unused]] const Camera &Transform::get_camera()
-{
-  return camera;
-}
-
-void Transform::set_camera(const Camera &camera_)
-{
-  Transform::camera = camera_;
-}
-
 void Transform::set_projection(float fov_, float width_, float height_, float z_near_, float z_far_)
 {
-  Transform::width = width_;
-  Transform::height = height_;
-  Transform::fov = fov_;
-  Transform::z_near = z_near_;
-  Transform::z_far = z_far_;
+  this->width = width_;
+  this->height = height_;
+  this->fov = fov_;
+  this->z_near = z_near_;
+  this->z_far = z_far_;
 }
 
-Matrix_4f Transform::get_projected_transformation() const
+Matrix_4f Transform::get_projected_transformation(const Camera &camera) const
 {
-  Matrix_4f transformation = get_transformation(), projection, camera_rotation, camera_translation;
+  Matrix_4f model_matrix = get_transformation(), projection, view_camera_rotation, view_camera_translation;
 
-  projection.init_projection(Transform::fov, Transform::width, Transform::height,
-                             Transform::z_near, Transform::z_far);
-  camera_rotation.init_camera(Transform::camera.get_forward(), Transform::camera.get_up());
-  camera_translation.init_translation(-Transform::camera.get_position().get_x(),
-                                      -Transform::camera.get_position().get_y(),
-                                      -Transform::camera.get_position().get_z());
+  projection.init_projection(this->fov, this->width, this->height,
+                             this->z_near, this->z_far);
+  view_camera_rotation.init_camera(camera.get_forward(), camera.get_up());
+  view_camera_translation.init_translation(-camera.get_position().get_x(),
+                                           -camera.get_position().get_y(),
+                                           -camera.get_position().get_z());
 
-  return projection * (camera_rotation * (camera_translation * transformation));
+  return projection * (view_camera_rotation * (view_camera_translation * model_matrix));
 }

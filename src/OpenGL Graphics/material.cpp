@@ -15,9 +15,9 @@ const Texture &Material::get_texture() const
   return texture;
 }
 
-void Material::set_texture(const Texture &texture_)
+[[maybe_unused]] void Material::set_texture(const Texture &texture_)
 {
-  Material::texture = texture_;
+  this->texture = texture_;
 }
 
 const Color &Material::get_color() const
@@ -25,7 +25,7 @@ const Color &Material::get_color() const
   return color;
 }
 
-void Material::set_color(const Color &color_)
+[[maybe_unused]] void Material::set_color(const Color &color_)
 {
   Material::color = color_;
 }

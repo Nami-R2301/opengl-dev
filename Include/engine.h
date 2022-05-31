@@ -30,7 +30,7 @@ public:
   void *operator new(unsigned long size);
   void operator delete(void *engine);
 private:
-  Game *game = new Game();
+  Game *game = nullptr;
   gl_vertex_data_s data;
   bool running_state;
   long frame_counter;

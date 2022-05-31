@@ -6,7 +6,19 @@
 
 static float translation_value = 0.0f;
 
-Game::Game() = default;
+Game::Game()
+{
+  Game::set_callbacks();  // Set our mouse and keyboard callbacks.
+  this->material = Material(Resource_loader::load_texture_file("../Resources/Textures/tiles.png"),
+                            Color(1.0f, 1.0f, 1.0f, 1.0f));
+  // Init opengl memory buffers and shaders.
+  this->program.setup_basic_shader();
+
+  // Add shader uniforms to glsl program.
+  this->program.add_uniform("uniform_color");
+  this->program.add_uniform("transform");
+  prepare_mesh();  // Initialize and load meshes to draw on screen.
+}
 
 Mesh Game::get_mesh() const
 {
@@ -27,29 +39,16 @@ void Game::prepare_mesh()
 {
   // Load custom mesh.
   Resource_loader object_file("Models/cube.obj");
-  this->material.set_texture(Resource_loader::load_texture_file("../Resources/Textures/tiles.png"));
   object_file.load_mesh();  // Load obj file containing custom object mesh.
 
-  std::vector<Vertex> vertices_ = object_file.get_vertices();
   this->mesh.set_tex_id(this->material.get_texture().get_id());
   this->mesh.set_indices(object_file.get_indices());
-  this->mesh.setup_graphics(vertices_.data(),
-                            VERTEX_SIZE * vertices_.size());
+  this->mesh.setup_graphics(object_file.get_vertices().data(),
+                            VERTEX_SIZE * object_file.get_vertices().size());
 
-  // Init opengl memory buffers and shaders.
-  this->program.create_program();
-  this->program.add_shader(GL_VERTEX_SHADER,
-                           Resource_loader::load_shader_source("default.vert").c_str());
-  this->program.add_shader(GL_FRAGMENT_SHADER,
-                           Resource_loader::load_shader_source("default.frag").c_str());
-  this->program.link();
-
-  // Add shader uniforms to glsl program.
-//  this->program.add_uniform("uniform_color");
-  this->program.add_uniform("transform");
   // Set world view inside window.
-  Transform::set_projection(125.0f, (float) Window::get_width(), (float) Window::get_height(),
-                            0.1f, 1000.0f);
+  this->transform.set_projection(125.0f, (float) Window::get_width(), (float) Window::get_height(),
+                                 0.1f, 1000.0f);
 }
 
 [[maybe_unused]] Transform Game::get_transform() const
@@ -77,9 +76,7 @@ void Game::update()
 {
   auto time = (float) sin(glfwGetTime());
   translation_value = time / 2;
-  this->material.set_color(Color(time, 0, time, 1.0f));
 
-  Transform::set_camera(get_camera());  // Update camera position.
   this->transform.set_translation(Vector_3f(translation_value, 0, 5));
   this->transform.set_rotation(Vector_3f(translation_value * 360, translation_value * 360, 0));
 //  this->transform.set_scale(Vector_3f(0.7f * translation_value,
@@ -90,8 +87,8 @@ void Game::update()
 void Game::render()
 {
   this->program.activate(); // Specify what program to use.
-  this->program.set_uniform("transform", this->transform.get_projected_transformation());
-//  this->program.set_uniform("uniform_color", material.get_color());
+  this->program.set_uniform("transform", this->transform.get_projected_transformation(get_camera()));
+  this->program.set_uniform("uniform_color", material.get_color());
   this->mesh.draw();
 }
 
@@ -115,7 +112,7 @@ void Game::window_viewport_callback([[maybe_unused]] GLFWwindow *window, int wid
    * height will be significantly larger than specified on retina displays.
    */
   glViewport(0, 0, width, height);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "GAME.CPP", 110);  // check errors.
 }
 
 void Game::window_key_callback([[maybe_unused]] GLFWwindow *window, [[maybe_unused]]  int key,
@@ -138,7 +135,7 @@ void *Game::operator new(unsigned long size)
   auto game = (Game *) malloc(size);
   if (game == nullptr)
   {
-    Logger::alert("NOT ENOUGH MEMORY ON THE HEAP\n", ERROR);
+    Logger::alert(ERROR, "NOT ENOUGH MEMORY ON THE HEAP");
     exit(ERROR_HEAP_ALLOC);
   }
   return game;

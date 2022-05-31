@@ -17,7 +17,7 @@ Color::Color(float red, float green, float blue, float alpha)
 }
 
 // Reset the this->
-void Color::clear()
+[[maybe_unused]] void Color::clear()
 {
   const Color new_color; // Default color (Dark gray).
   *this = new_color;
@@ -51,16 +51,9 @@ float Color::get_alpha() const
 
 [[maybe_unused]] void Color::print() const
 {
-  char buffer[256];
-  if (snprintf(buffer, 256,
-               "Red value : %.2f\nGreen value : %.2f\nBlue value : %.2f\nAlpha value : %.2f\n",
-               this->red, this->green, this->blue, this->alpha) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-
-  Logger::alert(buffer);
+  Logger::alert(INFO,
+                "Red value : %.2f\nGreen value : %.2f\nBlue value : %.2f\nAlpha value : %.2f",
+                this->red, this->green, this->blue, this->alpha);
 }
 
 [[maybe_unused]] void Color::set_color(const Color &new_color)

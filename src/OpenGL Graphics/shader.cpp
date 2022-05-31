@@ -32,6 +32,17 @@ Shader::Shader()
   this->vertex_source = Resource_loader::load_shader_source(file_path).c_str();
 }
 
+void Shader::setup_basic_shader()
+{
+  // Init opengl memory buffers and shaders.
+  create_program();
+  add_shader(GL_VERTEX_SHADER,
+             Resource_loader::load_shader_source("default.vert").c_str());
+  add_shader(GL_FRAGMENT_SHADER,
+             Resource_loader::load_shader_source("default.frag").c_str());
+  link();
+}
+
 GLuint Shader::get_program() const
 {
   return program;
@@ -39,38 +50,30 @@ GLuint Shader::get_program() const
 
 void Shader::create_program()
 {
-  Logger::alert("CREATING PROGRAM...\t");
+  Logger::alert(INFO, "CREATING PROGRAM...");
   program = glCreateProgram();
   if (!program)
   {
-    Logger::alert("ERROR : COULD NOT CREATE PROGRAM!\tEXITING...\n", ERROR, true);
+    Logger::alert(ERROR, "ERROR : COULD NOT CREATE PROGRAM!\tEXITING...");
     exit(PROGRAM_ERROR);
   }
-  Logger::alert("Done.\n", INFO, true);
 }
 
 void Shader::add_shader(int type, const char *source) const
 {
-  char print_buffer[75];
-  if (snprintf(print_buffer, 75, "CREATING, SOURCING AND COMPILING SHADER : %d...\t", type) < 0)
-  {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-    exit(ERROR_SNPRINTF);
-  }
-  Logger::alert(print_buffer);
+  Logger::alert(INFO, "CREATING, SOURCING AND COMPILING SHADER : %d...", type);
 
   GLuint shader = glCreateShader(type);
   Shader::source(shader, source, nullptr);
   Shader::compile(shader, type);
   attach(shader);
-  Logger::alert("Done.\n", INFO, true);
 }
 
 //Set the source code in program to the source code in the array of strings specified by string.
 void Shader::source(GLuint shader_, const char *source, int *length)
 {
   glShaderSource(shader_, 1, &source, length);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 84);  // check errors.
 }
 
 // Compile the shaders into machine code to pass on to the GPU.
@@ -101,14 +104,8 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
     if (hasCompiled == GL_FALSE)
     {
       glGetShaderInfoLog(_shader_, 1024, nullptr, infoLog);
-      char print_buffer[1300];
-      if (snprintf(print_buffer, 1300, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
-                                       "DETAILS :\n%s\n", type, infoLog) < 0)
-      {
-        Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-        exit(ERROR_SNPRINTF);
-      }
-      Logger::alert(print_buffer, ERROR, true);
+      Logger::alert(ERROR, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
+                           "DETAILS :\n%s", type, infoLog);
       exit(COMPILE_ERROR);
     }
   }
@@ -118,7 +115,7 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
 void Shader::attach(GLuint shader) const
 {
   glAttachShader(Shader::get_program(), shader);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 132);  // check errors.
 }
 
 // Links all source codes (shaders) in the program given as argument, creating the executable.
@@ -133,14 +130,8 @@ void Shader::link() const
   if (has_linked == GL_FALSE)
   {
     glGetProgramInfoLog(get_program(), 1024, nullptr, infoLog);
-    char print_buffer[1300];
-    if (snprintf(print_buffer, 1300, "\nERROR : SHADER LINKING ERROR\n"
-                                     "DETAILS :\n%s\n", infoLog) < 0)
-    {
-      Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-      exit(ERROR_SNPRINTF);
-    }
-    Logger::alert(print_buffer, ERROR);
+    Logger::alert(ERROR, "\nERROR : SHADER LINKING ERROR\n"
+                         "DETAILS :\n%s", infoLog);
     exit(LINK_ERROR);
   }
   validate();
@@ -149,50 +140,42 @@ void Shader::link() const
 void Shader::validate() const
 {
   glValidateProgram(get_program());
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 163);  // check errors.
 }
 
 void Shader::activate() const
 {
   glUseProgram(program);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 169);  // check errors.
 }
 
 void Shader::delete_shader() const
 {
-  Logger::alert("DESTROYING SHADERS...\t");
+  Logger::alert(INFO, "DESTROYING SHADERS...");
   glDeleteShader(this->get_program());
-  if (glGetError() != 0) Render::gl_error_callback(glGetError());  // check errors.
-  Logger::alert("Done.\n", INFO, true);
+  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 176);  // check errors.
 }
 
 void Shader::add_uniform(const char *uniform)
 {
-  int uniform_location = glGetUniformLocation(program, uniform);
-  char buffer[75];
+  int uniform_location = glGetUniformLocation(this->program, uniform);
   if (uniform_location < 0)
-  {
-    if (snprintf(buffer, 75, "ERROR : COULD NOT FIND UNIFORM : %s\n", uniform) < 0)
-    {
-      Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
-      exit(ERROR_SNPRINTF);
-    }
-    Logger::alert(buffer, ERROR);
-  } else this->uniforms.emplace(uniform, uniform_location);
+    Logger::alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform);
+  else this->uniforms.emplace(uniform, uniform_location);
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value)
 {
   glUniform1i(this->uniforms[uniform_name], value);
   GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 199);
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, float value)
 {
   glUniform1f(this->uniforms[uniform_name], value);
   GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 206);
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
@@ -201,7 +184,7 @@ void Shader::add_uniform(const char *uniform)
               vector_3f.get_y(),
               vector_3f.get_z());
   GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 215);
 }
 
 void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
@@ -209,7 +192,7 @@ void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
   glUniformMatrix4fv(this->uniforms[uniform_name], 1,
                      GL_TRUE, &value.get_matrix()[0][0]);
   GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 223);
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color)
@@ -217,7 +200,7 @@ void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
   glUniform4f(this->uniforms[uniform_name],
               color.get_red(), color.get_green(), color.get_blue(), color.get_alpha());
   GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error);
+  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 231);
 }
 
 //void Shader::update_uniforms(const Matrix_4f &world_matrix, Matrix_4f projected_matrix,

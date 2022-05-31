@@ -24,31 +24,33 @@ void Logger::save_to_file(const char *info)
   }
 }
 
-void Logger::alert(const char *info, int info_type, bool inline_)
+void Logger::alert(int info_type, const char *format, ...)
 {
-  auto time = Game_time::get_real_time();  // Get std::time_t struct.
-  char *current_time = ctime(&time);  // Transform to const char*.
-  current_time[strlen(current_time) - 1] = '\0';  // Remove newline.
+  va_list args;
+  va_start(args, format);
+
+  char *string;
+  vasprintf(&string, format, args);
 
   char type[6];
   if (info_type == INFO) snprintf(type, 5, "INFO");
   else if (info_type == ERROR) snprintf(type, 6, "ERROR");
 
-  char buffer[256];
-  if (snprintf(buffer, 256, "[%s] [%s] : %s", type, current_time, info) < 0)
+  auto time = Game_time::get_real_time();  // Get std::time_t struct.
+  char *current_time = ctime(&time);  // Transform to const char*.
+  current_time[strlen(current_time) - 1] = '\0';  // Remove newline.
+
+  unsigned int buffer_size = strlen(string) + strlen(current_time) + strlen(type) + 9;  // 9 extra format chars.
+  char buffer[buffer_size];
+  if (snprintf(buffer, buffer_size, "[%s] [%s] : %s", type, current_time, string) < 0)
   {
     fprintf(stderr, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n");
     exit(ERROR_SNPRINTF);
   }
-  if (!inline_)
-  {
-    fprintf(stdout, "%s", buffer);
-    save_to_file(buffer);
-  } else
-  {
-    fprintf(stdout, "%s", info);
-    save_to_file(info);
-  }
+  fprintf(stdout, "%s\n", buffer);
+  save_to_file(buffer);
+  free(string);
+  va_end(args);
 }
 
 void Logger::close_file()

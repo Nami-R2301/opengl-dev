@@ -50,19 +50,18 @@ void Engine::start()
 {
   if (this->running_state) return;
   set_running_state(true);
-  Logger::alert("------------STARTING UP ENGINE--------------\n");
+  Logger::alert(INFO, "------------STARTING UP ENGINE--------------");
   Render::init_graphics();  // Setup openGL graphic settings.
   Window::create_window();  // Make glfw context.
-  Game::set_callbacks();  // Set our mouse and keyboard callbacks.
+  this->game = new Game();  // Init game.
   Render::show_gl_info();  // Show info about opengl and glfw versions.
-  this->game->prepare_mesh();  // Initialize and load meshes to draw on screen.
-  Logger::alert("------------SUCCESSFULLY STARTED UP ENGINE--------------\n");
+  Logger::alert(INFO, "------------SUCCESSFULLY STARTED UP ENGINE--------------");
 }
 
 void Engine::run()
 {
   start();  // Start and setup engine.
-  Logger::alert("------------RUNNING--------------\n");
+  Logger::alert(INFO, "------------RUNNING--------------");
   char title[sizeof(long) + 5];
   this->system_time.set_previous_time(std::chrono::system_clock::now());
   while (!Window::is_closed())
@@ -82,13 +81,18 @@ void Engine::run()
     }
     glfwPollEvents(); // Listen and call the appropriate events.
   }
-  Logger::alert("------------STOPPING--------------\n");
+  Logger::alert(INFO, "------------STOPPING--------------");
   stop();  // Terminate and cleanup.
 }
 
 void Engine::render()
 {
   Window::clear_bg();  // Reset the background color on screen.
+  if (this->game == nullptr)
+  {
+    Logger::alert(ERROR, "FAILED TO INITIALIZE GAME IN GAME ENGINE ON LINE : 55!\tEXITING...");
+    exit(-5);
+  }
   this->game->input();  // Read and process game inputs.
   this->game->update();  // Update the game.
   this->game->render();  // Redraw on screen.
@@ -104,19 +108,18 @@ void Engine::stop()
 void Engine::cleanup() const
 {
   if (get_exit_code() == 0)
-    Logger::alert("------------SHUTTING DOWN ENGINE------------\n");
-  else Logger::alert("------------FORCING SHUTDOWN OF ENGINE------------\n");
+    Logger::alert(INFO, "------------SHUTTING DOWN ENGINE------------");
+  else Logger::alert(ERROR, "------------FORCING SHUTDOWN OF ENGINE------------");
   Window::cleanup();
-  Logger::alert("SHUTTING DOWN GAME...\n");
-  this->game->cleanup();
+  Logger::alert(INFO, "SHUTTING DOWN GAME...");
+  if (this->game) this->game->cleanup();
   delete get_game();
-  Logger::alert("SUCCESSFULLY SHUT DOWN GAME.\n");
-  Logger::alert("TERMINATING GLFW...\t");
+  Logger::alert(INFO, "SUCCESSFULLY SHUT DOWN GAME.");
+  Logger::alert(INFO, "TERMINATING GLFW...");
   glfwTerminate(); // Free resources and close all glfw windows and cursors.
-  Logger::alert("Done.\n", INFO, true);
   if (get_exit_code() == 0)
-    Logger::alert("------------SUCCESSFULLY SHUT DOWN ENGINE------------\n");
-  else Logger::alert("------------ENGINE SHUT DOWN UNEXPECTEDLY------------\n");
+    Logger::alert(INFO, "------------SUCCESSFULLY SHUT DOWN ENGINE------------");
+  else Logger::alert(ERROR, "------------ENGINE SHUT DOWN UNEXPECTEDLY------------");
 }
 
 void Engine::force_stop()
@@ -130,10 +133,10 @@ void Engine::force_stop()
   char buffer[1024];
   if (snprintf(buffer, 256, "size of rgb_color_s : %lu\n\n", sizeof(*vertices)) < 0)
   {
-    Logger::alert("ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...\n", ERROR);
+    Logger::alert(ERROR, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...");
     exit(ERROR_SNPRINTF);
   }
-  Logger::alert(buffer);
+  Logger::alert(INFO, buffer);
   for (int i = 0; i < 6; ++i) vertices[i].print_vertex();
 }
 
@@ -143,7 +146,7 @@ void *Engine::operator new(unsigned long size)
   auto engine = (Engine *) malloc(size);
   if (engine == nullptr)
   {
-    Logger::alert("NOT ENOUGH MEMORY ON THE HEAP\n", ERROR);
+    Logger::alert(ERROR, "NOT ENOUGH MEMORY ON THE HEAP");
     exit(ERROR_HEAP_ALLOC);
   }
   return engine;

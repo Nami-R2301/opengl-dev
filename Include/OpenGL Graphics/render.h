@@ -21,7 +21,7 @@ public:
   static void reset_bg();
   static void set_clear_color(const Color &color);
   static void glfw_error_callback(int error_code, const char *err_str);
-  static void gl_error_callback(GLenum source);
+  static void gl_error_callback(GLenum source, const char *source_file, unsigned int line_number);
 };
 
 #endif //OPENGL_DEV_RENDER_H
