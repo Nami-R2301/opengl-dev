@@ -20,7 +20,7 @@ void Logger::save_to_file(const char *info)
 {
   if (file_ptr != nullptr)
   {
-    fprintf(file_ptr, "%s", info);
+    fprintf(file_ptr, "%s\n", info);
   }
 }
 

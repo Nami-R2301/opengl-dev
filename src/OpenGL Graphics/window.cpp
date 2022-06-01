@@ -71,7 +71,6 @@ void Window::create_window()
   // Specify which coordinates to draw for our window -> from (0,0) to (monitor_width, monitor_height).
   glViewport(0, 0, Window::width, Window::height);
   glfwGetWindowPos(window, &Window::x_pos, &Window::y_pos);  // Get initial window position.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "WINDOW.CPP", 78);  // check errors.
 }
 
 // Show the window created.
@@ -209,5 +208,4 @@ void Window::cleanup()
 {
   Logger::alert(INFO, "DESTROYING WINDOW...");
   glfwDestroyWindow(Window::window);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "WINDOW.CPP", 216);  // check errors.
 }

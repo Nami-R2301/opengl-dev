@@ -72,14 +72,13 @@ void Shader::add_shader(int type, const char *source) const
 //Set the source code in program to the source code in the array of strings specified by string.
 void Shader::source(GLuint shader_, const char *source, int *length)
 {
-  glShaderSource(shader_, 1, &source, length);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 84);  // check errors.
+  gl_call(glShaderSource(shader_, 1, &source, length));
 }
 
 // Compile the shaders into machine code to pass on to the GPU.
 void Shader::compile(GLuint shader, GLuint shader_type)
 {
-  glCompileShader(shader);
+  gl_call(glCompileShader(shader));
   if (shader_type == GL_VERTEX_SHADER)
   {
     // Checks if Shader compiled successfully
@@ -114,8 +113,7 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
 // Set our program to attach our created program to it (link source codes like '#include').
 void Shader::attach(GLuint shader) const
 {
-  glAttachShader(Shader::get_program(), shader);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 132);  // check errors.
+  gl_call(glAttachShader(Shader::get_program(), shader));
 }
 
 // Links all source codes (shaders) in the program given as argument, creating the executable.
@@ -139,21 +137,18 @@ void Shader::link() const
 
 void Shader::validate() const
 {
-  glValidateProgram(get_program());
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 163);  // check errors.
+  gl_call(glValidateProgram(get_program()));
 }
 
 void Shader::activate() const
 {
-  glUseProgram(program);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 169);  // check errors.
+  gl_call(glUseProgram(program));
 }
 
 void Shader::delete_shader() const
 {
   Logger::alert(INFO, "DESTROYING SHADERS...");
-  glDeleteShader(this->get_program());
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "SHADER.CPP", 176);  // check errors.
+  gl_call(glDeleteShader(this->get_program()));
 }
 
 void Shader::add_uniform(const char *uniform)
@@ -166,41 +161,31 @@ void Shader::add_uniform(const char *uniform)
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value)
 {
-  glUniform1i(this->uniforms[uniform_name], value);
-  GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 199);
+  gl_call(glUniform1i(this->uniforms[uniform_name], value));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, float value)
 {
-  glUniform1f(this->uniforms[uniform_name], value);
-  GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 206);
+  gl_call(glUniform1f(this->uniforms[uniform_name], value));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
 {
-  glUniform3f(this->uniforms[uniform_name], vector_3f.get_x(),
-              vector_3f.get_y(),
-              vector_3f.get_z());
-  GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 215);
+  gl_call(glUniform3f(this->uniforms[uniform_name], vector_3f.get_x(),
+                      vector_3f.get_y(),
+                      vector_3f.get_z()));
 }
 
 void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
 {
-  glUniformMatrix4fv(this->uniforms[uniform_name], 1,
-                     GL_TRUE, &value.get_matrix()[0][0]);
-  GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 223);
+  gl_call(glUniformMatrix4fv(this->uniforms[uniform_name], 1,
+                             GL_TRUE, &value.get_matrix()[0][0]));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color)
 {
-  glUniform4f(this->uniforms[uniform_name],
-              color.get_red(), color.get_green(), color.get_blue(), color.get_alpha());
-  GLenum error = glGetError();
-  if (error != GL_NO_ERROR) Render::gl_error_callback(error, "SHADER.CPP", 231);
+  gl_call(glUniform4f(this->uniforms[uniform_name],
+                      color.get_red(), color.get_green(), color.get_blue(), color.get_alpha()));
 }
 
 //void Shader::update_uniforms(const Matrix_4f &world_matrix, Matrix_4f projected_matrix,

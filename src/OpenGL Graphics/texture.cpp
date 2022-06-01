@@ -19,19 +19,13 @@ Texture::Texture(const char *file_path) : id(0), local_buffer(nullptr),
 
   // Initialize openGL texture buffers.
   glGenTextures(1, &id);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 22);  // check errors.
 
   // Initialize flags for texture buffers.
   glBindTexture(GL_TEXTURE_2D, id);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 26);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);  // Min surface to cover.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 28);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  // Max surface to cover and extend.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 30);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);  // Normalize x-axis of texture.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 32);  // check errors.
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);  // Normalize y-axis of texture.
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "TEXTURE.CPP", 34);  // check errors.
 
   // Assign texture image to texture buffer.
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,

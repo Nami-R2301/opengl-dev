@@ -112,7 +112,6 @@ void Game::window_viewport_callback([[maybe_unused]] GLFWwindow *window, int wid
    * height will be significantly larger than specified on retina displays.
    */
   glViewport(0, 0, width, height);
-  if (glGetError() != 0) Render::gl_error_callback(glGetError(), "GAME.CPP", 110);  // check errors.
 }
 
 void Game::window_key_callback([[maybe_unused]] GLFWwindow *window, [[maybe_unused]]  int key,

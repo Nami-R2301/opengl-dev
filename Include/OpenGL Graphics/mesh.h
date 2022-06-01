@@ -17,10 +17,6 @@
 #define VERTEX_SIZE sizeof(float) * 9
 //#define TEXTURE_SIZE VECTOR2F_SIZE
 
-#define POSITION_OFFSET 0
-#define COLOR_OFFSET sizeof(float) * 3
-#define TEXTURE_OFFSET sizeof(float) * 7
-
 class Mesh
 {
 public:

@@ -5,6 +5,17 @@
 #ifndef GAME_OPENGL_VERTEX_H
 #define GAME_OPENGL_VERTEX_H
 
+typedef struct vertex_s
+{
+  float position[3];
+  float color[4];
+  float texture_coords[2];
+} vertex_t;
+
+#define POSITION_OFFSET offsetof(vertex_t, position)
+#define COLOR_OFFSET offsetof(vertex_t, color)
+#define TEXTURE_OFFSET offsetof(vertex_t, texture_coords)
+
 #include "../Math/vector_3f.h"
 #include "color.h"
 #include "../Math/vector_2f.h"
@@ -27,7 +38,7 @@ public:
   [[maybe_unused]] void set_position(const Vector_3f &position_);
   [[maybe_unused]] [[nodiscard]] const Color &get_color() const;
   [[maybe_unused]] void set_color(const Color &color);
-  const Vector_2f &get_texCoord() const;
+  [[maybe_unused]] const Vector_2f &get_texCoord() const;
   void set_texCoord(const Vector_2f &texCoord);
 
   bool operator==(const Vertex &);
