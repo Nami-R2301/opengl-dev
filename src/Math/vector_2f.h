@@ -7,6 +7,8 @@
 
 #include <cmath>
 
+#define VECTOR2F_SIZE sizeof(float) * 2
+
 class Vector_2f
 {
 public:

@@ -20,14 +20,9 @@
 #define ERROR_HEAP_ALLOC -11
 #define ERROR_SNPRINTF -13
 
-class Logger
-{
-public:
-  static void open_file();
-  static void alert(int info_type = INFO, const char *format = "\n", ...);
-  static void close_file();
-private:
-  static void save_to_file(const char *info);
-};
+void open_file();
+void alert(int info_type = INFO, const char *format = "\n", ...);
+void close_file();
+void save_to_file(const char *info);
 
 #endif //OPENGL_DEV_LOGGER_H

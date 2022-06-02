@@ -2,7 +2,9 @@
 // Created by nami on 5/25/22.
 //
 
-#include "../../Include/Math/camera.h"
+#include "camera.h"
+#include "../Game logic/input.h"
+#include "../OpenGL Graphics/window.h"
 
 bool Camera::mouse_locked = false;
 Vector_2f Camera::center_position((float) Window::get_width() / 2.0f, (float) Window::get_height() / 2.0f);  //NOLINT
@@ -32,7 +34,7 @@ void Camera::input()
   float sensitivity = 0.10f;
   time.set_current_time(std::chrono::system_clock::now());
   float movAmt = ((10.0f * time.get_delta_time_f()) / NANO);
-//  printf("Movement amount = %.2f\n", time.get_delta_time_f());
+//  printf("Movement amount = %.2f", time.get_delta_time_f());
 //		float rotAmt = (float)(100 * Game_time.getDelta());
 
   if (Input::get_key(GLFW_KEY_ESCAPE))
@@ -72,29 +74,14 @@ const Vector_3f &Camera::get_position() const
   return position;
 }
 
-[[maybe_unused]] void Camera::set_position(const Vector_3f &position_)
-{
-  Camera::position = position_;
-}
-
 const Vector_3f &Camera::get_forward() const
 {
   return forward;
 }
 
-[[maybe_unused]] void Camera::set_forward(const Vector_3f &forward_)
-{
-  forward = forward_;
-}
-
 const Vector_3f &Camera::get_up() const
 {
   return up;
-}
-
-[[maybe_unused]] void Camera::set_up(const Vector_3f &up_)
-{
-  up = up_;
 }
 
 // Gets the normalized vector facing left based on camera's forward and up vectors.
@@ -125,4 +112,19 @@ void Camera::rotate_y(float angle)
   Vector_3f horizontal_axis = Camera::y_axis.cross(this->forward).normalize();
   this->forward = this->forward.rotate(angle, y_axis).normalize();
   this->up = this->forward.cross(horizontal_axis).normalize();
+}
+
+[[maybe_unused]] void Camera::set_position(const Vector_3f &position_)
+{
+  Camera::position = position_;
+}
+
+[[maybe_unused]] void Camera::set_forward(const Vector_3f &forward_)
+{
+  forward = forward_;
+}
+
+[[maybe_unused]] void Camera::set_up(const Vector_3f &up_)
+{
+  up = up_;
 }

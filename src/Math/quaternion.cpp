@@ -2,7 +2,7 @@
 // Created by nami on 5/14/22.
 //
 
-#include "../../Include/Math/quaternion.h"
+#include "quaternion.h"
 
 Quaternion::Quaternion(float x, float y, float z, float w)
 {

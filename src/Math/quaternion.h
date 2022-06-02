@@ -6,7 +6,7 @@
 #define OPENGL_DEV_QUATERNION_H
 
 #include <cmath>
-#include "../Math/vector_3f.h"
+#include "vector_3f.h"
 
 // 4D- Vectors with the imaginary component.
 class Quaternion

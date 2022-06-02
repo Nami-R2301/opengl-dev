@@ -8,7 +8,6 @@
 #include <cmath>
 
 #define VECTOR3F_SIZE sizeof(float) * 3
-#define VECTOR2F_SIZE sizeof(float) * 2
 
 class Vector_3f
 {

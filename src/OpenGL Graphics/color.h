@@ -5,8 +5,7 @@
 #ifndef OPENGL_DEV_COLOR_H
 #define OPENGL_DEV_COLOR_H
 
-#include <cstdio>
-#include "../Logs/logger.h"
+#define COLOR_SIZE sizeof(float) * 4
 
 // Set custom colors for the background or for fragments.
 class Color
@@ -14,14 +13,17 @@ class Color
 public:
   explicit Color(float = 0.156862745f, float = 0.156862745f, float = 0.156862745f, float = 1.0f); // Dark gray.
   [[maybe_unused]] Color(const Color &);
+
+  void normalize();
+
   [[nodiscard]] float get_red() const;
   [[nodiscard]] float get_blue() const;
   [[nodiscard]] float get_green() const;
   [[nodiscard]] float get_alpha() const;
+
   [[maybe_unused]] void set_color(const Color &new_color);
   [[maybe_unused]] void set_color(float red, float blue, float green, float alpha);
-  void normalize();
-  void clear();
+  [[maybe_unused]] void clear();
   [[maybe_unused]] void print() const;
 
   Color &operator=(const Color &other_color);

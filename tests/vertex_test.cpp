@@ -1,7 +1,7 @@
 //
 // Created by nami on 5/11/22.
 //
-#include "../Include/OpenGL Graphics/vertex_test.h"
+#include "../src/OpenGL Graphics/vertex_test.h"
 
 std::vector<Vertex> set_vertices_data()
 {

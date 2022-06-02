@@ -2,15 +2,12 @@
 // Created by nami on 5/14/22.
 //
 
-#include "../../Include/Math/matrix_4f.h"
+#include "matrix_4f.h"
 
 Matrix_4f::Matrix_4f()
 {
   this->num_rows = 4;
   this->num_cols = 4;
-  for (int i = 0; i < this->num_rows; i++)
-    // Initialize each cell
-    for (int j = 0; j < get_num_cols(); ++j) set_value(i, j, 0);
   init_identity();
 }
 
@@ -68,13 +65,71 @@ Matrix_4f Matrix_4f::operator*(const Matrix_4f &other_matrix)
 {
   Matrix_4f result;
 
-  for (int i = 0; i < other_matrix.get_num_rows(); i++)
-    for (int j = 0; j < other_matrix.get_num_cols(); j++)
-      result.set_value(i, j, this->matrix[i][0] * other_matrix.get_value(0, j) +
-                             this->matrix[i][1] * other_matrix.get_value(1, j) +
-                             this->matrix[i][2] * other_matrix.get_value(2, j) +
-                             this->matrix[i][3] * other_matrix.get_value(3, j)
-      );
+  result.matrix[0][0] = this->matrix[0][0] * other_matrix.get_value(0, 0) +
+                        this->matrix[0][1] * other_matrix.get_value(1, 0) +
+                        this->matrix[0][2] * other_matrix.get_value(2, 0) +
+                        this->matrix[0][3] * other_matrix.get_value(3, 0);
+  result.matrix[0][1] = this->matrix[0][0] * other_matrix.get_value(0, 1) +
+                        this->matrix[0][1] * other_matrix.get_value(1, 1) +
+                        this->matrix[0][2] * other_matrix.get_value(2, 1) +
+                        this->matrix[0][3] * other_matrix.get_value(3, 1);
+  result.matrix[0][2] = this->matrix[0][0] * other_matrix.get_value(0, 2) +
+                        this->matrix[0][1] * other_matrix.get_value(1, 2) +
+                        this->matrix[0][2] * other_matrix.get_value(2, 2) +
+                        this->matrix[0][3] * other_matrix.get_value(3, 2);
+  result.matrix[0][3] = this->matrix[0][0] * other_matrix.get_value(0, 3) +
+                        this->matrix[0][1] * other_matrix.get_value(1, 3) +
+                        this->matrix[0][2] * other_matrix.get_value(2, 3) +
+                        this->matrix[0][3] * other_matrix.get_value(3, 3);
+  result.matrix[1][0] = this->matrix[1][0] * other_matrix.get_value(0, 0) +
+                        this->matrix[1][1] * other_matrix.get_value(1, 0) +
+                        this->matrix[1][2] * other_matrix.get_value(2, 0) +
+                        this->matrix[1][3] * other_matrix.get_value(3, 0);
+  result.matrix[1][1] = this->matrix[1][0] * other_matrix.get_value(0, 1) +
+                        this->matrix[1][1] * other_matrix.get_value(1, 1) +
+                        this->matrix[1][2] * other_matrix.get_value(2, 1) +
+                        this->matrix[1][3] * other_matrix.get_value(3, 1);
+  result.matrix[1][2] = this->matrix[1][0] * other_matrix.get_value(0, 2) +
+                        this->matrix[1][1] * other_matrix.get_value(1, 2) +
+                        this->matrix[1][2] * other_matrix.get_value(2, 2) +
+                        this->matrix[1][3] * other_matrix.get_value(3, 2);
+  result.matrix[1][3] = this->matrix[1][0] * other_matrix.get_value(0, 3) +
+                        this->matrix[1][1] * other_matrix.get_value(1, 3) +
+                        this->matrix[1][2] * other_matrix.get_value(2, 3) +
+                        this->matrix[1][3] * other_matrix.get_value(3, 3);
+  result.matrix[2][0] = this->matrix[2][0] * other_matrix.get_value(0, 0) +
+                        this->matrix[2][1] * other_matrix.get_value(1, 0) +
+                        this->matrix[2][2] * other_matrix.get_value(2, 0) +
+                        this->matrix[2][3] * other_matrix.get_value(3, 0);
+  result.matrix[2][1] = this->matrix[2][0] * other_matrix.get_value(0, 1) +
+                        this->matrix[2][1] * other_matrix.get_value(1, 1) +
+                        this->matrix[2][2] * other_matrix.get_value(2, 1) +
+                        this->matrix[2][3] * other_matrix.get_value(3, 1);
+  result.matrix[2][2] = this->matrix[2][0] * other_matrix.get_value(0, 2) +
+                        this->matrix[2][1] * other_matrix.get_value(1, 2) +
+                        this->matrix[2][2] * other_matrix.get_value(2, 2) +
+                        this->matrix[2][3] * other_matrix.get_value(3, 2);
+  result.matrix[2][3] = this->matrix[2][0] * other_matrix.get_value(0, 3) +
+                        this->matrix[2][1] * other_matrix.get_value(1, 3) +
+                        this->matrix[2][2] * other_matrix.get_value(2, 3) +
+                        this->matrix[2][3] * other_matrix.get_value(3, 3);
+  result.matrix[3][0] = this->matrix[3][0] * other_matrix.get_value(0, 0) +
+                        this->matrix[3][1] * other_matrix.get_value(1, 0) +
+                        this->matrix[3][2] * other_matrix.get_value(2, 0) +
+                        this->matrix[3][3] * other_matrix.get_value(3, 0);
+  result.matrix[3][1] = this->matrix[3][0] * other_matrix.get_value(0, 1) +
+                        this->matrix[3][1] * other_matrix.get_value(1, 1) +
+                        this->matrix[3][2] * other_matrix.get_value(2, 1) +
+                        this->matrix[3][3] * other_matrix.get_value(3, 1);
+  result.matrix[3][2] = this->matrix[3][0] * other_matrix.get_value(0, 2) +
+                        this->matrix[3][1] * other_matrix.get_value(1, 2) +
+                        this->matrix[3][2] * other_matrix.get_value(2, 2) +
+                        this->matrix[3][3] * other_matrix.get_value(3, 2);
+  result.matrix[3][3] = this->matrix[3][0] * other_matrix.get_value(0, 3) +
+                        this->matrix[3][1] * other_matrix.get_value(1, 3) +
+                        this->matrix[3][2] * other_matrix.get_value(2, 3) +
+                        this->matrix[3][3] * other_matrix.get_value(3, 3);
+
   return result;
 }
 
@@ -85,27 +140,19 @@ int Matrix_4f::length() const
 
 void Matrix_4f::init_identity()
 {
-  for (int i = 0; i < num_rows; ++i) set_value(i, i, 1);
+  this->matrix[0][0] = 1.0f, this->matrix[1][1] = 1.0f, this->matrix[2][2] = 1.0f, this->matrix[3][3] = 1.0f;
 }
 
-[[maybe_unused]] void Matrix_4f::init_translation(float x, float y, float z)
+void Matrix_4f::init_translation(float x, float y, float z)
 {
-  for (int i = 0; i < num_rows; ++i)
-  {
-    if (i == 0) set_value(i, get_num_cols() - 1, x);
-    if (i == 1) set_value(i, get_num_cols() - 1, y);
-    if (i == 2) set_value(i, get_num_cols() - 1, z);
-  }
+  // For every row except w.
+  this->matrix[0][3] = x, this->matrix[1][3] = y, this->matrix[2][3] = z;
 }
 
 void Matrix_4f::init_translation(const Vector_3f &vector_3f)
 {
-  for (int i = 0; i < num_rows; ++i)
-  {
-    if (i == 0) set_value(i, get_num_cols() - 1, vector_3f.get_x());
-    if (i == 1) set_value(i, get_num_cols() - 1, vector_3f.get_y());
-    if (i == 2) set_value(i, get_num_cols() - 1, vector_3f.get_z());
-  }
+  // For every row except w.
+  this->matrix[0][3] = vector_3f.get_x(), this->matrix[1][3] = vector_3f.get_y(), this->matrix[2][3] = vector_3f.get_z();
 }
 
 void Matrix_4f::init_rotation(Vector_3f vector_3f)
@@ -141,9 +188,7 @@ void Matrix_4f::init_rotation(Vector_3f vector_3f)
 void Matrix_4f::init_scale(Vector_3f vector_3f)
 {
   // For every row except w.
-  set_value(0, 0, vector_3f.get_x());
-  set_value(1, 1, vector_3f.get_y());
-  set_value(2, 2, vector_3f.get_z());
+  this->matrix[0][0] = vector_3f.get_x(), this->matrix[1][1] = vector_3f.get_y(), this->matrix[2][2] = vector_3f.get_z();
 }
 
 void Matrix_4f::init_projection(float fov_, float width_, float height_, float z_near_, float z_far_)
@@ -169,15 +214,9 @@ void Matrix_4f::init_camera(Vector_3f forward, Vector_3f up)
   r = r.cross(f);
   Vector_3f u = f.cross(r);
 
-  set_value(0, 0, r.get_x());
-  set_value(0, 1, r.get_y());
-  set_value(0, 2, r.get_z());
-  set_value(1, 0, u.get_x());
-  set_value(1, 1, u.get_y());
-  set_value(1, 2, u.get_z());
-  set_value(2, 0, f.get_x());
-  set_value(2, 1, f.get_y());
-  set_value(2, 2, f.get_z());
+  this->matrix[0][0] = r.get_x(), this->matrix[0][1] = r.get_y(), this->matrix[0][2] = r.get_z(),
+  this->matrix[1][0] = u.get_x(), this->matrix[1][1] = u.get_y(), this->matrix[1][2] = u.get_z();
+  this->matrix[2][0] = f.get_x(), this->matrix[2][1] = f.get_y(), this->matrix[2][2] = f.get_z();
 }
 
 

@@ -2,89 +2,58 @@
 // Created by nami on 5/26/22.
 //
 
-#include "../../Include/OpenGL Graphics/texture.h"
+#include "texture.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "../../Include/Stb/stdb_image.h"
+#include "../Vendor/Stb/stdb_image.h"
 
 Texture::Texture() = default;
 
-Texture::Texture(const char *file_path) : id(0), local_buffer(nullptr),
-                                          width(0), height(0), bits_per_pixel(0)
+Texture::Texture(const char *file_path) : id(0), width(0), height(0), bits_per_pixel(0)
 {
   // Load texture in memory.
   stbi_set_flip_vertically_on_load(1);  // Invert y-axis for opengl matrix coordinates.
   local_buffer = stbi_load(file_path, &width, &height, &bits_per_pixel, 4);  // 4 channels (RGBA).
 
   // Initialize openGL texture buffers.
-  glGenTextures(1, &id);
+  gl_call(glGenTextures(1, &id));
 
   // Initialize flags for texture buffers.
-  glBindTexture(GL_TEXTURE_2D, id);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);  // Min surface to cover.
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  // Max surface to cover and extend.
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);  // Normalize x-axis of texture.
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);  // Normalize y-axis of texture.
+  gl_call(glBindTexture(GL_TEXTURE_2D, id));
+  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));  // Min surface to cover.
+  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));  // Max surface to cover and extend.
+  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP));  // Normalize x-axis of texture.
+  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP));  // Normalize y-axis of texture.
 
   // Assign texture image to texture buffer.
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
-               GL_RGBA, GL_UNSIGNED_BYTE, local_buffer);
+  gl_call(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
+                       GL_RGBA, GL_UNSIGNED_BYTE, local_buffer));
 
   // Deallocate texture from CPU since it's loaded onto the GPU.
-  glBindTexture(GL_TEXTURE_2D, 0);  // Unbind texture since it's loaded.
+  gl_call(glBindTexture(GL_TEXTURE_2D, 0));  // Unbind texture since it's loaded.
   if (local_buffer)
     stbi_image_free(local_buffer);
 }
 
-GLuint Texture::get_id() const
+void Texture::bind(unsigned int slot_) const
+{
+  bind_tex(&this->id, slot_);
+}
+
+void Texture::unbind() const  // NOLINT
+{
+  unbind_tex();
+}
+
+void Texture::delete_texture() const
+{
+  delete_tex(&this->id);
+}
+
+[[maybe_unused]] unsigned int Texture::get_id() const
 {
   return this->id;
-}
-
-void Texture::set_id(int id_texture)
-{
-  this->id = id_texture;
-}
-
-unsigned char *Texture::get_local_buffer() const
-{
-  return local_buffer;
-}
-
-void Texture::set_local_buffer(unsigned char *local_buffer_)
-{
-  local_buffer = local_buffer_;
-}
-
-int Texture::get_width() const
-{
-  return width;
-}
-
-void Texture::set_width(int width_)
-{
-  Texture::width = width_;
-}
-
-int Texture::get_height() const
-{
-  return height;
-}
-
-void Texture::set_height(int height_)
-{
-  Texture::height = height_;
-}
-
-int Texture::get_bits_per_pixel() const
-{
-  return bits_per_pixel;
-}
-
-void Texture::set_bits_per_pixel(int bits_per_pixel_)
-{
-  bits_per_pixel = bits_per_pixel_;
 }
 
 Texture &Texture::operator=(const Texture &other_texture)
@@ -96,4 +65,49 @@ Texture &Texture::operator=(const Texture &other_texture)
   this->height = other_texture.height;
   this->bits_per_pixel = other_texture.bits_per_pixel;
   return *this;
+}
+
+[[maybe_unused]] void Texture::set_id(int id_texture)
+{
+  this->id = id_texture;
+}
+
+[[maybe_unused]] unsigned char *Texture::get_local_buffer() const
+{
+  return local_buffer;
+}
+
+[[maybe_unused]] void Texture::set_local_buffer(unsigned char *local_buffer_)
+{
+  local_buffer = local_buffer_;
+}
+
+[[maybe_unused]] int Texture::get_width() const
+{
+  return width;
+}
+
+[[maybe_unused]] void Texture::set_width(int width_)
+{
+  Texture::width = width_;
+}
+
+[[maybe_unused]] int Texture::get_height() const
+{
+  return height;
+}
+
+[[maybe_unused]] void Texture::set_height(int height_)
+{
+  Texture::height = height_;
+}
+
+[[maybe_unused]] int Texture::get_bits_per_pixel() const
+{
+  return bits_per_pixel;
+}
+
+[[maybe_unused]] void Texture::set_bits_per_pixel(int bits_per_pixel_)
+{
+  bits_per_pixel = bits_per_pixel_;
 }

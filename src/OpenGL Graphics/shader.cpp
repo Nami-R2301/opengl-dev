@@ -1,7 +1,10 @@
 //
 // Created by nami on 2022-02-23.
 //
-#include "../../Include/OpenGL Graphics/shader.h"
+#include "shader.h"
+#include "res_loader.h"
+#include "../Logs/logger.h"
+#include "renderer.h"
 
 #define PROGRAM_ERROR -5
 #define COMPILE_ERROR -6
@@ -12,34 +15,12 @@ Shader::Shader()
   this->uniforms = std::map<const char *, int>();
 }
 
-[[maybe_unused]] const char *Shader::get_fragment_source() const
-{
-  return this->fragment_source;
-}
-
-[[maybe_unused]] const char *Shader::get_vertex_source() const
-{
-  return this->vertex_source;
-}
-
-[[maybe_unused]] void Shader::set_fragment_source(const char *file_path)
-{
-  this->fragment_source = Resource_loader::load_shader_source(file_path).c_str();
-}
-
-[[maybe_unused]] void Shader::set_vertex_source(const char *file_path)
-{
-  this->vertex_source = Resource_loader::load_shader_source(file_path).c_str();
-}
-
 void Shader::setup_basic_shader()
 {
   // Init opengl memory buffers and shaders.
   create_program();
-  add_shader(GL_VERTEX_SHADER,
-             Resource_loader::load_shader_source("default.vert").c_str());
-  add_shader(GL_FRAGMENT_SHADER,
-             Resource_loader::load_shader_source("default.frag").c_str());
+  add_shader(GL_VERTEX_SHADER, load_shader_source("default.vert").c_str());
+  add_shader(GL_FRAGMENT_SHADER, load_shader_source("default.frag").c_str());
   link();
 }
 
@@ -50,18 +31,18 @@ GLuint Shader::get_program() const
 
 void Shader::create_program()
 {
-  Logger::alert(INFO, "CREATING PROGRAM...");
+  alert(INFO, "CREATING PROGRAM...");
   program = glCreateProgram();
   if (!program)
   {
-    Logger::alert(ERROR, "ERROR : COULD NOT CREATE PROGRAM!\tEXITING...");
+    alert(ERROR, "ERROR : COULD NOT CREATE PROGRAM!\tEXITING...");
     exit(PROGRAM_ERROR);
   }
 }
 
 void Shader::add_shader(int type, const char *source) const
 {
-  Logger::alert(INFO, "CREATING, SOURCING AND COMPILING SHADER : %d...", type);
+  alert(INFO, "CREATING, SOURCING AND COMPILING SHADER : %d...", type);
 
   GLuint shader = glCreateShader(type);
   Shader::source(shader, source, nullptr);
@@ -103,8 +84,8 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
     if (hasCompiled == GL_FALSE)
     {
       glGetShaderInfoLog(_shader_, 1024, nullptr, infoLog);
-      Logger::alert(ERROR, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
-                           "DETAILS :\n%s", type, infoLog);
+      alert(ERROR, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
+                   "DETAILS :\n%s", type, infoLog);
       exit(COMPILE_ERROR);
     }
   }
@@ -128,8 +109,8 @@ void Shader::link() const
   if (has_linked == GL_FALSE)
   {
     glGetProgramInfoLog(get_program(), 1024, nullptr, infoLog);
-    Logger::alert(ERROR, "\nERROR : SHADER LINKING ERROR\n"
-                         "DETAILS :\n%s", infoLog);
+    alert(ERROR, "\nERROR : SHADER LINKING ERROR\n"
+                 "DETAILS :\n%s", infoLog);
     exit(LINK_ERROR);
   }
   validate();
@@ -145,18 +126,35 @@ void Shader::activate() const
   gl_call(glUseProgram(program));
 }
 
-void Shader::delete_shader() const
+void Shader::deactivate()
 {
-  Logger::alert(INFO, "DESTROYING SHADERS...");
-  gl_call(glDeleteShader(this->get_program()));
+  gl_call(glUseProgram(0));
 }
 
 void Shader::add_uniform(const char *uniform)
 {
   int uniform_location = glGetUniformLocation(this->program, uniform);
   if (uniform_location < 0)
-    Logger::alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform);
+    alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform);
   else this->uniforms.emplace(uniform, uniform_location);
+}
+
+void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
+{
+  gl_call(glUniformMatrix4fv(this->uniforms[uniform_name], 1,
+                             GL_TRUE, &value.get_matrix()[0][0]));
+}
+
+void Shader::cleanup()
+{
+  delete_shader();
+  this->uniforms.clear();
+}
+
+void Shader::delete_shader() const
+{
+  alert(INFO, "DESTROYING SHADERS...");
+  gl_call(glDeleteShader(this->get_program()));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value)
@@ -176,30 +174,10 @@ void Shader::add_uniform(const char *uniform)
                       vector_3f.get_z()));
 }
 
-void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
-{
-  gl_call(glUniformMatrix4fv(this->uniforms[uniform_name], 1,
-                             GL_TRUE, &value.get_matrix()[0][0]));
-}
-
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color)
 {
   gl_call(glUniform4f(this->uniforms[uniform_name],
                       color.get_red(), color.get_green(), color.get_blue(), color.get_alpha()));
-}
-
-//void Shader::update_uniforms(const Matrix_4f &world_matrix, Matrix_4f projected_matrix,
-//                             const Material &material)
-//{
-//  // Set program uniforms.
-//  set_uniform("color", material.get_color());
-//  set_uniform("transform", projected_matrix);
-//}
-
-void Shader::cleanup()
-{
-  delete_shader();
-  this->uniforms.clear();
 }
 
 

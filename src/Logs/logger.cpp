@@ -2,11 +2,11 @@
 // Created by nami on 5/16/22.
 //
 
-#include "../../Include/Logs/logger.h"
+#include "logger.h"
 
 static FILE *file_ptr = nullptr;
 
-void Logger::open_file()
+void open_file()
 {
   file_ptr = fopen("../src/Logs/log.txt", "a");
   if (file_ptr == nullptr)
@@ -16,7 +16,7 @@ void Logger::open_file()
   }
 }
 
-void Logger::save_to_file(const char *info)
+void save_to_file(const char *info)
 {
   if (file_ptr != nullptr)
   {
@@ -24,7 +24,7 @@ void Logger::save_to_file(const char *info)
   }
 }
 
-void Logger::alert(int info_type, const char *format, ...)
+void alert(int info_type, const char *format, ...)
 {
   va_list args;
   va_start(args, format);
@@ -53,7 +53,7 @@ void Logger::alert(int info_type, const char *format, ...)
   va_end(args);
 }
 
-void Logger::close_file()
+void close_file()
 {
   fclose(file_ptr);
 }

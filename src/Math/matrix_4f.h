@@ -8,14 +8,15 @@
 #include <cmath>  // Cos, sin and sqrt functions.
 #include <cstdio>  // Printf.
 #include "vector_3f.h"  // Own 3D vector implementation.
-#include <glm/glm/ext.hpp>  // Mat4x4 and value_ptr.
+#include <glm/glm/mat4x4.hpp>  // Mat4x4.
 
 class Matrix_4f
 {
 public:
   Matrix_4f();
   [[maybe_unused]] Matrix_4f(const Matrix_4f &other_matrix);
-  [[maybe_unused]] void init_translation(float x, float y, float z);
+
+  void init_translation(float x, float y, float z);
   void init_identity();
   void init_translation(const Vector_3f &vector_3f);
   void init_rotation(Vector_3f vector_3f);
@@ -29,7 +30,7 @@ public:
   [[nodiscard]] int get_num_rows() const;
   [[nodiscard]] int get_num_cols() const;
   void set_value(int row, int col, float value);
-  __attribute__((unused)) void print_values() const;
+  [[maybe_unused]] void print_values() const;
 
   Matrix_4f operator*(const Matrix_4f &other_matrix);
 private:

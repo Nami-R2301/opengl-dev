@@ -2,7 +2,7 @@
 // Created by nami on 5/13/22.
 //
 
-#include "../../Include/Math/vector_2f.h"
+#include "vector_2f.h"
 
 #include <cmath>
 

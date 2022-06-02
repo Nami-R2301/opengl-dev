@@ -1,4 +1,6 @@
-#include "../Include/engine.h"
+#include "engine.h"
+#include "../OpenGL Graphics/window.h"
+#include "../OpenGL Graphics/renderer.h"
 
 Engine::Engine()
 {
@@ -50,18 +52,18 @@ void Engine::start()
 {
   if (this->running_state) return;
   set_running_state(true);
-  Logger::alert(INFO, "------------STARTING UP ENGINE--------------");
-  Render::init_graphics();  // Setup openGL graphic settings.
+  alert(INFO, "------------STARTING UP ENGINE--------------");
+  init_graphics();  // Setup openGL graphic settings.
   Window::create_window();  // Make glfw context.
   this->game = new Game();  // Init game.
-  Render::show_gl_info();  // Show info about opengl and glfw versions.
-  Logger::alert(INFO, "------------SUCCESSFULLY STARTED UP ENGINE--------------");
+  show_gl_info();  // Show info about opengl and glfw versions.
+  alert(INFO, "------------SUCCESSFULLY STARTED UP ENGINE--------------");
 }
 
 void Engine::run()
 {
   start();  // Start and setup engine.
-  Logger::alert(INFO, "------------RUNNING--------------");
+  alert(INFO, "------------RUNNING--------------");
   char title[sizeof(long) + 5];
   this->system_time.set_previous_time(std::chrono::system_clock::now());
   while (!Window::is_closed())
@@ -81,8 +83,8 @@ void Engine::run()
     }
     glfwPollEvents(); // Listen and call the appropriate events.
   }
-  Logger::alert(INFO, "------------STOPPING--------------");
-  stop();  // Terminate and cleanup.
+  alert(INFO, "------------STOPPING--------------");
+  stop();  // Terminate and render_cleanup.
 }
 
 void Engine::render()
@@ -90,7 +92,7 @@ void Engine::render()
   Window::clear_bg();  // Reset the background color on screen.
   if (this->game == nullptr)
   {
-    Logger::alert(ERROR, "FAILED TO INITIALIZE GAME IN GAME ENGINE ON LINE : 55!\tEXITING...");
+    alert(ERROR, "FAILED TO INITIALIZE GAME IN GAME ENGINE ON LINE : 55!\tEXITING...");
     exit(-5);
   }
   this->game->input();  // Read and process game inputs.
@@ -108,18 +110,18 @@ void Engine::stop()
 void Engine::cleanup() const
 {
   if (get_exit_code() == 0)
-    Logger::alert(INFO, "------------SHUTTING DOWN ENGINE------------");
-  else Logger::alert(ERROR, "------------FORCING SHUTDOWN OF ENGINE------------");
+    alert(INFO, "------------SHUTTING DOWN ENGINE------------");
+  else alert(ERROR, "------------FORCING SHUTDOWN OF ENGINE------------");
   Window::cleanup();
-  Logger::alert(INFO, "SHUTTING DOWN GAME...");
+  alert(INFO, "SHUTTING DOWN GAME...");
   if (this->game) this->game->cleanup();
   delete get_game();
-  Logger::alert(INFO, "SUCCESSFULLY SHUT DOWN GAME.");
-  Logger::alert(INFO, "TERMINATING GLFW...");
+  alert(INFO, "SUCCESSFULLY SHUT DOWN GAME.");
+  alert(INFO, "TERMINATING GLFW...");
   glfwTerminate(); // Free resources and close all glfw windows and cursors.
   if (get_exit_code() == 0)
-    Logger::alert(INFO, "------------SUCCESSFULLY SHUT DOWN ENGINE------------");
-  else Logger::alert(ERROR, "------------ENGINE SHUT DOWN UNEXPECTEDLY------------");
+    alert(INFO, "------------SUCCESSFULLY SHUT DOWN ENGINE------------");
+  else alert(ERROR, "------------ENGINE SHUT DOWN UNEXPECTEDLY------------");
 }
 
 void Engine::force_stop()
@@ -133,20 +135,20 @@ void Engine::force_stop()
   char buffer[1024];
   if (snprintf(buffer, 256, "size of rgb_color_s : %lu\n\n", sizeof(*vertices)) < 0)
   {
-    Logger::alert(ERROR, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...");
+    alert(ERROR, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...");
     exit(ERROR_SNPRINTF);
   }
-  Logger::alert(INFO, buffer);
+  alert(INFO, buffer);
   for (int i = 0; i < 6; ++i) vertices[i].print_vertex();
 }
 
 void *Engine::operator new(unsigned long size)
 {
-  Logger::open_file();  // Open logger stream for alerts.
+  open_file();  // Open logger stream for alerts.
   auto engine = (Engine *) malloc(size);
   if (engine == nullptr)
   {
-    Logger::alert(ERROR, "NOT ENOUGH MEMORY ON THE HEAP");
+    alert(ERROR, "NOT ENOUGH MEMORY ON THE HEAP");
     exit(ERROR_HEAP_ALLOC);
   }
   return engine;
@@ -162,13 +164,13 @@ void Engine::operator delete(void *engine)
       int exit_code = engine_->get_exit_code();
       engine_->force_stop();
       free(engine_);
-      Logger::close_file();  // Close the stream for alerts.
+      close_file();  // Close the stream for alerts.
       exit(exit_code);
     }
     engine_->cleanup();
     free(engine_);
   }
-  Logger::close_file();  // Close the stream for alerts.
+  close_file();  // Close the stream for alerts.
 }
 
 bool Engine::check_crash() const

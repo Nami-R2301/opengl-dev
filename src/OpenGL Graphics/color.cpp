@@ -1,7 +1,8 @@
 //
 // Created by nami on 2022-02-23.
 //
-#include "../../Include/OpenGL Graphics/color.h"
+#include "color.h"
+#include "../Logs/logger.h"
 
 Color::Color(float red, float green, float blue, float alpha)
 {
@@ -14,13 +15,6 @@ Color::Color(float red, float green, float blue, float alpha)
     this->alpha = alpha;
   } else if ((red > 1.0f || red < 0.0f) || (green > 1.0f || green < 0.0f) || (blue > 1.0f || blue < 0.0f))
     normalize();
-}
-
-// Reset the this->
-[[maybe_unused]] void Color::clear()
-{
-  const Color new_color; // Default color (Dark gray).
-  *this = new_color;
 }
 
 float Color::get_red() const
@@ -43,31 +37,15 @@ float Color::get_alpha() const
   return this->alpha;
 }
 
-[[maybe_unused]] Color::Color(const Color &new_color)
+void Color::normalize()
 {
-  if (this == &new_color) return;
-  *this = new_color;
+  float min = 0.0f, max = 1.0f;
+  this->red = (get_red() - min) / (max - min);
+  this->green = (get_green() - min) / (max - min);
+  this->blue = (get_blue() - min) / (max - min);
+  this->alpha = (get_alpha() - min) / (max - min);
 }
 
-[[maybe_unused]] void Color::print() const
-{
-  Logger::alert(INFO,
-                "Red value : %.2f\nGreen value : %.2f\nBlue value : %.2f\nAlpha value : %.2f",
-                this->red, this->green, this->blue, this->alpha);
-}
-
-[[maybe_unused]] void Color::set_color(const Color &new_color)
-{
-  *this = new_color;
-}
-
-[[maybe_unused]] void Color::set_color(float red_, float green_, float blue_, float alpha_)
-{
-  this->red = red_;
-  this->green = green_;
-  this->blue = blue_;
-  this->alpha = alpha_;
-}
 
 Color &Color::operator=(const Color &other_color)
 {
@@ -88,11 +66,35 @@ bool Color::operator==(const Color &other_color)
           this->alpha == other_color.alpha);
 }
 
-void Color::normalize()
+// Reset the this->
+[[maybe_unused]] void Color::clear()
 {
-  float min = 0.0f, max = 1.0f;
-  this->red = (get_red() - min) / (max - min);
-  this->green = (get_green() - min) / (max - min);
-  this->blue = (get_blue() - min) / (max - min);
-  this->alpha = (get_alpha() - min) / (max - min);
+  const Color new_color; // Default color (Dark gray).
+  *this = new_color;
+}
+
+[[maybe_unused]] Color::Color(const Color &new_color)
+{
+  if (this == &new_color) return;
+  *this = new_color;
+}
+
+[[maybe_unused]] void Color::print() const
+{
+  alert(INFO,
+        "Red value : %.2f\nGreen value : %.2f\nBlue value : %.2f\nAlpha value : %.2f",
+        this->red, this->green, this->blue, this->alpha);
+}
+
+[[maybe_unused]] void Color::set_color(const Color &new_color)
+{
+  *this = new_color;
+}
+
+[[maybe_unused]] void Color::set_color(float red_, float green_, float blue_, float alpha_)
+{
+  this->red = red_;
+  this->green = green_;
+  this->blue = blue_;
+  this->alpha = alpha_;
 }

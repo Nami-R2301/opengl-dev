@@ -5,11 +5,10 @@
 #ifndef OPENGL_DEV_INPUT_H
 #define OPENGL_DEV_INPUT_H
 
-#include "../OpenGL Graphics/window.h"
 #include "../Math/vector_2f.h"
 
-#define NUM_KEY_CODES GLFW_KEY_LAST;
-#define NUM_MOUSE_BUTTONS GLFW_MOUSE_BUTTON_LAST;
+#define NUM_KEY_CODES 348;
+#define NUM_MOUSE_BUTTONS 7;
 
 class Input
 {
@@ -18,11 +17,12 @@ public:
 
   [[nodiscard]] static bool get_key(int key_code);
   [[nodiscard]] static bool get_key_down(int key_code);
-  [[nodiscard]] static bool get_key_up(int key_code);
   [[nodiscard]] static bool get_mouse(int mouse_button);
-  [[nodiscard]] static bool get_mouse_down(int mouse_button);
-  [[nodiscard]] static bool get_mouse_up(int mouse_button);
   [[nodiscard]] static Vector_2f get_mouse_position();
+
+  [[nodiscard]] [[maybe_unused]] static bool get_key_up(int key_code);
+  [[nodiscard]] [[maybe_unused]] static bool get_mouse_down(int mouse_button);
+  [[nodiscard]] [[maybe_unused]] static bool get_mouse_up(int mouse_button);
 
   static void set_key(int key_code, bool state);
   static void set_mouse(int mouse_button, bool state);

@@ -2,33 +2,34 @@
 // Created by nami on 5/14/22.
 //
 
-#include "../../Include/OpenGL Graphics/render.h"
+#include "renderer.h"
+#include "../Logs/logger.h"
 
 static bool glfw_init = false;  // Flag to check glfw prepare_mesh status.
 
-void Render::gl_clear_errors()
+void gl_clear_errors()
 {
   while (glGetError());  // Clear all previous openGL errors before polling the next one.
 }
 
-void Render::reset_bg()
+void reset_bg()
 {
   gl_call(
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)); // Clear and change the back buffer color bit with our color.
 }
 
-void Render::set_clear_color(const Color &color)
+void set_clear_color(const Color &color)
 {
   gl_call(glClearColor(color.get_red(), color.get_green(), color.get_blue(), color.get_alpha()));
 }
 
-void Render::set_textures(bool enabled)
+void set_textures(bool enabled)
 {
   if (enabled) glEnable(GL_TEXTURE_2D);
   else glDisable(GL_TEXTURE_2D);
 }
 
-void Render::init_graphics()
+void init_graphics()
 {
   //  glDebugMessageCallback(GLDebugMessageCallback, NULL);
   glfwSetErrorCallback(glfw_error_callback); // Set error callback for glfw calls.
@@ -39,7 +40,7 @@ void Render::init_graphics()
   set_textures(true);  // Enable textures.
 
   // Init glfw library.
-  Logger::alert(INFO, "INITIALIZING GLFW...");
+  alert(INFO, "INITIALIZING GLFW...");
   glfwInit();
   glfw_init = true;
 
@@ -61,31 +62,116 @@ void Render::init_graphics()
   gl_call(glEnable(GL_FRAMEBUFFER_SRGB));
 }
 
-const char *Render::get_GL_version()
+const char *get_GL_version()
 {
   return (const char *) (glGetString(GL_VERSION));
 }
 
-void Render::show_gl_info()
+void show_gl_info()
 {
-  Logger::alert(INFO, "FETCHING OPENGL AND GLFW INFO");
+  alert(INFO, "FETCHING OPENGL AND GLFW INFO");
   // Get openGL and GLFW version.
   int num_ext;
   gl_call(glGetIntegerv(GL_NUM_EXTENSIONS, &num_ext));
-  Logger::alert(INFO, "Extensions available : %d", num_ext);
-  Logger::alert(INFO, "Opengl version : %s", get_GL_version());
-  Logger::alert(INFO, "GLFW Version : %s", glfwGetVersionString());
+  alert(INFO, "Extensions available : %d", num_ext);
+  alert(INFO, "Opengl version : %s", get_GL_version());
+  alert(INFO, "GLFW Version : %s", glfwGetVersionString());
 }
 
-void Render::glfw_error_callback(int error_code, const char *err_str)
+void add_vbo(const unsigned int *vbo_id)
 {
-  Logger::alert(ERROR, "ERROR : %s", err_str);
+  alert(INFO, "CREATING VBO...");
+  gl_call(glGenBuffers(1, (GLuint *) vbo_id)); // Create empty buffer for our vertex_source data.
+}
+
+void add_vao(const unsigned int *vao_id)
+{
+  alert(INFO, "CREATING VAO...");
+  gl_call(glGenVertexArrays(1, (GLuint *) vao_id));
+}
+
+void add_ibo(const unsigned int *ibo_id)
+{
+  alert(INFO, "CREATING EVO...");
+  gl_call(glGenBuffers(1, (GLuint *) ibo_id));
+}
+
+void bind_vbo(const unsigned int *vbo_id)
+{
+  alert(INFO, "BINDING VBO...");
+  gl_call(glBindBuffer(GL_ARRAY_BUFFER, *vbo_id));
+}
+
+void bind_vao(const unsigned int *vao_id)
+{
+  gl_call(glBindVertexArray(*vao_id));
+}
+
+void bind_ibo(const unsigned int *ibo_id)
+{
+  alert(INFO, "BINDING EVO...");
+  gl_call(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ibo_id));
+}
+
+void bind_tex(const unsigned int *tex_id, unsigned int slot_)
+{
+  gl_call(glActiveTexture(GL_TEXTURE0 + slot_));  // Set our active texture slot.
+  gl_call(glBindTexture(GL_TEXTURE_2D, *tex_id));
+}
+
+void unbind_tex()
+{
+  gl_call(glBindTexture(GL_TEXTURE_2D, 0));
+}
+
+void unbind_vbo()
+{
+  gl_call(glBindBuffer(GL_ARRAY_BUFFER, 0));
+}
+
+void unbind_vao()
+{
+  gl_call(glBindVertexArray(0));
+}
+
+void unbind_ibo()
+{
+  gl_call(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+}
+
+void delete_vbo(const unsigned int *vbo)
+{
+  alert(INFO, "DESTROYING VBO...");
+  gl_call(glDeleteBuffers(1, vbo));
+}
+
+void delete_vao(const unsigned int *vao)
+{
+  alert(INFO, "DESTROYING VAO...");
+  gl_call(glDeleteVertexArrays(1, vao));
+}
+
+void delete_ibo(const unsigned int *ibo)
+{
+  alert(INFO, "DESTROYING IBO...");
+  gl_call(glDeleteBuffers(1, ibo));
+}
+
+void delete_tex(const unsigned int *tex)
+{
+  alert(INFO, "DESTROYING TEXTURE...");
+  gl_call(glDeleteTextures(1, tex));
+}
+
+void glfw_error_callback(int error_code, const char *err_str)
+{
+  alert(ERROR, "[GLFW ERROR] : %s", err_str);
   if (glfw_init) glfwTerminate();  // If glfw has been initialized.
   exit(error_code);
 }
 
-void Render::gl_error_callback(GLenum source, const char *function_name,
-                               const char *source_file, unsigned int line_number)
+void gl_error_callback(GLenum source, const char *function_name,
+                       const char *source_file, unsigned int line_number)
 {
   char _source[50];
   if (source != GL_NO_ERROR)
@@ -113,15 +199,15 @@ void Render::gl_error_callback(GLenum source, const char *function_name,
         break;
 
       case GL_INVALID_OPERATION:
-        sprintf(_source, "INVALID OPENGL OPERATION FOR UNIFORM");
+        sprintf(_source, "INVALID OPENGL OPERATION");
         break;
 
       default:
         sprintf(_source, "UNKNOWN");
         break;
     }
-    Logger::alert(ERROR, "OPENGL ERROR IN FILE %s, IN FUNCTION %s, AT LINE %d :\n%s ERROR",
-                  source_file, function_name, line_number, _source);
+    alert(ERROR, "[OPENGL ERROR]\nIN FILE %s, IN FUNCTION %s, AT LINE %d :\n%s",
+          source_file, function_name, line_number, _source);
     exit((int) source);
   }
 }

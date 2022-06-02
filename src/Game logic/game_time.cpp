@@ -2,7 +2,7 @@
 // Created by nami on 5/11/22.
 //
 
-#include "../../Include/Game logic/game_time.h"
+#include "game_time.h"
 
 time_point<system_clock, duration<long, std::ratio<1, 1000000000>>> Game_time::get_previous_time() const
 {

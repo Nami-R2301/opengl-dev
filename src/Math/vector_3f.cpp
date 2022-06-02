@@ -2,8 +2,8 @@
 // Created by nami on 5/13/22.
 //
 
-#include "../../Include/Math/vector_3f.h"
-#include "../../Include/Math/quaternion.h"
+#include "vector_3f.h"
+#include "quaternion.h"
 
 Vector_3f::Vector_3f(float x, float y, float z)
 {
