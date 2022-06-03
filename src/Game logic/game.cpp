@@ -82,7 +82,7 @@ void Game::cleanup()
 {
   save();
   this->renderer.delete_buffers();
-  get_program().cleanup();
+  this->program.cleanup();
 }
 
 /******************************CALLBACKS****************************/
@@ -103,14 +103,16 @@ void Game::window_key_callback([[maybe_unused]] GLFWwindow *window, [[maybe_unus
   Window::input();
 }
 
-Shader Game::get_program() const
-{
-  return this->program;
-}
+/******************************CALLBACKS****************************/
 
 Camera Game::get_camera() const
 {
   return this->camera;
+}
+
+[[maybe_unused]] Shader Game::get_program() const
+{
+  return this->program;
 }
 
 [[maybe_unused]] Transform Game::get_transform() const
