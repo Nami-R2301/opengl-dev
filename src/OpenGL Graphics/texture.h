@@ -2,10 +2,7 @@
 // Created by nami on 5/26/22.
 //
 
-#ifndef OPENGL_DEV_TEXTURE_H
-#define OPENGL_DEV_TEXTURE_H
-
-#include "renderer.h"
+#pragma once
 
 class Texture
 {
@@ -30,11 +27,9 @@ public:
   void unbind() const;
   void delete_texture() const;
 private:
-  unsigned int id = 0;
+  unsigned int m_renderer_id = 0;
   unsigned char *local_buffer = nullptr;
   int width = 0;
   int height = 0;
   int bits_per_pixel = 0;
 };
-
-#endif //OPENGL_DEV_TEXTURE_H

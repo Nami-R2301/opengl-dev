@@ -2,8 +2,7 @@
 // Created by nami on 6/1/22.
 //
 
-#ifndef OPENGL_DEV_VERTEX_ARRAY_BUFFER_H
-#define OPENGL_DEV_VERTEX_ARRAY_BUFFER_H
+#pragma once
 
 #include "vertex_buffer.h"
 #include "buffer_layout.h"
@@ -20,5 +19,3 @@ public:
 private:
   unsigned int m_renderer_id = 0;
 };
-
-#endif //OPENGL_DEV_VERTEX_ARRAY_BUFFER_H

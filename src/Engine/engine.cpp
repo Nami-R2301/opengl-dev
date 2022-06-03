@@ -1,6 +1,6 @@
 #include "engine.h"
 #include "../OpenGL Graphics/window.h"
-#include "../OpenGL Graphics/renderer.h"
+#include "../Logs/logger.h"
 
 Engine::Engine()
 {
@@ -53,10 +53,10 @@ void Engine::start()
   if (this->running_state) return;
   set_running_state(true);
   alert(INFO, "------------STARTING UP ENGINE--------------");
-  init_graphics();  // Setup openGL graphic settings.
+  Opengl_renderer::init_graphics();  // Setup openGL graphic settings.
   Window::create_window();  // Make glfw context.
   this->game = new Game();  // Init game.
-  show_gl_info();  // Show info about opengl and glfw versions.
+  Opengl_renderer::show_gl_info();  // Show info about opengl and glfw versions.
   alert(INFO, "------------SUCCESSFULLY STARTED UP ENGINE--------------");
 }
 
@@ -92,8 +92,8 @@ void Engine::render()
   Window::clear_bg();  // Reset the background color on screen.
   if (this->game == nullptr)
   {
-    alert(ERROR, "FAILED TO INITIALIZE GAME IN GAME ENGINE ON LINE : 55!\tEXITING...");
-    exit(-5);
+    alert(ERROR, "FAILED TO INITIALIZE GAME IN GAME ENGINE ON LINE : %d!\tEXITING...", __LINE__);
+    exit(GAME_CRASH);
   }
   this->game->input();  // Read and process game inputs.
   this->game->update();  // Update the game.
@@ -104,7 +104,7 @@ void Engine::render()
 void Engine::stop()
 {
   if (get_running_state()) set_running_state(false);
-  set_exit_code(0);
+  set_exit_code(EXIT_SUCCESS);
 }
 
 void Engine::cleanup() const

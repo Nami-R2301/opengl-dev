@@ -118,8 +118,8 @@ void Window::toggle_fullscreen()
 
 void Window::clear_bg()
 {
-  set_clear_color(Color());
-  reset_bg();
+  Opengl_renderer::set_clear_color(Color());
+  Opengl_renderer::reset_bg();
 }
 
 // Let the window open as long as the close flag (gathered by glfwPollEvents) is not set to true.

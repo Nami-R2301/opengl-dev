@@ -2,10 +2,7 @@
 // Created by nami on 6/1/22.
 //
 
-#ifndef OPENGL_DEV_INDEX_BUFFER_H
-#define OPENGL_DEV_INDEX_BUFFER_H
-
-#include "renderer.h"
+#pragma once
 
 class Index_buffer
 {
@@ -23,5 +20,3 @@ private:
   unsigned int m_renderer_id = 0;
   unsigned int m_count = 0;
 };
-
-#endif //OPENGL_DEV_INDEX_BUFFER_H

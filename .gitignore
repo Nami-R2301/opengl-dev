@@ -40,8 +40,8 @@ build/CMakeFiles/opengl-dev.dir/progress.make
 build/CMakeFiles/opengl-dev.dir/src/color.cpp.o
 build/CMakeFiles/opengl-dev.dir/src/evo.cpp.o
 build/CMakeFiles/opengl-dev.dir/src/main.cpp.o
-build/CMakeFiles/opengl-dev.dir/src/program.cpp.o
-build/CMakeFiles/opengl-dev.dir/src/program.cpp.o
+build/CMakeFiles/opengl-dev.dir/src/m_renderer_id.cpp.o
+build/CMakeFiles/opengl-dev.dir/src/m_renderer_id.cpp.o
 build/CMakeFiles/opengl-dev.dir/src/vao.cpp.o
 build/CMakeFiles/opengl-dev.dir/src/vbo.cpp.o
 build/CMakeFiles/opengl-dev.dir/src/vertex_source.cpp.o

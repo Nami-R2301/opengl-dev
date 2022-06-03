@@ -9,6 +9,7 @@
 
 #define NOT_FINISHED 223
 #define CRASH 224
+#define GAME_CRASH -5
 
 class Engine
 {
@@ -29,7 +30,7 @@ private:
   Game_time system_time;
   bool running_state;
   long frame_counter;
-  int exit_code = NOT_FINISHED;  // Document the program exit code for maintenance.
+  int exit_code = NOT_FINISHED;  // Document the m_renderer_id exit code for maintenance.
 
   [[maybe_unused]] void set_game(Game *game_);
   [[nodiscard]] bool check_crash() const;

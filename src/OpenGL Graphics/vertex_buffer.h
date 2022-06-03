@@ -2,8 +2,7 @@
 // Created by nami on 6/1/22.
 //
 
-#ifndef OPENGL_DEV_VERTEX_BUFFER_H
-#define OPENGL_DEV_VERTEX_BUFFER_H
+#pragma once
 
 class Vertex_buffer
 {
@@ -17,5 +16,3 @@ public:
 private:
   unsigned int m_renderer_id = 0;
 };
-
-#endif //OPENGL_DEV_VERTEX_BUFFER_H

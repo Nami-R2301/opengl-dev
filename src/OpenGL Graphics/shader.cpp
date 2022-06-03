@@ -12,28 +12,29 @@
 
 Shader::Shader()
 {
-  this->uniforms = std::map<const char *, int>();
+  this->uniforms = std::unordered_map<const char *, int>();
 }
 
-void Shader::setup_basic_shader()
+Shader::Shader(const char *vertex_file_path, const char *fragment_file_path)
 {
+  this->uniforms = std::unordered_map<const char *, int>();
   // Init opengl memory buffers and shaders.
   create_program();
-  add_shader(GL_VERTEX_SHADER, load_shader_source("default.vert").c_str());
-  add_shader(GL_FRAGMENT_SHADER, load_shader_source("default.frag").c_str());
+  add_shader(GL_VERTEX_SHADER, vertex_file_path);
+  add_shader(GL_FRAGMENT_SHADER, fragment_file_path);
   link();
 }
 
-GLuint Shader::get_program() const
+unsigned int Shader::get_program() const
 {
-  return program;
+  return m_renderer_id;
 }
 
 void Shader::create_program()
 {
   alert(INFO, "CREATING PROGRAM...");
-  program = glCreateProgram();
-  if (!program)
+  gl_call(m_renderer_id = glCreateProgram());
+  if (m_renderer_id <= GL_FALSE)
   {
     alert(ERROR, "ERROR : COULD NOT CREATE PROGRAM!\tEXITING...");
     exit(PROGRAM_ERROR);
@@ -44,13 +45,13 @@ void Shader::add_shader(int type, const char *source) const
 {
   alert(INFO, "CREATING, SOURCING AND COMPILING SHADER : %d...", type);
 
-  GLuint shader = glCreateShader(type);
+  gl_call(unsigned int shader = glCreateShader(type));
   Shader::source(shader, source, nullptr);
   Shader::compile(shader, type);
   attach(shader);
 }
 
-//Set the source code in program to the source code in the array of strings specified by string.
+//Set the parse_shader code in m_renderer_id to the parse_shader code in the array of strings specified by string.
 void Shader::source(GLuint shader_, const char *source, int *length)
 {
   gl_call(glShaderSource(shader_, 1, &source, length));
@@ -75,13 +76,13 @@ void Shader::compile(GLuint shader, GLuint shader_type)
 void Shader::compile_errors(unsigned int _shader_, const char *type)
 {
   // Stores status of compilation
-  GLint hasCompiled;
+  int hasCompiled;
   // Character array to store error message in
   char infoLog[1024];
   if (strcmp(type, "PROGRAM") != 0)
   {
-    glGetShaderiv(_shader_, GL_COMPILE_STATUS, &hasCompiled);
-    if (hasCompiled == GL_FALSE)
+    gl_call(glGetShaderiv(_shader_, GL_COMPILE_STATUS, &hasCompiled));
+    if (hasCompiled <= GL_FALSE)
     {
       glGetShaderInfoLog(_shader_, 1024, nullptr, infoLog);
       alert(ERROR, "\nERROR : SHADER COMPILATION ERROR FOR SHADER OF TYPE %s\n"
@@ -91,22 +92,22 @@ void Shader::compile_errors(unsigned int _shader_, const char *type)
   }
 }
 
-// Set our program to attach our created program to it (link source codes like '#include').
-void Shader::attach(GLuint shader) const
+// Set our m_renderer_id to attach our created m_renderer_id to it (link parse_shader codes like '#include').
+void Shader::attach(unsigned int shader) const
 {
   gl_call(glAttachShader(Shader::get_program(), shader));
 }
 
-// Links all source codes (shaders) in the program given as argument, creating the executable.
+// Links all parse_shader codes (shaders) in the m_renderer_id given as argument, creating the executable.
 void Shader::link() const
 {
   // Stores status of compilation
-  GLint has_linked;
+  int has_linked;
   char infoLog[512];
-  glLinkProgram(get_program());
+  gl_call(glLinkProgram(get_program()));
   // check for linking errors
-  glGetProgramiv(get_program(), GL_LINK_STATUS, &has_linked);
-  if (has_linked == GL_FALSE)
+  gl_call(glGetProgramiv(get_program(), GL_LINK_STATUS, &has_linked));
+  if (has_linked <= GL_FALSE)
   {
     glGetProgramInfoLog(get_program(), 1024, nullptr, infoLog);
     alert(ERROR, "\nERROR : SHADER LINKING ERROR\n"
@@ -123,7 +124,7 @@ void Shader::validate() const
 
 void Shader::activate() const
 {
-  gl_call(glUseProgram(program));
+  gl_call(glUseProgram(m_renderer_id));
 }
 
 void Shader::deactivate()
@@ -131,17 +132,25 @@ void Shader::deactivate()
   gl_call(glUseProgram(0));
 }
 
+int Shader::get_uniform_location(const char *uniform)
+{
+  // Caching uniforms.
+  if (this->uniforms.find(uniform) != this->uniforms.end()) return this->uniforms[uniform];
+  add_uniform(uniform);
+  return this->uniforms[uniform];
+}
+
 void Shader::add_uniform(const char *uniform)
 {
-  int uniform_location = glGetUniformLocation(this->program, uniform);
-  if (uniform_location < 0)
-    alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform);
-  else this->uniforms.emplace(uniform, uniform_location);
+  if (this->uniforms.find(uniform) != this->uniforms.end()) return;  // If found, don't add it.
+  int uniform_location = glGetUniformLocation(this->m_renderer_id, uniform);
+  if (uniform_location < 0) alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform);
+  this->uniforms.emplace(uniform, uniform_location);  // If not found, create it.
 }
 
 void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
 {
-  gl_call(glUniformMatrix4fv(this->uniforms[uniform_name], 1,
+  gl_call(glUniformMatrix4fv(get_uniform_location(uniform_name), 1,
                              GL_TRUE, &value.get_matrix()[0][0]));
 }
 
@@ -159,24 +168,24 @@ void Shader::delete_shader() const
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value)
 {
-  gl_call(glUniform1i(this->uniforms[uniform_name], value));
+  gl_call(glUniform1i(get_uniform_location(uniform_name), value));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, float value)
 {
-  gl_call(glUniform1f(this->uniforms[uniform_name], value));
+  gl_call(glUniform1f(get_uniform_location(uniform_name), value));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
 {
-  gl_call(glUniform3f(this->uniforms[uniform_name], vector_3f.get_x(),
+  gl_call(glUniform3f(get_uniform_location(uniform_name), vector_3f.get_x(),
                       vector_3f.get_y(),
                       vector_3f.get_z()));
 }
 
 [[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color)
 {
-  gl_call(glUniform4f(this->uniforms[uniform_name],
+  gl_call(glUniform4f(get_uniform_location(uniform_name),
                       color.get_red(), color.get_green(), color.get_blue(), color.get_alpha()));
 }
 

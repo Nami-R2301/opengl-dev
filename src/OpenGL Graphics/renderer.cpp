@@ -4,32 +4,33 @@
 
 #include "renderer.h"
 #include "../Logs/logger.h"
+#include "res_loader.h"
 
 static bool glfw_init = false;  // Flag to check glfw prepare_mesh status.
 
-void gl_clear_errors()
+void Opengl_renderer::gl_clear_errors()
 {
   while (glGetError());  // Clear all previous openGL errors before polling the next one.
 }
 
-void reset_bg()
+void Opengl_renderer::reset_bg()
 {
-  gl_call(
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)); // Clear and change the back buffer color bit with our color.
+  // Clear and change the back buffer color bit with our color.
+  gl_call(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-void set_clear_color(const Color &color)
+void Opengl_renderer::set_clear_color(const Color &color)
 {
   gl_call(glClearColor(color.get_red(), color.get_green(), color.get_blue(), color.get_alpha()));
 }
 
-void set_textures(bool enabled)
+void Opengl_renderer::set_textures(bool enabled)
 {
   if (enabled) glEnable(GL_TEXTURE_2D);
   else glDisable(GL_TEXTURE_2D);
 }
 
-void init_graphics()
+void Opengl_renderer::init_graphics()
 {
   //  glDebugMessageCallback(GLDebugMessageCallback, NULL);
   glfwSetErrorCallback(glfw_error_callback); // Set error callback for glfw calls.
@@ -62,12 +63,12 @@ void init_graphics()
   gl_call(glEnable(GL_FRAMEBUFFER_SRGB));
 }
 
-const char *get_GL_version()
+const char *Opengl_renderer::get_GL_version()
 {
   return (const char *) (glGetString(GL_VERSION));
 }
 
-void show_gl_info()
+void Opengl_renderer::show_gl_info()
 {
   alert(INFO, "FETCHING OPENGL AND GLFW INFO");
   // Get openGL and GLFW version.
@@ -78,100 +79,51 @@ void show_gl_info()
   alert(INFO, "GLFW Version : %s", glfwGetVersionString());
 }
 
-void add_vbo(const unsigned int *vbo_id)
+void Opengl_renderer::setup_mesh(const Buffer_layout &layout, const std::vector<Vertex> &vertices,
+                                 const std::vector<unsigned int> &indices)
 {
-  alert(INFO, "CREATING VBO...");
-  gl_call(glGenBuffers(1, (GLuint *) vbo_id)); // Create empty buffer for our vertex_source data.
+  this->vbo = Vertex_buffer(vertices.data(), VERTEX_SIZE * vertices.size());
+  this->vao.bind();
+  this->ibo = Index_buffer(indices.data(), indices.size());
+  this->tex = Texture(load_texture_file("../Resources/Textures/tiles.png"));
+  this->vao.add_buffer(this->vbo, layout);
+
+  this->tex.unbind();
+  this->vao.unbind();
+  this->vbo.unbind();
+  this->ibo.unbind();
 }
 
-void add_vao(const unsigned int *vao_id)
+void Opengl_renderer::draw() const
 {
-  alert(INFO, "CREATING VAO...");
-  gl_call(glGenVertexArrays(1, (GLuint *) vao_id));
+  this->vao.bind();
+  this->tex.bind(0);
+
+  // Draw from vertex_source arrays.
+  gl_call(glDrawElements(GL_TRIANGLES, ibo.get_count(), GL_UNSIGNED_INT, nullptr));
 }
 
-void add_ibo(const unsigned int *ibo_id)
+void Opengl_renderer::delete_buffers() const
 {
-  alert(INFO, "CREATING EVO...");
-  gl_call(glGenBuffers(1, (GLuint *) ibo_id));
+  alert(INFO, "DELETING VBO...");
+  this->vbo.delete_buffer();
+  alert(INFO, "DELETING VAO...");
+  this->vao.delete_array_buffer();
+  alert(INFO, "DELETING IBO...");
+  this->ibo.delete_buffer();
+  alert(INFO, "DELETING TEXTURE...");
+  this->tex.delete_texture();
 }
 
-void bind_vbo(const unsigned int *vbo_id)
-{
-  alert(INFO, "BINDING VBO...");
-  gl_call(glBindBuffer(GL_ARRAY_BUFFER, *vbo_id));
-}
-
-void bind_vao(const unsigned int *vao_id)
-{
-  gl_call(glBindVertexArray(*vao_id));
-}
-
-void bind_ibo(const unsigned int *ibo_id)
-{
-  alert(INFO, "BINDING EVO...");
-  gl_call(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ibo_id));
-}
-
-void bind_tex(const unsigned int *tex_id, unsigned int slot_)
-{
-  gl_call(glActiveTexture(GL_TEXTURE0 + slot_));  // Set our active texture slot.
-  gl_call(glBindTexture(GL_TEXTURE_2D, *tex_id));
-}
-
-void unbind_tex()
-{
-  gl_call(glBindTexture(GL_TEXTURE_2D, 0));
-}
-
-void unbind_vbo()
-{
-  gl_call(glBindBuffer(GL_ARRAY_BUFFER, 0));
-}
-
-void unbind_vao()
-{
-  gl_call(glBindVertexArray(0));
-}
-
-void unbind_ibo()
-{
-  gl_call(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-}
-
-void delete_vbo(const unsigned int *vbo)
-{
-  alert(INFO, "DESTROYING VBO...");
-  gl_call(glDeleteBuffers(1, vbo));
-}
-
-void delete_vao(const unsigned int *vao)
-{
-  alert(INFO, "DESTROYING VAO...");
-  gl_call(glDeleteVertexArrays(1, vao));
-}
-
-void delete_ibo(const unsigned int *ibo)
-{
-  alert(INFO, "DESTROYING IBO...");
-  gl_call(glDeleteBuffers(1, ibo));
-}
-
-void delete_tex(const unsigned int *tex)
-{
-  alert(INFO, "DESTROYING TEXTURE...");
-  gl_call(glDeleteTextures(1, tex));
-}
-
-void glfw_error_callback(int error_code, const char *err_str)
+void Opengl_renderer::glfw_error_callback(int error_code, const char *err_str)
 {
   alert(ERROR, "[GLFW ERROR] : %s", err_str);
   if (glfw_init) glfwTerminate();  // If glfw has been initialized.
   exit(error_code);
 }
 
-void gl_error_callback(GLenum source, const char *function_name,
-                       const char *source_file, unsigned int line_number)
+void Opengl_renderer::gl_error_callback(GLenum source, const char *function_name,
+                                        const char *source_file, unsigned int line_number)
 {
   char _source[50];
   if (source != GL_NO_ERROR)

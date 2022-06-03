@@ -5,7 +5,7 @@ information passed on to the GPU for future game development.
 
 ## How to install libraries
 
-- Install glfw (3.3) source package library from https://www.glfw.org/download
+- Install glfw (3.3) parse_shader package library from https://www.glfw.org/download
 - Once extracted, create a build directory using ``mkdir -p build/`` at the root directory of the glfw folder.
 - At the root directory of the glfw folder, run the following command ``cmake -S . -B build/``.
 - Upon success, run the next command ``make`` to build the files.

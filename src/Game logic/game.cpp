@@ -2,10 +2,11 @@
 // Created by nami on 5/10/22.
 //
 
-#include "game.h"
 #include "../OpenGL Graphics/window.h"
 #include "../OpenGL Graphics/res_loader.h"
+#include "../Logs/logger.h"
 #include "input.h"
+#include "game.h"
 
 static float translation_value = 0.0f;
 
@@ -14,12 +15,11 @@ Game::Game()
   Game::set_callbacks();  // Set our mouse and keyboard callbacks.
   this->material = Material(load_texture_file("../Resources/Textures/tiles.png"),
                             Color(1.0f, 1.0f, 1.0f, 1.0f));
-  // Init opengl memory buffers and shaders.
-  this->program.setup_basic_shader();
 
-  // Add shader uniforms to glsl program.
-  this->program.add_uniform("uniform_color");
-  this->program.add_uniform("transform");
+  // Build shaders.
+  this->program = Shader(load_shader_source("default.vert").c_str(),
+                         load_shader_source("default.frag").c_str());
+
   prepare_mesh();  // Initialize and load meshes to draw on screen.
 }
 
@@ -37,8 +37,8 @@ void Game::prepare_mesh()
   Buffer_layout layout;
   layout.push<Vector_3f>(1), layout.push<Color>(1), layout.push<Vector_2f>(1);
 
-  this->mesh.setup_mesh(custom_mesh.vertices, custom_mesh.indices, layout);
-  Shader::deactivate();  // Unbind program for now until we draw.
+  this->renderer.setup_mesh(layout, custom_mesh.vertices, custom_mesh.indices);
+  Shader::deactivate();  // Unbind m_renderer_id for now until we draw.
 
   // Set world view inside window.
   this->transform.set_projection(125.0f, (float) Window::get_width(), (float) Window::get_height(),
@@ -62,15 +62,15 @@ void Game::update()
 //  this->transform.set_scale(Vector_3f(0.7f * translation_value,
 //                                      0.7f * translation_value,
 //                                      0.7f * translation_value));
-  // Update shader program.
-  this->program.activate(); // Activate program for next draw.
+  // Update shader m_renderer_id.
+  this->program.activate(); // Activate m_renderer_id for next draw.
   this->program.set_uniform("transform", this->transform.get_projected_transformation(get_camera()));
-  this->program.set_uniform("uniform_color", material.get_color());
+  this->program.set_uniform("uniform_color", this->material.get_color());
 }
 
 void Game::render()
 {
-  this->mesh.draw();  // GPU draws everything.
+  this->renderer.draw();  // GPU draws everything.
 }
 
 void Game::save()
@@ -81,7 +81,7 @@ void Game::save()
 void Game::cleanup()
 {
   save();
-  get_mesh().delete_buffers();
+  this->renderer.delete_buffers();
   get_program().cleanup();
 }
 
@@ -103,11 +103,6 @@ void Game::window_key_callback([[maybe_unused]] GLFWwindow *window, [[maybe_unus
   Window::input();
 }
 
-Mesh Game::get_mesh() const
-{
-  return mesh;
-}
-
 Shader Game::get_program() const
 {
   return this->program;
@@ -116,11 +111,6 @@ Shader Game::get_program() const
 Camera Game::get_camera() const
 {
   return this->camera;
-}
-
-[[maybe_unused]] void Game::set_mesh(const Mesh &mesh_)
-{
-  Game::mesh = mesh_;
 }
 
 [[maybe_unused]] Transform Game::get_transform() const

@@ -22,7 +22,7 @@
 
 void open_file();
 void alert(int info_type = INFO, const char *format = "\n", ...);
-void close_file();
 void save_to_file(const char *info);
+void close_file();
 
 #endif //OPENGL_DEV_LOGGER_H
