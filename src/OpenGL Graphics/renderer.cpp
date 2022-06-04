@@ -57,6 +57,9 @@ void Opengl_renderer::init_graphics()
   // the camera should take priority (drawn on top of other ones).
   gl_call(glEnable(GL_DEPTH_TEST));
 
+  gl_call(glEnable(GL_BLEND));
+  gl_call(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
   //TODO: Depth clamp for later.
 
   // Let OpenGL do the exponential gamma correction for us so textures and colors don't appear as dark.

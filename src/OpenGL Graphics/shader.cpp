@@ -12,12 +12,12 @@
 
 Shader::Shader()
 {
-  this->uniforms = std::unordered_map<const char *, int>();
+  this->uniform_cache = std::unordered_map<const char *, int>();
 }
 
 Shader::Shader(const char *vertex_file_path, const char *fragment_file_path)
 {
-  this->uniforms = std::unordered_map<const char *, int>();
+  this->uniform_cache = std::unordered_map<const char *, int>();
   // Init opengl memory buffers and shaders.
   create_program();
   add_shader(GL_VERTEX_SHADER, vertex_file_path);
@@ -132,23 +132,18 @@ void Shader::deactivate()
   gl_call(glUseProgram(0));
 }
 
-int Shader::get_uniform_location(const char *uniform)
+int Shader::get_uniform_location(const char *uniform_name) const
 {
   // Caching uniforms.
-  if (this->uniforms.find(uniform) != this->uniforms.end()) return this->uniforms[uniform];
-  add_uniform(uniform);
-  return this->uniforms[uniform];
+  auto cache = this->uniform_cache.find(uniform_name);
+  if (cache != this->uniform_cache.end()) return cache->second;
+  int uniform_location = glGetUniformLocation(this->m_renderer_id, uniform_name);
+  if (uniform_location < 0) alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform_name);
+  this->uniform_cache.emplace(uniform_name, uniform_location);
+  return this->uniform_cache[uniform_name];
 }
 
-void Shader::add_uniform(const char *uniform)
-{
-  if (this->uniforms.find(uniform) != this->uniforms.end()) return;  // If found, don't add it.
-  int uniform_location = glGetUniformLocation(this->m_renderer_id, uniform);
-  if (uniform_location < 0) alert(ERROR, "ERROR : COULD NOT FIND UNIFORM : %s", uniform);
-  this->uniforms.emplace(uniform, uniform_location);  // If not found, create it.
-}
-
-void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
+void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value) const
 {
   gl_call(glUniformMatrix4fv(get_uniform_location(uniform_name), 1,
                              GL_TRUE, &value.get_matrix()[0][0]));
@@ -157,7 +152,7 @@ void Shader::set_uniform(const char *uniform_name, const Matrix_4f &value)
 void Shader::cleanup()
 {
   delete_shader();
-  this->uniforms.clear();
+  this->uniform_cache.clear();
 }
 
 void Shader::delete_shader() const
@@ -166,24 +161,24 @@ void Shader::delete_shader() const
   gl_call(glDeleteShader(this->get_program()));
 }
 
-[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, int value) const
 {
   gl_call(glUniform1i(get_uniform_location(uniform_name), value));
 }
 
-[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, float value)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, float value) const
 {
   gl_call(glUniform1f(get_uniform_location(uniform_name), value));
 }
 
-[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Vector_3f &vector_3f) const
 {
   gl_call(glUniform3f(get_uniform_location(uniform_name), vector_3f.get_x(),
                       vector_3f.get_y(),
                       vector_3f.get_z()));
 }
 
-[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color)
+[[maybe_unused]] void Shader::set_uniform(const char *uniform_name, const Color &color) const
 {
   gl_call(glUniform4f(get_uniform_location(uniform_name),
                       color.get_red(), color.get_green(), color.get_blue(), color.get_alpha()));

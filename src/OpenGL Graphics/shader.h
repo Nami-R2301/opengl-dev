@@ -33,20 +33,19 @@ public:
   void activate() const;
 
   // Uniform handling.
-  [[nodiscard]] int get_uniform_location(const char *uniform);
-  void add_uniform(const char *uniform);
-  void set_uniform(const char *uniform_name, const Color &color);
-  void set_uniform(const char *uniform_name, const Matrix_4f &matrix_4f);
+  [[nodiscard]] int get_uniform_location(const char *uniform_name) const;
+  void set_uniform(const char *uniform_name, const Color &color) const;
+  void set_uniform(const char *uniform_name, const Matrix_4f &matrix_4f) const;
 
-  [[maybe_unused]] void set_uniform(const char *uniform_name, int value);
-  [[maybe_unused]] void set_uniform(const char *uniform_name, float value);
-  [[maybe_unused]] void set_uniform(const char *uniform_name, const Vector_3f &vector_3f);
+  [[maybe_unused]] void set_uniform(const char *uniform_name, int value) const;
+  [[maybe_unused]] void set_uniform(const char *uniform_name, float value) const;
+  [[maybe_unused]] void set_uniform(const char *uniform_name, const Vector_3f &vector_3f) const;
 
   void cleanup();
 
 private:
   unsigned int m_renderer_id = 0;
-  std::unordered_map<const char *, int> uniforms;
+  mutable std::unordered_map<const char *, int> uniform_cache;
 
   static void compile_errors(unsigned int shader, const char *type);
 };
