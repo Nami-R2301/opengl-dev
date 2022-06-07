@@ -3,7 +3,7 @@
 //
 #include "res_loader.h"
 #include "../Logs/logger.h"
-#include <sstream>
+#include <fstream>
 
 std::string load_shader_source(const char *file_path)
 {
@@ -38,78 +38,58 @@ Texture load_texture_file(const char *file_path)
 
 res_loader_t load_mesh(const char *file_path)
 {
-  std::string line;
-  std::string prefix;
-  std::stringstream ss;
+  res_loader_t mesh_s;
 
   // Add filename to path.
   char relative_file_path[strlen(file_path) + 13];
   if (snprintf(relative_file_path, 255, "../Resources/%s", file_path) < 0)
   {
-    alert(ERROR, "ERROR WHEN FORMATTING STRING (SNPRINTF)!\nEXITING...");
+    alert(ERROR, "[RES ERROR] : FORMATTING STRING (SNPRINTF)!\nEXITING...");
     exit(ERROR_SNPRINTF);
   }
-  std::ifstream file_stream(relative_file_path);
-  if (file_stream.fail()) alert(INFO, "[RES ERROR] : UNABLE TO READ FROM FILE %s", relative_file_path);
-  res_loader_t mesh_s;
-  while (std::getline(file_stream, line))  // Get current line.
+  FILE *file = fopen(relative_file_path, "r");
+  if (!file) alert(INFO, "[RES ERROR] : UNABLE TO READ FROM FILE %s", relative_file_path);
+  while (true)  // Get current line.
   {
-    ss.clear();
-    ss.str(line);
-    ss >> prefix;
+    char line[128];
+    int resource = fscanf(file, "%s", line);
+    if (resource == EOF) break;
 
-    if (prefix == "v") load_vertices(ss, mesh_s);  // Load vertex coordinates.
-    if (prefix == "f") load_indices(ss, line, mesh_s);  // Load index coordinates.
-    if (prefix == "vt") load_textures(ss, mesh_s);  // Load texture coordinates.
+    if (strcmp(line, "v") == 0) load_vertices(file, mesh_s);  // Load vertex coordinates.
+    if (strcmp(line, "f") == 0) load_indices(file, mesh_s);  // Load index coordinates.
+    if (strcmp(line, "vt") == 0) load_textures(file, mesh_s);  // Load texture coordinates.
   }
   set_vertex_textures(mesh_s);  // Set Vector_2f texture coordinates for each appropriate vertex.
-  if (mesh_s.texCoords.empty())
-    alert(ERROR,
-          "ERROR : OBJECT FILE (.OBJ) FOR TEXTURE DATA (f) NOT FOUND!");
-  if (mesh_s.vertices.empty())
-    alert(ERROR,
-          "ERROR : OBJECT FILE (.OBJ) FOR VERTEX DATA (v) NOT FOUND!");
-  if (mesh_s.indices.empty())
-    alert(ERROR,
-          "ERROR : OBJECT FILE (.OBJ) FOR FACE DATA (f) NOT FOUND!");
-  file_stream.close();
+  if (mesh_s.texCoords.empty()) alert(ERROR, "[RES ERROR] : OBJECT FILE (.OBJ) FOR TEXTURE DATA (f) NOT FOUND!");
+  if (mesh_s.vertices.empty()) alert(ERROR, "[RES ERROR] : OBJECT FILE (.OBJ) FOR VERTEX DATA (v) NOT FOUND!");
+  if (mesh_s.indices.empty()) alert(ERROR, "[RES ERROR] : OBJECT FILE (.OBJ) FOR FACE DATA (f) NOT FOUND!");
   return mesh_s;
 }
 
-void load_vertices(std::stringstream &ss, res_loader_t &mesh_s)
+void load_vertices(FILE *file, res_loader_t &mesh_s)
 {
-  float x = 0.0f, y = 0.0f, z = 0.0f;
-  ss >> x >> y >> z;
-  mesh_s.vertices.emplace_back(Vertex(Vector_3f(x, y, z), Vector_2f(0, 0)));
+  float x, y, z;
+  if (fscanf(file, "%f %f %f\n", &x, &y, &z) == EOF)  // NOLINT
+    alert(ERROR, "[RES ERROR] : LOADING VERTICES (v)");
+  else
+    mesh_s.vertices.emplace_back(Vertex(Vector_3f(x, y, z),
+                                        Vector_2f(0, 0)));
 }
 
-void load_indices(std::stringstream &ss, std::string &line, res_loader_t &mesh_s)
+void load_indices(FILE *file, res_loader_t &mesh_s)
 {
-  GLuint temp_indices[3];
-  if (line.size() <= 7)  // Only has vertex faces.
-  {
-    ss >> temp_indices[0] >> temp_indices[1] >> temp_indices[2];
-    mesh_s.indices.emplace_back(temp_indices[0] - 1);
-    mesh_s.indices.emplace_back(temp_indices[1] - 1);
-    mesh_s.indices.emplace_back(temp_indices[2] - 1);
-  } else  // Vertex/vertex texture/vertex normal (v/vt/vn).
-  {
-    char *faces = (char *) malloc(line.size());
-    for (int i = 0; i < 3; i++)
-    {
-      ss >> faces;  // Get next string after space.
-      char *ptr = strtok(faces, "/");  // Separate by delim.
-      mesh_s.indices.emplace_back(strtof(ptr, nullptr) - 1);  // Obj indexing starts at 1, so -1.
-    }
-    free(faces);
-  }
+  unsigned int indices[3];
+  if (fscanf(file, "%u %u %u\n", &indices[0], &indices[1], &indices[2]) == EOF)  // NOLINT
+    alert(ERROR, "[RES ERROR] : LOADING INDICES (f)");
+  else mesh_s.indices.emplace_back(indices[0] - 1);
 }
 
-void load_textures(std::stringstream &ss, res_loader_t &mesh_s)
+void load_textures(FILE *file, res_loader_t &mesh_s)
 {
-  float x, y;  // Texture positions for vector_2f.
-  ss >> x >> y;
-  mesh_s.texCoords.emplace_back(x, y);
+  float x = 0.0f, y = 0.0f;  // Texture positions for vector_2f.
+  if (fscanf(file, "%f %f", &x, &y) == EOF)  // NOLINT
+    alert(ERROR, "[RES ERROR] : LOADING INDICES (f)");  // Get next string after space.
+  else mesh_s.texCoords.emplace_back(x, y);
 }
 
 void set_vertex_textures(res_loader_t &mesh_s)

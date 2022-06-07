@@ -9,7 +9,7 @@ out vec4 fragColor;
 
 void main()
 {
-  vec4 texture_color = texture(sampler, texCoord0.xy);
+  vec4 texture_color = texture(sampler, texCoord0.xy) * frag_color;
   if (texture_color == 0) fragColor = frag_color;
   else fragColor = texture_color * frag_color;
 }

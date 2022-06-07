@@ -4,12 +4,15 @@
 
 #pragma once
 
+#define MINIMUM_BUFFER_SIZE 255
+
 class Vertex_buffer
 {
 public:
-  Vertex_buffer() = default;
-  Vertex_buffer(const void *data, unsigned int size);
+  Vertex_buffer();
+  [[maybe_unused]] Vertex_buffer(const void *data, unsigned int size);
 
+  static void set_sub_data(const void *data, unsigned int size);
   void bind() const;
   void unbind() const;
   void delete_buffer() const;

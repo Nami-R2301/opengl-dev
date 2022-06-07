@@ -25,12 +25,11 @@ public:
   static const char *get_GL_version();
   static void set_textures(bool enabled);
   static void show_gl_info();
-  void setup_mesh(const Buffer_layout &layout, const std::vector<Vertex> &vertices,
-                  const std::vector<unsigned int> &indices);
+  void setup_mesh(const Buffer_layout &layout, const std::vector<unsigned int> &indices);
 
   // Frame changes.
   static void reset_bg();
-  void draw() const;
+  void draw(const std::vector<Vertex> &vertices) const;
   static void set_clear_color(const Color &color);
 
   // Error handling.

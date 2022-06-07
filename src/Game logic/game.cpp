@@ -8,6 +8,8 @@
 #include "input.h"
 #include "game.h"
 
+// Load custom mesh.
+static res_loader_t custom_mesh = load_mesh("Models/cube.obj");  // Load obj file containing custom object mesh.
 static float translation_value = 0.0f;
 
 Game::Game()
@@ -31,13 +33,11 @@ void Game::set_callbacks()
 
 void Game::prepare_mesh()
 {
-  // Load custom mesh.
-  res_loader_t custom_mesh = load_mesh("Models/cube.obj");  // Load obj file containing custom object mesh.
   // Setup vao layout.
   Buffer_layout layout;
   layout.push<Vector_3f>(1), layout.push<Color>(1), layout.push<Vector_2f>(1);
 
-  this->renderer.setup_mesh(layout, custom_mesh.vertices, custom_mesh.indices);
+  this->renderer.setup_mesh(layout, custom_mesh.indices);
   Shader::deactivate();  // Unbind m_renderer_id for now until we draw.
 
   // Set world view inside window.
@@ -65,12 +65,12 @@ void Game::update()
   // Update shader m_renderer_id.
   this->program.activate(); // Activate m_renderer_id for next draw.
   this->program.set_uniform("transform", this->transform.get_projected_transformation(get_camera()));
-  this->program.set_uniform("uniform_color", this->material.get_color());
+//  this->program.set_uniform("uniform_color", this->material.get_color());
 }
 
 void Game::render()
 {
-  this->renderer.draw();  // GPU draws everything.
+  this->renderer.draw(custom_mesh.vertices);  // GPU draws everything.
 }
 
 void Game::save()

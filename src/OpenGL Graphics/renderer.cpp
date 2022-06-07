@@ -82,10 +82,8 @@ void Opengl_renderer::show_gl_info()
   alert(INFO, "GLFW Version : %s", glfwGetVersionString());
 }
 
-void Opengl_renderer::setup_mesh(const Buffer_layout &layout, const std::vector<Vertex> &vertices,
-                                 const std::vector<unsigned int> &indices)
+void Opengl_renderer::setup_mesh(const Buffer_layout &layout, const std::vector<unsigned int> &indices)
 {
-  this->vbo = Vertex_buffer(vertices.data(), VERTEX_SIZE * vertices.size());
   this->vao.bind();
   this->ibo = Index_buffer(indices.data(), indices.size());
   this->tex = Texture(load_texture_file("../Resources/Textures/tiles.png"));
@@ -97,8 +95,10 @@ void Opengl_renderer::setup_mesh(const Buffer_layout &layout, const std::vector<
   this->ibo.unbind();
 }
 
-void Opengl_renderer::draw() const
+void Opengl_renderer::draw(const std::vector<Vertex> &vertices) const
 {
+  this->vbo.bind();
+  Vertex_buffer::set_sub_data(vertices.data(), vertices.size());
   this->vao.bind();
   this->tex.bind(0);
 
