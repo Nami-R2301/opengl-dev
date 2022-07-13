@@ -23,10 +23,8 @@ Texture::Texture(const char *file_path) : m_renderer_id(0), width(0), height(0),
 
   // Initialize flags for texture buffers.
   gl_call(glBindTexture(GL_TEXTURE_2D, m_renderer_id));
-  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));  // Min surface to cover.
-  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));  // Max surface to cover and extend.
-  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP));  // Normalize x-axis of texture.
-  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP));  // Normalize y-axis of texture.
+  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));  // Normalize x-axis of texture.
+  gl_call(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));  // Normalize y-axis of texture.
 
   // Assign texture image to texture buffer.
   gl_call(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0,
