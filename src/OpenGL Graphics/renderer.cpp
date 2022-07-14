@@ -56,7 +56,7 @@ void Opengl_renderer::init_graphics()
   // Let OpenGL keep track of depth for shapes and auto determine if some shapes closer or further away from
   // the camera should take priority (drawn on top of other ones).
   gl_call(glEnable(GL_DEPTH_TEST));
-
+  gl_call(glEnable(GL_TEXTURE_2D));
   gl_call(glEnable(GL_BLEND));
   gl_call(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
@@ -156,6 +156,9 @@ void Opengl_renderer::gl_error_callback(GLenum source, const char *function_name
       case GL_INVALID_OPERATION:
         sprintf(_source, "INVALID OPENGL OPERATION");
         break;
+
+      case GL_INVALID_ENUM:
+        sprintf(_source, "INVALID ENUM");
 
       default:
         sprintf(_source, "UNKNOWN");

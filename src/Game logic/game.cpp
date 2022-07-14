@@ -9,14 +9,14 @@
 #include "game.h"
 
 // Load custom mesh.
-static res_loader_t custom_mesh = load_mesh("Models/cube.obj");  // Load obj file containing custom object mesh.
+static res_loader_t custom_mesh = load_mesh("Models/test.obj");  // Load obj file containing custom object mesh.
 static float translation_value = 0.0f;
 
 Game::Game()
 {
   Game::set_callbacks();  // Set our mouse and keyboard callbacks.
-  this->material = Material(load_texture_file("../Resources/Textures/tiles.png"),
-                            Color(1.0f, 1.0f, 1.0f, 1.0f));
+//  this->material = Material(load_texture_file("../Resources/Textures/tiles.png"),
+//                            Color(1.0f, 1.0f, 1.0f, 1.0f));
 
   // Build shaders.
   this->program = Shader(load_shader_source("default.vert").c_str(),
