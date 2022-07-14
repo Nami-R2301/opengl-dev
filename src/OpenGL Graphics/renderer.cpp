@@ -88,6 +88,7 @@ void Opengl_renderer::setup_mesh(const Buffer_layout &layout, const std::vector<
   this->ibo = Index_buffer(indices.data(), indices.size());
   this->tex = Texture(load_texture_file("../Resources/Textures/tiles.png"));
   this->vao.add_buffer(this->vbo, layout);
+  alert(INFO, "Number of indices : %d", ibo.get_count());
 
   this->tex.unbind();
   this->vao.unbind();
@@ -101,7 +102,6 @@ void Opengl_renderer::draw(const std::vector<Vertex> &vertices) const
   Vertex_buffer::set_sub_data(vertices.data(), vertices.size());
   this->vao.bind();
   this->tex.bind(0);
-
   // Draw from vertex_source arrays.
   gl_call(glDrawElements(GL_TRIANGLES, ibo.get_count(), GL_UNSIGNED_INT, nullptr));
 }

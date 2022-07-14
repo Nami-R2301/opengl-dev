@@ -78,10 +78,18 @@ void load_vertices(FILE *file, res_loader_t &mesh_s)
 
 void load_indices(FILE *file, res_loader_t &mesh_s)
 {
-  unsigned int indices[3];
-  if (fscanf(file, "%u %u %u\n", &indices[0], &indices[1], &indices[2]) == EOF)  // NOLINT
+  unsigned int indices[9];
+  if (fscanf(file, "%u/%u/%u %u/%u/%u %u/%u/%u\n", &indices[0], &indices[1],  // NOLINT
+             &indices[2], &indices[3], &indices[4], &indices[5], &indices[6], &indices[7],
+             &indices[8]) == EOF)
     alert(ERROR, "[RES ERROR] : LOADING INDICES (f)");
-  else mesh_s.indices.emplace_back(indices[0] - 1);
+  else
+  {
+    mesh_s.indices.emplace_back(indices[0] - 1);
+    mesh_s.indices.emplace_back(indices[3] - 1);
+    mesh_s.indices.emplace_back(indices[6] - 1);
+  }
+  alert(INFO, "Current index : %d", indices[0] - 1);
 }
 
 void load_textures(FILE *file, res_loader_t &mesh_s)
